@@ -13,4 +13,4 @@ Project is decomposed into layers and this is reflected to the directory structu
 * web-2: ASP.NET based frontend of the application
 * test: end-to-end tests for the application
 
-RESTful API between backend and web/mobile is documented [here](https://app.swaggerhub.com/apis-docs/Kodstar/Issue_Tracker/1.0.0)
+RESTful API between backend and web/mobile is documented [here](https://app.swaggerhub.com/apis/Kodstar/Issue_Tracker_3/1.0.0)
