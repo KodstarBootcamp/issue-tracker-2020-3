@@ -9,8 +9,8 @@ The way of working followed by the team is documented [here](https://github.com/
 ## Project Structure
 Project is decomposed into layers and this is reflected to the directory structure.
 * backend: backend of the application
-* web: web based frontend of the application
-* mobile: mobile fontend of the application
+* web: React based frontend of the application
+* web-2: ASP.NET based frontend of the application
 * test: end-to-end tests for the application
 
 RESTful API between backend and web/mobile is documented [here](https://app.swaggerhub.com/apis-docs/Kodstar/Issue_Tracker/1.0.0)
