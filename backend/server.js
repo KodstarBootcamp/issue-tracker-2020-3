@@ -1,17 +1,18 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
-
-require('dotenv').config()
-
+const middlewares = require('./utils/middlewares')
+const config = require('./utils/config')
 const app = express()
-const port = process.env.PORT || 5000
-
 app.use(cors())
 app.use(express.json())
-
-const uri = process.env.MONGODB_URI
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true })
+app.use(middlewares.requestLogger)
+mongoose.connect(config.MONGODB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+})
 const connection = mongoose.connection
 connection.once('open', () => {
   console.log('MongoDB connection established')
@@ -19,8 +20,8 @@ connection.once('open', () => {
 
 const issuesRouter = require('./routes/issues')
 
-app.use('/issues', issuesRouter)
+app.use('/issue', issuesRouter)
+app.use(middlewares.errorHandler)
+app.use(middlewares.unknownEndpoint)
 
-app.listen(port, () => {
-  console.log(`Server is listening on port: ${port}`)
-})
+module.exports = app

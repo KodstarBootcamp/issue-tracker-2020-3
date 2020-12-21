@@ -4,8 +4,10 @@
   "description": "Kodstar Bootcamp Issue Tracker 3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test nodemon index.js",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
