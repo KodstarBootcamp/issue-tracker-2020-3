@@ -20,11 +20,9 @@ router.route('/create').post((req, res) => {
 
   newIssue.save()
     .then(() => res.json('Successful Operation!'))
-    .catch(err => res.status(400).json('Error: ' + err))
+    .catch(err => res.status(400).json('Invalid input, object invalid: ' + err))
 })
 
 module.exports = router
-
-
 
 
