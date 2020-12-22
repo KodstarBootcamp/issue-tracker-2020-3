@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react'
+import CreateIssueForm from './components/CreateIssueForm'
+import issueService from './services/issues'
 
-function App() {
+const App=() => {
+  const [issues, setIssues] = useState([])
+issueService.getAll().setIssues()
+  
+  const addIssue = (issueObject) => {
+    console.log("Create Issue App.js",issueObject)
+    issueService
+      .create(issueObject)
+      .then(returnedIssue => {
+        setIssues(issues.concat(returnedIssue))
+      })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="container">
+          <CreateIssueForm createIssue={addIssue} />
+       
+      </div>
   );
 }
 
