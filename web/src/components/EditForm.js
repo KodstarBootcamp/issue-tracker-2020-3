@@ -23,6 +23,7 @@ const EditForm = ({issue, setView }) => {
       description: description,
       labels:labels,
     })
+    console.log(title,description,labels)
     //setValidated(true);
     setView(false)
   };
@@ -37,21 +38,21 @@ const EditForm = ({issue, setView }) => {
             required
             type="text"
             placeholder="title"
-           defaultValue={issue.title}
+            defaultValue={issue.title}
             name="title"
           />
         </Form.Group>
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
+        <Form.Group as={Col} md="4" controlId="validationCustom02">
           <Form.Label>description</Form.Label>
           <Form.Control
             required
             type="text"
             placeholder="description"
-            name="description"
            defaultValue={issue.description}
+           name="description"
           />
         </Form.Group>
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
+        <Form.Group as={Col} md="4" controlId="validationCustom03">
           <Form.Label>labels</Form.Label>
           <Form.Control
             required

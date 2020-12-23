@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import CreateIssueForm from './components/CreateIssueForm'
 import issueService from './services/issues'
 import ViewIssue from './components/ViewIssue'
+import Navigation from './components/Navigation'
 
 const App=() => {
   const [issues, setIssues] = useState([])
@@ -18,25 +19,19 @@ const App=() => {
 
   return (
       <div className="container">
+         <Navigation/>
           <CreateIssueForm createIssue={addIssue} />
           <ViewIssue />
         
        </div>
   );
 }
-
+//Router ekle
 export default App;
 
 /*
 
 menüler
-home  new 
-
--------------x edit delete
------------ edit delete 
--------------- edit delete 
-
-edit-update
-delete
+home  Issue list  Remove
 
 */

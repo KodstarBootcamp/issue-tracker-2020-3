@@ -15,7 +15,7 @@ const Issue=({issue, handleDelete}) => {
             <Card.Body> 
              <Card.Title></Card.Title>
               <Card.Text> {issue.description} </Card.Text>
-              <Card.Text>{issue.labels}</Card.Text>
+              <Card.Text>{issue.labels[0]}</Card.Text>
               <Button onClick={ () => setView(true)}>Edit </Button>
               <Button onClick={ () => handleDelete(issue.id)} variant="danger"  >Delete</Button>
               {/*
