@@ -1,10 +1,11 @@
 import React,{useState} from 'react'
 import CreateIssueForm from './components/CreateIssueForm'
 import issueService from './services/issues'
+import ViewIssue from './components/ViewIssue'
 
 const App=() => {
   const [issues, setIssues] = useState([])
-issueService.getAll().setIssues()
+    //setIssues(issueService.getAll())
   
   const addIssue = (issueObject) => {
     console.log("Create Issue App.js",issueObject)
@@ -18,9 +19,24 @@ issueService.getAll().setIssues()
   return (
       <div className="container">
           <CreateIssueForm createIssue={addIssue} />
-       
-      </div>
+          <ViewIssue />
+        
+       </div>
   );
 }
 
 export default App;
+
+/*
+
+menüler
+home  new 
+
+-------------x edit delete
+----------- edit delete 
+-------------- edit delete 
+
+edit-update
+delete
+
+*/

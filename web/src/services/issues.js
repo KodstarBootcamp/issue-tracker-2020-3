@@ -2,8 +2,9 @@ import axios from 'axios'
 const baseUrl = '/issue'
 
 const getAll = async () => {
-  const request = await axios.get(baseUrl)
-  return request.then(response => response.data)
+  const getbaseUrl='/issue/all';
+  const response = await axios.get(getbaseUrl)
+  return response.data;
 }
 
 const create = async newObject => {
@@ -14,5 +15,16 @@ const create = async newObject => {
 }
 
 
+const update = async updatedObject => {
+console.log("Services update",updatedObject)
+  const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject)
+  return response.data
+}
 
-export default {getAll, create}
+
+const deleteOneIssue =  id => {
+ 
+  return  axios.delete(`${baseUrl}/${id}`)
+}
+
+export default {getAll, create,update, deleteOneIssue}
