@@ -3,8 +3,14 @@ import CreateIssueForm from './components/CreateIssueForm'
 import issueService from './services/issues'
 import ViewIssue from './components/ViewIssue'
 import Navigation from './components/Navigation'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link,useHistory
+} from "react-router-dom"
+import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap';
 
 const App=() => {
+  const history = useHistory()
   const [issues, setIssues] = useState([])
     //setIssues(issueService.getAll())
   
@@ -14,15 +20,22 @@ const App=() => {
       .create(issueObject)
       .then(returnedIssue => {
         setIssues(issues.concat(returnedIssue))
+        history.push('/')
       })
   }
-
   return (
       <div className="container">
-         <Navigation/>
-          <CreateIssueForm createIssue={addIssue} />
-          <ViewIssue />
-        
+        <Navigation />
+          <Switch>
+            <Route exact path="/addnew">
+              <CreateIssueForm createIssue={addIssue} />
+            </Route>
+            <Route exact path="/issuelist">
+              <ViewIssue />
+            </Route>
+            <Route exact path="/">
+            </Route>
+      </Switch>
        </div>
   );
 }
