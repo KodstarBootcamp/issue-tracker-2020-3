@@ -12,10 +12,10 @@ const ViewIssue = () => {
  const getData=async ()=>{
 
     try{
-        await issueService.getAll(). then(issues =>
-        setData( issues ))        
-
-        console.log("Data is coming",data)
+        const issues= await issueService.getAll()
+        setData( issues )
+        console.log("Issues",issues)
+        console.log("Data is coming",data.data.title)
         console.log("Details",data.title)
     // .then(res=>console.log(res))
         .catch(err => console.log(err))
@@ -27,7 +27,6 @@ const ViewIssue = () => {
         getData()
         },// eslint-disable-next-line react-hooks/exhaustive-deps
          []) 
-
 
          const handleDelete= (id) => {
             console.log("İD",id)
@@ -44,7 +43,7 @@ const ViewIssue = () => {
         {data!==null ?  
           data.map((issue) =>
             // eslint-disable-next-line indent
-                <Issue key={issue.id} issue={issue} handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} setData={setData} handleDelete={handleDelete} />
             )
             :<p>{checkError}</p> 
         }

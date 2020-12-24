@@ -7,7 +7,6 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link,useHistory
 } from "react-router-dom"
-import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap';
 
 const App=() => {
   const history = useHistory()
@@ -43,8 +42,6 @@ const App=() => {
 export default App;
 
 /*
-
 menüler
 home  Issue list  Remove
-
 */
