@@ -4,7 +4,7 @@ import {Form, Button,Col } from 'react-bootstrap'
 import Edit from '../services/issues'
 
 
-const EditForm = ({issue, setView,setData }) => {
+const EditForm = ({issue, setView,setData, setInfoMessage }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -25,9 +25,13 @@ const EditForm = ({issue, setView,setData }) => {
     }).then(returnedObj => {
       setData( old => {
          old = old.filter (obj =>  obj.id !==id)
+          setInfoMessage(`${returnedObj.title} updated`)
+      setTimeout(() => {
+        setInfoMessage(null)
+      }, 5000)
       return old.concat(returnedObj)
       })
-       
+     
     })
     console.log(title,description,labels)
     //setValidated(true);

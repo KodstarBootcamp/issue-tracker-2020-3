@@ -1,13 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import issueService from '../services/issues'
-import { Table,Card,Button} from 'react-bootstrap'
+import issueService from '../services/issues';
 import Issue from './Issue'
 import Delete from '../services/issues'
 
-const ViewIssue = () => {
+const ViewIssue = ({setInfoMessage}) => {
  const [data, setData]=useState(null );
- const [checkError, setCheckError]=useState(null)
+ const [checkError, setCheckError]=useState([])
 
  const getData=async ()=>{
 
@@ -28,52 +27,32 @@ const ViewIssue = () => {
         },// eslint-disable-next-line react-hooks/exhaustive-deps
          []) 
 
-         const handleDelete= (id) => {
-            console.log("İD",id)
-            Delete.deleteOneIssue( id)
-        }
-
-
-      
+        const handleDelete=(id) => {
+            const issueDelete = data.find(b => b.id === id)
+            if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
+                Delete.deleteOneIssue(id).then(response => {
+                  setData(data.filter(p => p.id !== id))
+                  setInfoMessage(`'${issueDelete.title}' deleted`)
+                  setTimeout(() => {
+                    setInfoMessage(null)
+                  }, 5000)
+                })
+                .catch(error => {
+                    setCheckError({ text: `${error.response.data.error}`, class: 'error' })
+                })
+            }
+          }
  return (
  <div>
       <div>
-        <h1>Issue Details:</h1>
-        {/*Alternative -1 Card */}
+        <h1>Issue Details</h1>
         {data!==null ?  
           data.map((issue) =>
             // eslint-disable-next-line indent
-                <Issue key={issue.id} issue={issue} setData={setData} handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} setInfoMessage={setInfoMessage}setData={setData} handleDelete={handleDelete} />
             )
             :<p>{checkError}</p> 
         }
-        </div>
-        <div>
-            {/*
-Alternative-2 Table  
- {data!==null ? 
-        <Table striped>
-            <thead>
-                <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Labels</th>
-                <th></th>
-                <th></th>
-                </tr>
-        </thead>
-          <tbody> 
-            {data.map((issue) =>
-            // eslint-disable-next-line indent
-                <Issue key={issue.id} issue={issue} handleEdit={handleEdit} handleDelete={handleDelete} />
-            )
-            }
-          </tbody>
-        </Table>
-        : <p>{checkError}</p> 
-        }
-            */}
-       
         </div>
  </div>
  )
