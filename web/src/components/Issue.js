@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import EditForm from './EditForm'
-import {Table, Card,Button, CardColumns, CardDeck} from 'react-bootstrap'
+import {Card,Button, CardDeck} from 'react-bootstrap'
 
 const Issue=({issue, handleDelete,setData, setInfoMessage}) => {
   const [view,setView] = useState(false);
@@ -22,7 +22,7 @@ const Issue=({issue, handleDelete,setData, setInfoMessage}) => {
             }
             </Card>
       </CardDeck>
-      </div>
+     </div>
  
   );
 }

@@ -1,8 +1,7 @@
-import React,{useState} from 'react'
-import {Form, Button,Col,Row, CardColumns } from 'react-bootstrap'
+import React from 'react'
+import {Form, Button,Col, CardColumns } from 'react-bootstrap'
 
 import Edit from '../services/issues'
-
 
 const EditForm = ({issue, setView,setData, setInfoMessage }) => {
 
@@ -72,11 +71,11 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
            defaultValue={issue.labels}
           />
         </Form.Group>
-       
       </Form.Row> 
       <Form.Group as={CardColumns}>
             <Col sclassName="ml-3">
               <Button type="submit">update</Button>
+              <Button  variant="danger" onClick={() => setView(false)} >cancel</Button>
             </Col>
       </Form.Group>
     </Form>
