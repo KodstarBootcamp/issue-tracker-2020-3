@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Form, Button,Col } from 'react-bootstrap'
+import {Form, Button,Col,Row, CardColumns } from 'react-bootstrap'
 
 import Edit from '../services/issues'
 
@@ -42,9 +42,9 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
     <div>
       <Form onSubmit={handleSubmit}>
       <Form.Row>
-        <Form.Group as={Col} md="4" controlId="validationCustom01">
+        <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-3">
           <Form.Label>title</Form.Label>
-          <Form.Control
+          <Form.Control 
             required
             type="text"
             placeholder="title"
@@ -52,7 +52,7 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
             name="title"
           />
         </Form.Group>
-        <Form.Group as={Col} md="4" controlId="validationCustom02">
+        <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
           <Form.Label>description</Form.Label>
           <Form.Control
             required
@@ -62,7 +62,7 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
            name="description"
           />
         </Form.Group>
-        <Form.Group as={Col} md="4" controlId="validationCustom03">
+        <Form.Group as={Col} md="4" controlId="validationCustom03" className="ml-3"> 
           <Form.Label>labels</Form.Label>
           <Form.Control
             required
@@ -72,8 +72,13 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
            defaultValue={issue.labels}
           />
         </Form.Group>
-      </Form.Row>
-      <Button type="submit" >update</Button>
+       
+      </Form.Row> 
+      <Form.Group as={CardColumns}>
+            <Col sclassName="ml-3">
+              <Button type="submit">update</Button>
+            </Col>
+      </Form.Group>
     </Form>
     </div>
   )
