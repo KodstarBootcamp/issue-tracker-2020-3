@@ -14,6 +14,13 @@ module.exports = {
     'ecmaVersion': 2018
   },
   'rules': {
+    'keyword-spacing': [
+
+      "error", 
+
+      {​​ 'before': true, 'after':true }​​
+
+    ],
     'indent': [
       'error',
       2
