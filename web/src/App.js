@@ -6,12 +6,13 @@ import Navigation from './components/Navigation'
 import {
   BrowserRouter as Router,
   Switch, Route, Link,useHistory
-} from "react-router-dom"
-import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap';
+} from "react-router-dom";
+import Info from './components/Info';
 
 const App=() => {
   const history = useHistory()
   const [issues, setIssues] = useState([])
+  const [infoMessage,setInfoMessage]=useState(null)
     //setIssues(issueService.getAll())
   
   const addIssue = (issueObject) => {
@@ -20,18 +21,23 @@ const App=() => {
       .create(issueObject)
       .then(returnedIssue => {
         setIssues(issues.concat(returnedIssue))
-        history.push('/')
+        setInfoMessage(`a new issue ${returnedIssue.title} added`)
+        setTimeout(() => {
+          setInfoMessage(null)
+        }, 5000)
+        history.push('/issuelist')
       })
   }
   return (
       <div className="container">
         <Navigation />
+        <Info message={infoMessage} />
           <Switch>
             <Route exact path="/addnew">
               <CreateIssueForm createIssue={addIssue} />
             </Route>
             <Route exact path="/issuelist">
-              <ViewIssue />
+              <ViewIssue setInfoMessage={setInfoMessage}/>
             </Route>
             <Route exact path="/">
             </Route>
@@ -43,8 +49,6 @@ const App=() => {
 export default App;
 
 /*
-
 menüler
 home  Issue list  Remove
-
 */
