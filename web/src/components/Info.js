@@ -1,13 +1,13 @@
 import React from 'react'
 import '../index.css'
-const Info = ({ message }) => {
-  if (message === null) {
+const Info = (props) => {
+  if (props.message === null) {
     return null
   }
 
   return (
     <div className="info">
-      {message}
+      {props.message}
     </div>
   )
 }

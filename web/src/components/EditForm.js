@@ -3,12 +3,12 @@ import {Form, Button,Col, CardColumns } from 'react-bootstrap'
 
 import Edit from '../services/issues'
 
-const EditForm = ({issue, setView,setData, setInfoMessage }) => {
+const EditForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-     console.log("Update area") 
-    const id= issue.id;
+    console.log("Update area") 
+    const id= props.issue.id;
     const title= event.target.title.value
     const description=event.target.description.value
     const labels= event.target.labels.value
@@ -22,19 +22,18 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
       description: description,
       labels:labels,
     }).then(returnedObj => {
-      setData( old => {
+      props.setData( old => {
          old = old.filter (obj =>  obj.id !==id)
-          setInfoMessage(`${returnedObj.title} updated`)
+         props.setInfoMessage(`${returnedObj.title} updated`)
       setTimeout(() => {
-        setInfoMessage(null)
+        props.setInfoMessage(null)
       }, 5000)
       return old.concat(returnedObj)
       })
      
     })
     console.log(title,description,labels)
-    //setValidated(true);
-    setView(false)
+    props.setView(false)
   };
 
   return (
@@ -47,7 +46,7 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
             required
             type="text"
             placeholder="title"
-            defaultValue={issue.title}
+            defaultValue={props.issue.title}
             name="title"
           />
         </Form.Group>
@@ -57,7 +56,7 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
             required
             type="text"
             placeholder="description"
-           defaultValue={issue.description}
+           defaultValue={props.issue.description}
            name="description"
           />
         </Form.Group>
@@ -68,14 +67,14 @@ const EditForm = ({issue, setView,setData, setInfoMessage }) => {
             type="text"
             placeholder="labels"
             name="labels"
-           defaultValue={issue.labels}
+           defaultValue={props.issue.labels}
           />
         </Form.Group>
       </Form.Row> 
       <Form.Group as={CardColumns}>
-            <Col sclassName="ml-3">
+            <Col className="ml-3">
               <Button type="submit">update</Button>
-              <Button  variant="danger" onClick={() => setView(false)} >cancel</Button>
+              <Button  variant="danger" onClick={() => props.setView(false)} >cancel</Button>
             </Col>
       </Form.Group>
     </Form>

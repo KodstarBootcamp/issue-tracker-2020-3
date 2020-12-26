@@ -25,7 +25,7 @@ const App=() => {
         setTimeout(() => {
           setInfoMessage(null)
         }, 5000)
-        history.push('/')
+        history.push('/issuelist')
       })
   }
   return (

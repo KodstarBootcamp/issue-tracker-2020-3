@@ -4,7 +4,7 @@ import issueService from '../services/issues';
 import Issue from './Issue'
 import Delete from '../services/issues'
 
-const ViewIssue = ({setInfoMessage}) => {
+const ViewIssue = (props) => {
  const [data, setData]=useState(null );
  const [checkError, setCheckError]=useState([])
 
@@ -32,9 +32,9 @@ const ViewIssue = ({setInfoMessage}) => {
             if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
                 Delete.deleteOneIssue(id).then(response => {
                   setData(data.filter(p => p.id !== id))
-                  setInfoMessage(`'${issueDelete.title}' deleted`)
+                  props.setInfoMessage(`'${issueDelete.title}' deleted`)
                   setTimeout(() => {
-                    setInfoMessage(null)
+                    props.setInfoMessage(null)
                   }, 5000)
                 })
                 .catch(error => {
@@ -49,7 +49,7 @@ const ViewIssue = ({setInfoMessage}) => {
         {data!==null ?  
           data.map((issue) =>
             // eslint-disable-next-line indent
-                <Issue key={issue.id} issue={issue} setInfoMessage={setInfoMessage}setData={setData} handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete} />
             )
             :<p>{checkError}</p> 
         }
