@@ -63,7 +63,7 @@
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Order not found"
+            "description" : "Issue not found"
           }
         }
       },
@@ -209,7 +209,7 @@
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Order not found"
+            "description" : "Label not found"
           }
         }
       }
