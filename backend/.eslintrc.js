@@ -15,11 +15,22 @@ module.exports = {
   },
   'rules': {
     'keyword-spacing': [
-
-      "error", 
-
-      {​​ 'before': true, 'after':true }​​
-
+      'error',
+      { 'before':true, 'after':true },
+    ],
+    'space-unary-ops': [
+      'error'
+    ],
+    'space-infix-ops':[
+      'error'
+    ],
+    'operator-linebreak': [
+      'error',
+      'before'
+    ],
+    'no-multiple-empty-lines': [
+      'error',
+      { 'max': 1, 'maxEOF': 0 }
     ],
     'indent': [
       'error',
@@ -39,7 +50,8 @@ module.exports = {
       'error', 'always'
     ],
     'arrow-spacing': [
-      'error', { 'before': true, 'after': true }
+      'error',
+      { 'before': true, 'after': true }
     ],
     'no-console': 0,
     'eol-last': ['error', 'always']
