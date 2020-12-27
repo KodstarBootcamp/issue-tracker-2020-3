@@ -28,6 +28,21 @@ router.route('/all').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
+router.route('/paginate/:slice').get(async (req, res) => {
+  const slice = String(req.params.slice)
+  const sliceHasDash = slice.includes('-')
+  let skip
+  let limit
+  if (sliceHasDash) {
+    skip = Number.parseInt(slice.split('-')[0])
+    limit = Number.parseInt(slice.split('-')[1]) - skip
+  } else {
+    skip = 0
+    limit = Number.parseInt(slice)
+  }
+  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
+  res.status(200).json(issues)
+})
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id)
   if(!issue){
