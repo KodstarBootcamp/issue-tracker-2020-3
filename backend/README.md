@@ -19,7 +19,9 @@ RESTful API between backend and web/mobile is documented
 Running locally you need 2 terminals open: one for server, and another one for MongoDB backend. 
 
 -Install node.js; 
--git clone
+
+-git clone master branch
+
 Go to directory issue-tracker-2020-3, and run npm install;
 Go to directory backend, and run npm install;
 
