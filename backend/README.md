@@ -16,6 +16,7 @@ RESTful API between backend and web/mobile is documented
 // https://app.swaggerhub.com/apis/Kodstar/Issue_Tracker_3/1.0.1
 
 - Usage
+
 Running locally you need 2 terminals open: one for server, and another one for MongoDB backend. 
 
 -Install node.js; 
