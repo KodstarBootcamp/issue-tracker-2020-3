@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3534b518-0f53-4a78-857e-93d5e4ec5a3e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/issuetracker/Utilities/DatabaseUtility.java" afterDir="false" />
+    <list default="true" id="1d4b283e-c856-4b98-b257-295dcbaa7379" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ConfigReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/DatabaseUtility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/Driver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ExcelUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ReadText.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/WriteToText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/components/Issue.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/Issue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/components/ViewIssue.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/ViewIssue.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,13 +27,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="C:\Users\user\IssueTracker\issue-tracker-2020-3\test\.idea" />
-      </set>
-    </option>
-  </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
       <MavenImportingSettings>
@@ -33,7 +34,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectId" id="1mFFeeZHIS7Wus4iAwjQpmFBf7g" />
+  <component name="ProjectId" id="1mFoA4opgvydJoninO0EwlNQ6Kd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,18 +43,24 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/java/issueTracker/Utilities" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\IssueTracker\issue-tracker-2020-3\test\src\test\java\issueTracker\Utilities" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Runner" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="issueTracker" />
+      <module name="issuetracker" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="issuetracker.Runners.*" />
+          <option name="PATTERN" value="issueTracker.Runners.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="issuetracker.Runners" />
-      <option name="MAIN_CLASS_NAME" value="issuetracker.Runners.Runner" />
+      <option name="PACKAGE_NAME" value="issueTracker.Runners" />
+      <option name="MAIN_CLASS_NAME" value="issueTracker.Runners.Runner" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -70,34 +77,34 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3534b518-0f53-4a78-857e-93d5e4ec5a3e" name="Default Changelist" comment="" />
-      <created>1609081528125</created>
+      <changelist id="1d4b283e-c856-4b98-b257-295dcbaa7379" name="Default Changelist" comment="" />
+      <created>1609098552355</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1609081528125</updated>
+      <updated>1609098552355</updated>
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="413" y="120" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1609082167137">
+    <state x="413" y="120" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1609099284891">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="120" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1609082167137" />
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1609083222282">
+    <state x="413" y="120" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1609099284891" />
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1609099866773">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609083222282" />
-    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1609083222282">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609099866773" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1609099866765">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609083222282" />
-    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1609083222282">
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609099866765" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1609099866765">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609083222282" />
-    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1609083222282">
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609099866765" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1609099866773">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609083222282" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609099866773" />
   </component>
 </project>
