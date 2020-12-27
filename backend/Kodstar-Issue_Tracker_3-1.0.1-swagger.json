@@ -254,9 +254,16 @@
           "description" : "List of labels",
           "type" : "array",
           "items" : {
-            "type" : "string"
+            "$ref" : "#/definitions/NewLabel"
           },
-          "example" : [ "todo", "story" ]
+          "example" : [ {
+            "text" : "todo",
+            "color" : "#fff"
+          }, {
+            "text" : "story",
+            "color" : "#000",
+            "id" : "5f..ba5"
+          } ]
         }
       }
     },
@@ -271,12 +278,6 @@
             "type" : "string",
             "example" : "2011-10-05T14:48:00.000Z"
           },
-          "labels" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/definitions/Label"
-            }
-          },
           "id" : {
             "type" : "string",
             "example" : "5fe481516234264fba"
@@ -284,9 +285,26 @@
         }
       }, {
         "$ref" : "#/definitions/NewIssue"
-      } ]
+      } ],
+      "properties" : {
+        "labels" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Label"
+          },
+          "example" : [ {
+            "text" : "todo",
+            "color" : "#fff",
+            "id" : "5f..ba4"
+          }, {
+            "text" : "story",
+            "color" : "#000",
+            "id" : "5f..ba5"
+          } ]
+        }
+      }
     },
-    "Label" : {
+    "NewLabel" : {
       "properties" : {
         "text" : {
           "type" : "string",
@@ -295,12 +313,20 @@
         "color" : {
           "type" : "string",
           "example" : "#fff"
-        },
-        "id" : {
-          "type" : "string",
-          "example" : "5fe481516234264fba"
         }
       }
+    },
+    "Label" : {
+      "allOf" : [ {
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "5fe481516234264fba"
+          }
+        }
+      }, {
+        "$ref" : "#/definitions/NewLabel"
+      } ]
     }
   },
   "host" : "virtserver.swaggerhub.com",
