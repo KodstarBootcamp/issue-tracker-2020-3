@@ -45,7 +45,7 @@ const ViewIssue = (props) => {
  return (
  <div>
       <div>
-        <h1>Issue Details, Total:{data.length}</h1>
+        <h1>Issue Details, Total:{data!==null?data.length:null}</h1>
         {data!==null ?  
           data.map((issue) =>
             // eslint-disable-next-line indent
