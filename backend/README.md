@@ -24,9 +24,7 @@ Running locally you need 2 terminals open: one for server, and another one for M
 
 -git clone master branch
 
-Go to directory issue-tracker-2020-3, and run npm install;
-
-Go to directory backend, and run npm install;
+Go to directory issue-tracker-2020-3/backend, and run npm install;
 
 -installed packages
 * npm install express mongoose cors nodemon dotenv eslint;
