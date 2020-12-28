@@ -17,8 +17,11 @@ issueSchema.set('toJSON', {
   transform: (document, returnedObj) => {
     returnedObj.createdDate = returnedObj.createdAt
     returnedObj.updateDate = returnedObj.updatedAt
+    returnedObj.id = returnedObj._id.toString()
     delete returnedObj.createdAt
     delete returnedObj.updatedAt
+    delete returnedObj._id
+    delete returnedObj.__v
   }
 })
 
