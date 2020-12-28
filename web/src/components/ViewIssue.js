@@ -13,10 +13,6 @@ const ViewIssue = (props) => {
     try{
         const issues= await issueService.getAll()
         setData( issues )
-        console.log("Issues",issues)
-        console.log("Data is coming",data.data.title)
-        console.log("Details",data.title)
-    // .then(res=>console.log(res))
         .catch(err => console.log(err))
         }catch(err){
         setCheckError(err.message)
