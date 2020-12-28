@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1d4b283e-c856-4b98-b257-295dcbaa7379" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ConfigReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/DatabaseUtility.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/Driver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ExcelUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/ReadText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Utilities/WriteToText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/Issue.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/Issue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/ViewIssue.js" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/ViewIssue.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/issueTracker/Pages/HomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/issueTracker/Pages/HomePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/issueTracker/StepDefinitions/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/issueTracker/StepDefinitions/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/test.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/test.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/../web/.eslintcache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,21 +87,25 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="120" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1609099284891" />
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1609099866773">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1609171731578">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609099866773" />
-    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1609099866765">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1609171731578" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1609171731578">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609099866765" />
-    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1609099866765">
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1609171731578" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1609171731578">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609099866765" />
-    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1609099866773">
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1609171731578" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1609171731578">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609099866773" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1609171731578" />
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1609187343547">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="379" y="189" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1609187343547" />
   </component>
 </project>

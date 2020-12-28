@@ -1,4 +1,5 @@
 @test
-  Feature: google
-    Scenario: user google
-      Given user on the "https://www.google.com/"
+  Feature: test
+    Scenario: user tests home page
+      Given user on the home page
+      And user clicks issueList button
