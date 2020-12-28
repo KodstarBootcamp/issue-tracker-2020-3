@@ -1,15 +1,14 @@
-import React, {useState} from 'react'
-import {Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
-
-const CreateIssueForm = (props) => {
+const CreateIssueForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
   const [labels,setLabels]=useState([])
 
-  const addIssue= (event) => {
+  const addIssue= ( event ) => {
     event.preventDefault()
-    props.createIssue ({title: title, description: description,labels:labels })
+    props.createIssue ({ title: title, description: description,labels:labels })
     setTitle('')
     setDescription('')
     setLabels('')
