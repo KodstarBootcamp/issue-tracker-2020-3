@@ -38,4 +38,4 @@ Go to directory issue-tracker-2020-3/backend, and run npm install;
 
 In backend directory for started database: npm run dev;
 
-Go to http://localhost:5000/ to check the live application.
+Go to http://localhost:<PORT>/ to check the live application.
