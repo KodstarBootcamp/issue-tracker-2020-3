@@ -64,7 +64,7 @@ router.route('/paginate/:slice').get(async (req, res) => {
 })
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
-  if(!issue){
+  if (!issue){
     return res.status(404).send('Issue not found').end()
   }
   return res.status(200).json(issue)
@@ -117,6 +117,5 @@ router.route('/:id').put(async (req, res) => {
   const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
   return res.status(200).json(savedIssue)
 })
-
 
 module.exports = router
