@@ -27,7 +27,12 @@ Running locally you need 2 terminals open: one for server, and another one for M
 Go to directory issue-tracker-2020-3/backend, and run npm install;
 
 -installed packages
-* npm install express mongoose cors nodemon dotenv eslint;
+* express
+* mongoose
+* cors
+* nodemon
+* dotenv
+* eslint;
 * .env file added in backend directory. 
 (The .env file is in the files of teams group-3.)
 
