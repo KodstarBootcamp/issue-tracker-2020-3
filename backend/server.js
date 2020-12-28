@@ -19,8 +19,15 @@ connection.once('open', () => {
 })
 
 const issuesRouter = require('./routes/issues')
+const labelsRouter = require('./routes/labels')
+
+process.env.NODE_ENV !== 'production'
+  ? app.use('/', express.Router().get('', (req, res) => {
+    res.status(200).send('Issue Tracker Backend is Running...')
+  })) : null
 
 app.use('/issue', issuesRouter)
+app.use('/label', labelsRouter)
 app.use(middlewares.errorHandler)
 app.use(middlewares.unknownEndpoint)
 
