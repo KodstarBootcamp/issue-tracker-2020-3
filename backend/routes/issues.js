@@ -8,7 +8,6 @@ router.route('/').post(async (req, res) => {
   const title = req.body.title
   const description = req.body.description
   const unverifiedLabels = req.body.labels
-  const date = Date.parse(req.body.date)
   const check = await Issue.findOne({ title:req.body.title })
   if (check) {
     return res.status(409).send('Issue already exist').end()
@@ -36,7 +35,6 @@ router.route('/').post(async (req, res) => {
   const newIssue = new Issue({
     title,
     description,
-    date,
     labels:verifiedLabels
   })
   const savedIssue = await (await newIssue.save()).execPopulate('labels')
@@ -113,7 +111,6 @@ router.route('/:id').put(async (req, res) => {
   const newIssue = {
     title:req.body.title,
     description:req.body.description,
-    date: Date.parse(req.body.date),
     labels:verifiedLabels
   }
   objCleaner(newIssue)
