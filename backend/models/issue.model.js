@@ -9,8 +9,9 @@ const issueSchema = new Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref:'Label'
     }
-  ]
-
+  ],
+}, {
+  timestamps: true
 })
 
 issueSchema.set('toJSON', {
