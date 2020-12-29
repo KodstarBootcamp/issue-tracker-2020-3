@@ -33,8 +33,11 @@ Go to directory issue-tracker-2020-3/backend, and run npm install;
 * nodemon
 * dotenv
 * eslint;
+
 * .env file added in backend directory. 
-(The .env file is in the files of teams group-3.)
+    MONGODB_URI=....
+    TEST_MONGODB_URI=...
+    PORT=...
 
 In backend directory for started database: npm run dev;
 
