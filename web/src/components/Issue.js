@@ -29,5 +29,5 @@ const Issue = ( props ) => {
       }
     </tr>
   )
-}
+ }
 export default Issue
