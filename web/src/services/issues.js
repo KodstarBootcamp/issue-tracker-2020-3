@@ -13,7 +13,6 @@ const update = async updatedObject => {
   console.log('Services update',updatedObject)
   const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject)
   return response.data
-// eslint-disable-next-line linebreak-style
 }
 const deleteOneIssue =  id  => {
   return  axios.delete(`${baseUrl}/${id}`)

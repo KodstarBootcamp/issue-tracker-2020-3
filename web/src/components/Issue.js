@@ -3,7 +3,6 @@ import EditForm from './EditForm'
 import { Card } from 'react-bootstrap'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
 const Issue = ( props ) => {
-  // eslint-disable-next-line no-unused-vars
   const [viewIssue,setViewIssue]= useState(false)
   const [view,setView] = useState(false)
   return (
@@ -24,7 +23,7 @@ const Issue = ( props ) => {
       </td>
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
       <td><p style={{ color: 'red' }}>  <BsTrash onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></p></td>
-      <td>{!viewIssue? <BsArrowDown style={{ color: 'green' }} onClick={ () => setViewIssue(true)} />//more
+      <td>{!viewIssue? <BsArrowDown style={{ color: 'green' }} onClick={ () => setViewIssue(true)} />
         :
         <BsChevronCompactUp style={{ color: 'green' }} onClick={ () => setViewIssue(false)} size={24} />}</td>{//less
       }

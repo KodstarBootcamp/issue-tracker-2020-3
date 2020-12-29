@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React,* as react from 'react'
 import CreateIssueForm from './components/CreateIssueForm'
 import issueService from './services/issues'
 import ViewIssue from './components/ViewIssue'
@@ -8,9 +8,8 @@ import { Switch, Route,useHistory
 import Info from './components/Info'
 const App=() => {
   const history = useHistory()
-  const [issues, setIssues] = useState([])
-  const [infoMessage,setInfoMessage]=useState(null)
-  //setIssues(issueService.getAll())
+  const [issues, setIssues] = react.useState([])
+  const [infoMessage,setInfoMessage]=react.useState(null)
   const addIssue = ( issueObject ) => {
     issueService
       .create(issueObject)

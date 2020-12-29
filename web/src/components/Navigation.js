@@ -3,13 +3,11 @@ import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } fr
 import '../App.css'
 import logo from '../logo.svg'
 import { Link } from 'react-router-dom'
-//import { useMediaQuery } from 'react-responsive'
 
-const Navigation = ( props ) => {
+const Navigation = ( ) => {
   const [isOpen, setIsOpen] = useState(true)
   const toggle = () => setIsOpen(!isOpen)
-  //const isMobile = useMediaQuery({ query: '(max-width: 767px)' })
-  //const closeWhenClicked = () => { if (isMobile) { toggle() } }
+
   return (
     <div>
       <Navbar color="warning" light expand="md">

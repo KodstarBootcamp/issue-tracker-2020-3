@@ -18,13 +18,13 @@ const ViewIssue = ( props ) => {
   }
   useEffect(() => {
     getData()
-  },// eslint-disable-next-line react-hooks/exhaustive-deps
+  },
   [])
 
   const handleDelete=( id ) => {
     const issueDelete = data.find(b => b.id === id)
     if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
-      Delete.deleteOneIssue(id).then(response => {
+      Delete.deleteOneIssue(id).then(() => {
         setData(data.filter(p => p.id !== id))
         props.setInfoMessage(`'${issueDelete.title}' deleted`)
         setTimeout(() => {
@@ -52,8 +52,7 @@ const ViewIssue = ( props ) => {
           <tbody>
             {data!==null ?
               data.map((issue) =>
-              // eslint-disable-next-line indent
-              <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete} />
               )
               :<p>{checkError}</p>
             }
