@@ -16,7 +16,7 @@ const EditForm = ( props ) => {
       id: id,
       title: title,
       description: description,
-      labels:labels,
+      labels:[...props.issue.labels, { text:labels } ],
     }).then(returnedObj => {
       props.setData( old => {
         old = old.filter (obj =>  obj.id !==id )
@@ -60,7 +60,7 @@ const EditForm = ( props ) => {
               type="text"
               placeholder="labels"
               name="labels"
-              defaultValue={props.issue.labels}
+              defaultValue={props.issue.labels.map(label => label.text)}
             />
           </Form.Group>
         </Form.Row>

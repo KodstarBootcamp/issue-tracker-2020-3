@@ -17,17 +17,20 @@ const Issue = ( props ) => {
             <h5>Description:</h5>
             <Card.Text> {props.issue.description} </Card.Text>
             <h5>Labels:</h5>
-            <Card.Text>{props.issue.labels}</Card.Text>
+            <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
+            <h5>Date:</h5>
+            {props.issue.updateDate?<Card.Text>Updated: {props.issue.updateDate}</Card.Text> :''}
+            <Card.Text>Created: {props.issue.createdDate}</Card.Text>
           </Card.Body>:''}
         </div>
       </td>
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
-      <td><p style={{ color: 'red' }}>  <BsTrash onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></p></td>
+      <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></td>
       <td>{!viewIssue? <BsArrowDown style={{ color: 'green' }} onClick={ () => setViewIssue(true)} />
         :
         <BsChevronCompactUp style={{ color: 'green' }} onClick={ () => setViewIssue(false)} size={24} />}</td>{//less
       }
     </tr>
   )
- }
+}
 export default Issue

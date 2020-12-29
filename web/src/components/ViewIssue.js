@@ -4,6 +4,7 @@ import issueService from '../services/issues'
 import Issue from './Issue'
 import Delete from '../services/issues'
 import { Table } from 'react-bootstrap'
+
 const ViewIssue = ( props ) => {
   const [data, setData]=useState(null )
   const [checkError, setCheckError]=useState([])
@@ -16,10 +17,13 @@ const ViewIssue = ( props ) => {
       setCheckError(err.message)
     }
   }
+
   useEffect(() => {
     getData()
   },
   [])
+
+
 
   const handleDelete=( id ) => {
     const issueDelete = data.find(b => b.id === id)
@@ -52,7 +56,7 @@ const ViewIssue = ( props ) => {
           <tbody>
             {data!==null ?
               data.map((issue) =>
-                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete} />
               )
               :<p>{checkError}</p>
             }
