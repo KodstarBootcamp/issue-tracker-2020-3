@@ -3,7 +3,8 @@ module.exports = {
     'commonjs': true,
     'es6': true,
     'node': true,
-    'jest': true
+    'jest': true,
+    'browser': true,
   },
   'extends': 'eslint:recommended',
   'globals': {
@@ -11,27 +12,9 @@ module.exports = {
     'SharedArrayBuffer': 'readonly'
   },
   'parserOptions': {
-    'ecmaVersion': 2018
+    'sourceType': 'module',
   },
   'rules': {
-    'keyword-spacing': [
-      'error',
-      { 'before':true, 'after':true },
-    ],
-    'space-unary-ops': [
-      'error'
-    ],
-    'space-infix-ops':[
-      'error'
-    ],
-    'operator-linebreak': [
-      'error',
-      'before'
-    ],
-    'no-multiple-empty-lines': [
-      'error',
-      { 'max': 1, 'maxEOF': 0 }
-    ],
     'indent': [
       'error',
       2
@@ -50,8 +33,7 @@ module.exports = {
       'error', 'always'
     ],
     'arrow-spacing': [
-      'error',
-      { 'before': true, 'after': true }
+      'error', { 'before': true, 'after': true }
     ],
     'no-console': 0,
     'eol-last': ['error', 'always']
