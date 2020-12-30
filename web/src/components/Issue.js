@@ -29,8 +29,8 @@ const Issue = ( props ) => {
             <h5>Labels:</h5>
             <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
             <h5>Date:</h5>
-            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString(),updateDate.toTimeString()}</Card.Text> :''}
-            <Card.Text>Created: {createDate.toDateString(),createDate.toTimeString()}</Card.Text>
+            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString()} {updateDate.toTimeString()}</Card.Text> :''}
+            <Card.Text>Created: {createDate.toDateString()} {createDate.toTimeString()}</Card.Text>
           </Card.Body>:''}
         </div>
       </td>
