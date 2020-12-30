@@ -23,7 +23,6 @@ beforeEach(async () => {
 })
 
 describe('when there is initially some issues saved', () => {
-
   test('issues are returned as json', async () => {
     await api
       .get('/issue/all')
