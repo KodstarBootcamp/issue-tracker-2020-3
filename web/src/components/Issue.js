@@ -13,8 +13,6 @@ const Issue = ( props ) => {
   }
   const createDate = new Date(...getParsedDate(props.issue.createdDate))
   const updateDate = new Date(...getParsedDate(props.issue.updateDate))
-  console.log(createDate.toDateString(),createDate.toTimeString())
-  console.log(updateDate.toDateString())
   return (
     <tr>
       <td>
