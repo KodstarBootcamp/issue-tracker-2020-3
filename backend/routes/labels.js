@@ -25,5 +25,4 @@ router.route('/:id').delete(async (req, res) => {
   return res.status(200).send('successfull operation')
 })
 
-
 module.exports = router

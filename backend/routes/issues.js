@@ -47,9 +47,24 @@ router.route('/all').get(async (req, res) => {
   res.status(200).json(issues).end()
 })
 
+router.route('/paginate/:slice').get(async (req, res) => {
+  const slice = String(req.params.slice)
+  const sliceHasDash = slice.includes('-')
+  let skip
+  let limit
+  if (sliceHasDash) {
+    skip = Number.parseInt(slice.split('-')[0])
+    limit = Number.parseInt(slice.split('-')[1]) - skip
+  } else {
+    skip = 0
+    limit = Number.parseInt(slice)
+  }
+  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
+  res.status(200).json(issues)
+})
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
-  if(!issue){
+  if (!issue){
     return res.status(404).send('Issue not found').end()
   }
   return res.status(200).json(issue)
@@ -102,6 +117,5 @@ router.route('/:id').put(async (req, res) => {
   const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
   return res.status(200).json(savedIssue)
 })
-
 
 module.exports = router

@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test nodemon index.js",
     "local": "cross-env NODE_ENV=local nodemon index.js",
+    "custom-db": "cross-env NODE_ENV=custom-db nodemon index.js",
     "lint": "eslint ."
   },
   "author": "",
