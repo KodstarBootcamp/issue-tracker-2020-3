@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "eslint": "^7.16.0",
+    "mongodb-memory-server": "^6.9.2",
     "nodemon": "^2.0.6"
   }
 }
