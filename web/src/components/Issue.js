@@ -5,6 +5,16 @@ import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/b
 const Issue = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
   const [view,setView] = useState(false)
+  function getParsedDate(date){
+    date = String(date).split('T')
+    const days = String(date[0]).split('-')
+    const hours = String(date[1]).split(':')
+    return [parseInt(days[0]), parseInt(days[1])-1, parseInt(days[2]), parseInt(hours[0]), parseInt(hours[1]), parseInt(hours[2])]
+  }
+  const createDate = new Date(...getParsedDate(props.issue.createdDate))
+  const updateDate = new Date(...getParsedDate(props.issue.updateDate))
+  console.log(createDate.toDateString())
+  console.log(updateDate.toDateString())
   return (
     <tr>
       <td>
@@ -19,8 +29,8 @@ const Issue = ( props ) => {
             <h5>Labels:</h5>
             <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
             <h5>Date:</h5>
-            {props.issue.updateDate?<Card.Text>Updated: {props.issue.updateDate}</Card.Text> :''}
-            <Card.Text>Created: {props.issue.createdDate}</Card.Text>
+            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString()}</Card.Text> :''}
+            <Card.Text>Created: {createDate.toDateString()}</Card.Text>
           </Card.Body>:''}
         </div>
       </td>
