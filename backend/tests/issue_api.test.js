@@ -1,15 +1,15 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
 const helper = require('./test_helper')
-const config = require('../utils/config')
+// const config = require('../utils/config')
 const app = require('../server')
 const api = supertest(app)
 
 const Issue = require('../models/issue.model')
 
-beforeAll(async () => {
-  await mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-})
+// beforeAll(async () => {
+//   await mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// })
 
 beforeEach(async () => {
   await Issue.deleteMany({})
@@ -19,10 +19,10 @@ beforeEach(async () => {
   const promiseArray = issueObjects.map(el => el.save())
   await Promise.all(promiseArray)
 
-  console.log(promiseArray)
+  //console.log(promiseArray)
 })
 
-describe('when there is initially some issues saved', () => {
+describe('when there is initially some issues saved', async () => {
 
   test('issues are returned as json', async () => {
     await api
@@ -39,7 +39,7 @@ describe('when there is initially some issues saved', () => {
   test('a specific note is within the returned notes', async () => {
     const response = await api.get('/issue/all')
 
-    const contents = response.body.map(r => r.content)
+    const contents = response.body.map(r => r.description)
     expect(contents).toContain(
       'Browser can execute only Javascript'
     )
