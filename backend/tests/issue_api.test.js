@@ -83,7 +83,6 @@ describe('when there is initially some issues saved', () => {
         content: 'async/await simplifies making async calls',
         important: true,
       }
-
       await api
         .post('/issue/all')
         .send(newIssue)
