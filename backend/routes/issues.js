@@ -17,7 +17,7 @@ router.route('/').post(async (req, res) => {
     for (let label of unverifiedLabels) {
       const checkedLabel = await Label.findOne({ text:label.text })
       if (checkedLabel) {
-        if (checkedLabel.color !== label.color){
+        if (label.color && checkedLabel.color !== label.color){
           checkedLabel.color = label.color
           await checkedLabel.save()
         }

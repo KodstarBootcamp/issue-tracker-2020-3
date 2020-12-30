@@ -45,7 +45,7 @@ describe('when there is initially some issues saved', () => {
     )
   })
 
-  /* describe('viewing a specific issue', () => {
+  describe('viewing a specific issue', () => {
 
     test('succeeds with a valid id', async () => {
       const issuesAtStart = await helper.issuesInDb()
@@ -137,7 +137,7 @@ describe('when there is initially some issues saved', () => {
       expect(contents).not.toContain(issueToDelete.content)
     })
   })
-*/
+
 })
 
 afterAll(() => {
