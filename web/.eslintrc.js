@@ -1,4 +1,5 @@
-export default{
+// eslint-disable-next-line no-undef
+module.exports={
   'env': {
     'browser': true,
     'es6': true,
@@ -23,10 +24,6 @@ export default{
       'error',
       2,
       { 'SwitchCase': 1 }
-    ],
-    'linebreak-style': [
-      'error',
-      'windows'
     ],
     'quotes': [
       'error',
