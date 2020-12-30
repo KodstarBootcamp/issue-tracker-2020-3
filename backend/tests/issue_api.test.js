@@ -18,7 +18,6 @@ beforeEach(async () => {
     .map(el => new Issue(el))
   const promiseArray = issueObjects.map(el => el.save())
   await Promise.all(promiseArray)
-
   console.log(promiseArray)
 })
 
