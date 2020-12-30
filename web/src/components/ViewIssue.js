@@ -58,7 +58,7 @@ const ViewIssue = ( props ) => {
               data.map((issue) =>
                 <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete} />
               )
-              :<p>{checkError}</p>
+              :<>{checkError}</>
             }
           </tbody>
         </Table>

@@ -13,7 +13,7 @@ const Issue = ( props ) => {
   }
   const createDate = new Date(...getParsedDate(props.issue.createdDate))
   const updateDate = new Date(...getParsedDate(props.issue.updateDate))
-  console.log(createDate.toDateString())
+  console.log(createDate.toDateString(),createDate.toTimeString())
   console.log(updateDate.toDateString())
   return (
     <tr>
@@ -29,16 +29,16 @@ const Issue = ( props ) => {
             <h5>Labels:</h5>
             <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
             <h5>Date:</h5>
-            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString()}</Card.Text> :''}
-            <Card.Text>Created: {createDate.toDateString()}</Card.Text>
+            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString(),updateDate.toTimeString()}</Card.Text> :''}
+            <Card.Text>Created: {createDate.toDateString(),createDate.toTimeString()}</Card.Text>
           </Card.Body>:''}
         </div>
       </td>
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
       <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></td>
-      <td>{!viewIssue? <BsArrowDown style={{ color: 'green' }} onClick={ () => setViewIssue(true)} />
+      <td>{!viewIssue? <BsArrowDown style={{ color: 'green', }} size={28} onClick={ () => setViewIssue(true)} />
         :
-        <BsChevronCompactUp style={{ color: 'green' }} onClick={ () => setViewIssue(false)} size={24} />}</td>{//less
+        <BsChevronCompactUp style={{ color: 'green' }} size={32} onClick={ () => setViewIssue(false)}  />}</td>{//less
       }
     </tr>
   )
