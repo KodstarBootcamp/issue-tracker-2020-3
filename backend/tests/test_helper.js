@@ -4,32 +4,12 @@ const testIssues = [
   {
     'title': 'An issue title',
     'description': 'A lengthy description',
-    'labels': [
-      {
-        'text': 'todo',
-        'color': '#fff'
-      },
-      {
-        'text': 'story',
-        'color': '#000',
-        'id': '5f..ba5'
-      }
-    ]
+    'labels': []
   },
   {
     'title': '1title',
-    'description': '1description',
-    'labels': [
-      {
-        'text': '1do',
-        'color': '#fff'
-      },
-      {
-        'text': '1ry',
-        'color': '#000',
-        'id': '5f..ba5'
-      }
-    ]
+    'description': 'Browser can execute only Javascript',
+    'labels': []
   }
 ]
 const issuesInDb = async () => {
