@@ -1,16 +1,17 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import issueService from '../services/issues'
-import Issue from './Issue'
+import Label from './Label'
 import { Table } from 'react-bootstrap'
+import labelService from '../../services/labels'
 
-const ViewIssue = ( props ) => {
-  const [data, setData]=useState(null )
+const ViewLabel = ( props ) => {
+  const [dataLabel, setDataLabel]=useState(null )
   const [checkError, setCheckError]=useState([])
   const getData = async () => {
     try{
-      const issues  = await issueService.getAll()
-      setData( issues )
+      const labels  = await labelService.getAll()
+      console.log('Labels',labels)
+      setDataLabel( labels )
         .catch(err => console.log(err))
     }catch(err){
       setCheckError(err.message)
@@ -23,13 +24,12 @@ const ViewIssue = ( props ) => {
   [])
 
 
-
   const handleDelete=( id ) => {
-    const issueDelete = data.find(b => b.id === id)
-    if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
-      issueService.deleteOneIssue(id).then(() => {
-        setData(data.filter(p => p.id !== id))
-        props.setInfoMessage(`'${issueDelete.title}' deleted`)
+    const labelDelete = dataLabel.find(b => b.id === id)
+    if (window.confirm(`Do you want to delete '${labelDelete.text}'?`)) {
+      labelService.deleteOneLabel(id).then(() => {
+        setDataLabel(dataLabel.filter(p => p.id !== id))
+        props.setInfoMessage(`'${labelDelete.text}' deleted`)
         setTimeout(() => {
           props.setInfoMessage(null)
         }, 5000)
@@ -42,20 +42,20 @@ const ViewIssue = ( props ) => {
   return (
     <div>
       <div>
-        <h1>Issue Details, Total:{data !==null?data.length:null}</h1>
+        <h1>Label Lests, Total:{dataLabel !==null?dataLabel.length:null}</h1>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Title</th>
+              <th>Color</th>
               <th>Edit</th>
               <th>Delete</th>
-              <th>Details</th>
             </tr>
           </thead>
           <tbody>
-            {data!==null ?
-              data.map((issue) =>
-                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete} />
+            {dataLabel!==null ?
+              dataLabel.map((label) =>
+                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={setDataLabel}  handleDelete={handleDelete} />
               )
               :<>{checkError}</>
             }
@@ -65,4 +65,4 @@ const ViewIssue = ( props ) => {
     </div>
   )
 }
-export default ViewIssue
+export default ViewLabel

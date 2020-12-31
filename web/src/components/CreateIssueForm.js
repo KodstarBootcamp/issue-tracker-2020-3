@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import CreateLabelForm from './labels/CreateLabelForm'
 
 const CreateIssueForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
-  const [labels,setLabels]=useState([])
+  const [labels]=useState([])//color, text
 
   const addIssue= ( event ) => {
     event.preventDefault()
     props.createIssue ({ title: title, description: description, labels:[ { text:labels } ] })
     setTitle('')
     setDescription('')
-    setLabels('')
   }
 
   return (
@@ -37,15 +37,9 @@ const CreateIssueForm = ( props ) => {
             value={description}
             onChange={({ target }) => setDescription(target.value)}
           />
-          <Form.Label>labels:</Form.Label>
-          <Form.Control
-            required
-            id="labels"
-            type="text"
-            name="labels"
-            //value={props.issue.labels}
-            onChange={({ target }) => setLabels(target.value)}
-          />
+          <div>
+            <CreateLabelForm />
+          </div>
           <Button id="createButton" type="submit" variant="primary">create new issue</Button>
         </Form.Group>
       </Form>

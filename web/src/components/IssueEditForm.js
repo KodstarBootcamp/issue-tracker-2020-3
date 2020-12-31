@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import Edit from '../services/issues'
 
-const EditForm = ( props ) => {
+const IssueEditForm = ( props ) => {
   const handleSubmit = ( event ) => {
     event.preventDefault()
     const id= props.issue.id
@@ -74,4 +74,4 @@ const EditForm = ( props ) => {
     </div>
   )
 }
-export default EditForm
+export default IssueEditForm

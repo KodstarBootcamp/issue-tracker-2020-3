@@ -1,5 +1,5 @@
 import React,{ useState } from 'react'
-import EditForm from './EditForm'
+import IssueEditForm from './IssueEditForm'
 import { Card } from 'react-bootstrap'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
 const Issue = ( props ) => {
@@ -17,7 +17,7 @@ const Issue = ( props ) => {
     <tr>
       <td>
         <div className="d-flex justify-content-start">
-          {view?<EditForm key={props.issue.id} issue={props.issue} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
+          {view?<IssueEditForm key={props.issue.id} issue={props.issue} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
             !viewIssue?props.issue.title:''}
           {viewIssue?<Card.Body>
             <h5>Title:</h5>

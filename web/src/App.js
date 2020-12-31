@@ -6,6 +6,8 @@ import Navigation from './components/Navigation'
 import { Switch, Route,useHistory
 } from 'react-router-dom'
 import Info from './components/Info'
+import ViewLabel from './components/labels/ViewLabel'
+
 const App=() => {
   const history = useHistory()
   const [issues, setIssues] = react.useState([])
@@ -32,6 +34,9 @@ const App=() => {
         </Route>
         <Route exact path="/issuelist">
           <ViewIssue setInfoMessage={setInfoMessage}/>
+        </Route>
+        <Route exact path="/labellist">
+          <ViewLabel setInfoMessage={setInfoMessage}/>
         </Route>
         <Route exact path="/">
         </Route>
