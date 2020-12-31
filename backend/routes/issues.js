@@ -7,7 +7,10 @@ const objCleaner = require('../utils/objUtils').objCleaner
 router.route('/').post(async (req, res) => {
   const title = req.body.title
   const description = req.body.description
-  const unverifiedLabels = req.body.labels
+  let unverifiedLabels = []
+  if (req.body.labels){
+    unverifiedLabels = req.body.labels
+  }
   const check = await Issue.findOne({ title:req.body.title })
   if (check) {
     return res.status(409).send('Issue already exist').end()

@@ -15,10 +15,10 @@ beforeEach(async () => {
   const promiseArray = issueObjects.map(el => el.save())
   await Promise.all(promiseArray)
 
-  console.log(promiseArray)
+  //console.log(promiseArray)
 })
 
-describe('when there is initially some issues saved', async () => {
+describe('when there is initially some issues saved', () => {
 
   test('issues are returned as json', async () => {
     await api
@@ -45,22 +45,17 @@ describe('when there is initially some issues saved', async () => {
 
     test('succeeds with a valid id', async () => {
       const issuesAtStart = await helper.issuesInDb()
-
       const issueToView = issuesAtStart[0]
-
       const resultIssue = await api
-        .get(`/issue/all/${issueToView.id}`)
+        .get(`/issue/${issueToView.id}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
-      expect(resultIssue.body).toEqual(issueToView)
+      expect(JSON.stringify(resultIssue.body)).toEqual(JSON.stringify(issueToView))
     })
 
     test('fails with statuscode 404 if issue does not exist', async () => {
       const validNonexistingId = await helper.nonExistingId()
-
-      console.log(validNonexistingId)
-
       await api
         .get(`/issue/all/${validNonexistingId}`)
         .expect(404)
@@ -77,34 +72,36 @@ describe('when there is initially some issues saved', async () => {
 
   describe('addition of a new issue', () => {
     test('succeeds with valid data', async () => {
+      const initialIssues = await helper.issuesInDb()
       const newIssue = {
-        content: 'async/await simplifies making async calls',
-        important: true,
+        title: 'A title',
+        description: 'async/await simplifies making async calls',
+        labels: []
       }
       await api
-        .post('/issue/all')
+        .post('/issue')
         .send(newIssue)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
       const issuesAtEnd = await helper.issuesInDb()
-      expect(issuesAtEnd.length).toBe(helper.initialIssues.length + 1)
+      expect(issuesAtEnd.length).toBe(initialIssues.length + 1)
 
-      const contents = issuesAtEnd.map(n => n.content)
+      const contents = issuesAtEnd.map(n => n.description)
       expect(contents).toContain(
         'async/await simplifies making async calls'
       )
     })
 
-    test('fails with status code 400 if data invalid', async () => {
+    test('fails with status code 405 if data invalid', async () => {
       const newIssue = {
         important: true
       }
 
       await api
-        .post('/issue/all')
+        .post('/issue')
         .send(newIssue)
-        .expect(400)
+        .expect(405)
 
       const issuesAtEnd = await helper.issuesInDb()
 
@@ -113,23 +110,23 @@ describe('when there is initially some issues saved', async () => {
   })
 
   describe('deletion of a issue', () => {
-    test('succeeds with status code 204 if id is valid', async () => {
+    test('succeeds with status code 200 if id is valid', async () => {
       const issuesAtStart = await helper.issuesInDb()
-      const issueToDelete = issuesAtStart(0)
+      const issueToDelete = issuesAtStart[0]
 
       await api
-        .delete(`/issue/all/${issueToDelete.id}`)
-        .expect(204)
+        .delete(`/issue/${issueToDelete.id}`)
+        .expect(200)
 
       const issuesAtEnd = await helper.issuesInDb()
 
       expect(issuesAtEnd.length).toBe(
-        helper.testIssues.length - 1
+        issuesAtStart.length - 1
       )
 
-      const contents = issuesAtEnd.map(r => r.content)
+      const titles = issuesAtEnd.map(r => r.title)
 
-      expect(contents).not.toContain(issueToDelete.content)
+      expect(titles).not.toContain(issueToDelete.title)
     })
   })
 

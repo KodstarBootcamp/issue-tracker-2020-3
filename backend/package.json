@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "description": "Kodstar Bootcamp Issue Tracker 3",
   "main": "index.js",
-  
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose",
     "local": "cross-env NODE_ENV=local nodemon index.js",
     "lint": "eslint .",
-    "start:test": "cross-env NODE_ENV=local jest --verbose"
+    "start:test": "cross-env NODE_ENV=local-test jest --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -29,7 +28,8 @@
     "eslint": "^7.16.0",
     "jest": "^26.6.3",
     "nodemon": "^2.0.6",
-    "supertest": "^6.0.1"
+    "supertest": "^6.0.1",
+    "mongodb-memory-server": "^6.9.2"
   },
   "jest": {
     "testEnvironment": "node",

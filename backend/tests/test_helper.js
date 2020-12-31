@@ -18,10 +18,9 @@ const issuesInDb = async () => {
 }
 
 const nonExistingId = async () => {
-  const issue = new Issue({ content: 'willremovethissoon' })
+  const issue = new Issue({ title: 'willremovethissoon', description: 'des' })
   await issue.save()
   await issue.remove()
-
   return issue._id.toString()
 }
 
