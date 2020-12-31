@@ -6,14 +6,14 @@ import { Table } from 'react-bootstrap'
 
 const ViewIssue = ( props ) => {
   const [data, setData]=useState(null )
-  const [checkError, setCheckError]=useState([])
+
   const getData = async () => {
     try{
       const issues  = await issueService.getAll()
       setData( issues )
         .catch(err => console.log(err))
     }catch(err){
-      setCheckError(err.message)
+      props.setCheckError(err.message)
     }
   }
 
@@ -35,7 +35,7 @@ const ViewIssue = ( props ) => {
         }, 5000)
       })
         .catch(error => {
-          setCheckError({ text: `${error.response.data.error}`, class: 'error' })
+          props.setCheckError({ text: `${error.response.data.error}`, class: 'error' })
         })
     }
   }
@@ -55,9 +55,9 @@ const ViewIssue = ( props ) => {
           <tbody>
             {data!==null ?
               data.map((issue) =>
-                <Issue key={issue.id} issue={issue} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete} />
+                <Issue key={issue.id} issue={issue} labels={props.labels} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete} />
               )
-              :<>{checkError}</>
+              :<>{props.checkError}</>
             }
           </tbody>
         </Table>

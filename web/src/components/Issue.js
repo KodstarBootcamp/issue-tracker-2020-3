@@ -5,19 +5,14 @@ import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/b
 const Issue = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
   const [view,setView] = useState(false)
-  function getParsedDate(date){
-    date = String(date).split('T')
-    const days = String(date[0]).split('-')
-    const hours = String(date[1]).split(':')
-    return [parseInt(days[0]), parseInt(days[1])-1, parseInt(days[2]), parseInt(hours[0]), parseInt(hours[1]), parseInt(hours[2])]
-  }
-  const createDate = new Date(...getParsedDate(props.issue.createdDate))
-  const updateDate = new Date(...getParsedDate(props.issue.updateDate))
+
+  const createDate = new Date(props.issue.createdDate)
+  const updateDate = new Date( props.issue.updateDate)
   return (
     <tr>
       <td>
         <div className="d-flex justify-content-start">
-          {view?<IssueEditForm key={props.issue.id} issue={props.issue} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
+          {view?<IssueEditForm key={props.issue.id} labels={props.labels} issue={props.issue} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
             !viewIssue?props.issue.title:''}
           {viewIssue?<Card.Body>
             <h5>Title:</h5>
@@ -28,7 +23,7 @@ const Issue = ( props ) => {
             <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
             <h5>Date:</h5>
             {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString()} {updateDate.toTimeString()}</Card.Text> :''}
-            <Card.Text>Created: {createDate.toDateString()} {createDate.toTimeString()}</Card.Text>
+            <Card.Text>Created: {createDate.toDateString()} {createDate.toTimeString()} </Card.Text>
           </Card.Body>:''}
         </div>
       </td>

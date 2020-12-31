@@ -1,22 +1,35 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import Edit from '../services/issues'
+import CreateLabelForm from './labels/CreateLabelForm'
+
 
 const IssueEditForm = ( props ) => {
+
+  const [colorlabel,setColorLabel]=useState([])//color, text
+  const [option,setOptions] =useState([])
+  console.log('color label',colorlabel)
+  useEffect( async() => {
+    const labels= props.labels
+    // labels.map((ıtem) => setOption({ label:ıtem.text,value:ıtem.color }))
+    const uniques = [...new Set(labels)]
+    const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
+    setOptions(allOptions)
+  },
+  [])
+
   const handleSubmit = ( event ) => {
     event.preventDefault()
     const id= props.issue.id
     const title= event.target.title.value
     const description=event.target.description.value
-    const labels= event.target.labels.value
     event.target.title.value = ''
     event.target.description.value = ''
-    event.target.labels.value = ''
     Edit.update( {
       id: id,
       title: title,
       description: description,
-      labels:[...props.issue.labels, { text:labels } ],
+      labels:colorlabel,
     }).then(returnedObj => {
       props.setData( old => {
         old = old.filter (obj =>  obj.id !==id )
@@ -28,6 +41,18 @@ const IssueEditForm = ( props ) => {
       })
     })
     props.setView(false)
+  }
+
+  function onChangeInput(value){
+    setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+
+  }
+  const styles={
+
+    select:{
+      width:'100%',
+      maxWidth:600
+    }
   }
   return (
     <div>
@@ -55,13 +80,9 @@ const IssueEditForm = ( props ) => {
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom03" className="ml-3">
             <Form.Label>labels</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="labels"
-              name="labels"
-              defaultValue={props.issue.labels.map(label => label.text)}
-            />
+            <div>
+              <CreateLabelForm style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
+            </div>
           </Form.Group>
         </Form.Row>
         <Form.Group as={CardColumns}>

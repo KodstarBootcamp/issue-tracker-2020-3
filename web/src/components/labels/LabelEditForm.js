@@ -7,6 +7,7 @@ const LabelEditForm = ( props ) => {
   const [labelColor,setLabelColor] = React.useState([])
   const handleSubmit = ( event ) => {
     event.preventDefault()
+    event.persist()
     const id= props.label.id
     const title= event.target.title.value
     event.target.title.value = ''

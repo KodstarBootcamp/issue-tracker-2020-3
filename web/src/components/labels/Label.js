@@ -3,7 +3,7 @@ import LabelEditForm from './LabelEditForm'
 import { Card } from 'react-bootstrap'
 import { BsTrash, BsPencil } from 'react-icons/bs'
 const Label = ( props ) => {
-  const [viewLabel]= useState(false)//setViewLabel
+  const [viewLabel]= useState(false)
   const [view,setView] = useState(false)
 
   return (
