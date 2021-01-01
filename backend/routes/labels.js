@@ -25,16 +25,19 @@ router.route('/all').get((req, res) => {
 
 router.route('/:id').put(async (req, res) => {
   let labelToChange = await Label.findById(req.params.id)
-  const update = {
+  const newLabel = {
     text:req.body.text,
     color:req.body.color
   }
-  objCleaner(update)
+  objCleaner(newLabel)
   if (!labelToChange) {
     return res.status(404).send('Label not found').end()
-  } else {
-    const updatedLabel = await Label.findByIdAndUpdate(req.params.id, update, { new:true })
-    res.status(200).json(updatedLabel)
+  }
+
+  const check = await Label.validate(newLabel).catch(() => res.status(405).send('Validation exception').end())
+  if (!check){
+    const updatedLabel = await Label.findByIdAndUpdate(req.params.id, newLabel, { new:true })
+    return res.status(200).json(updatedLabel)
   }
 })
 

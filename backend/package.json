@@ -6,24 +6,36 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose",
     "local": "cross-env NODE_ENV=local nodemon index.js",
-    "custom-db": "cross-env NODE_ENV=custom-db nodemon index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start:test": "cross-env NODE_ENV=local-test jest --verbose",
+    "start:test:issue":"cross-env NODE_ENV=local-test jest --verbose  tests/issue_api.test.js",
+    "start:test:label":"cross-env NODE_ENV=local-test jest --verbose  tests/label_api.test.js",
+    "start:test:issue-label":"cross-env NODE_ENV=local-test jest --verbose  tests/issue-label_cross.test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
-    "mongoose": "^5.11.8"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8",
+    "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.16.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
+    "supertest": "^6.0.1",
+    "mongodb-memory-server": "^6.9.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
     "mongodb-memory-server": "^6.9.2",
     "nodemon": "^2.0.6"
   }
