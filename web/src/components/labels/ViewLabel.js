@@ -1,34 +1,19 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Label from './Label'
-import { Table } from 'react-bootstrap'
+import { Table,Button, Modal } from 'react-bootstrap'
 import labelService from '../../services/labels'
+import CreateLabelForm from './CreateLabelForm'
 
 const ViewLabel = ( props ) => {
-  const [dataLabel, setDataLabel]=useState(null )
   const [checkError, setCheckError]=useState([])
-  const getData = async () => {
-    try{
-      const labels  = await labelService.getAll()
-      console.log('Labels',labels)
-      setDataLabel( labels )
-        .catch(err => console.log(err))
-    }catch(err){
-      setCheckError(err.message)
-    }
-  }
-
-  useEffect(() => {
-    getData()
-  },
-  [])
-
+  const [smShow, setSmShow] = useState(false)
 
   const handleDelete=( id ) => {
-    const labelDelete = dataLabel.find(b => b.id === id)
+    const labelDelete = props.labels.find(b => b.id === id)
     if (window.confirm(`Do you want to delete '${labelDelete.text}'?`)) {
       labelService.deleteOneLabel(id).then(() => {
-        setDataLabel(dataLabel.filter(p => p.id !== id))
+        props.setLabels(props.labels.filter(p => p.id !== id))
         props.setInfoMessage(`'${labelDelete.text}' deleted`)
         setTimeout(() => {
           props.setInfoMessage(null)
@@ -42,7 +27,23 @@ const ViewLabel = ( props ) => {
   return (
     <div>
       <div>
-        <h1>Label List, Total:{dataLabel !==null?dataLabel.length:null}</h1>
+        <h1>Label List, Total:{props.labels !==null?props.labels.length:null}</h1>
+        <div className="d-flex flex-row-reverse bd-highlight">
+          <Button onClick={() => setSmShow(true)}>create label</Button>{' '}
+          <Modal
+            size="sm"
+            show={smShow}
+            onHide={() => setSmShow(false)}
+            aria-labelledby="example-modal-sizes-title-sm"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-sm">
+            Create New Label
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body><CreateLabelForm addLabel={props.addLabel} setSmShow={setSmShow}/></Modal.Body>
+          </Modal>
+        </div>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
@@ -53,9 +54,9 @@ const ViewLabel = ( props ) => {
             </tr>
           </thead>
           <tbody>
-            {dataLabel!==null ?
-              dataLabel.map((label) =>
-                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={setDataLabel}  handleDelete={handleDelete} />
+            {props.labels!==null ?
+              props.labels.map((label) =>
+                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={props.setLabels}  handleDelete={handleDelete} />
               )
               :<>{checkError}</>
             }

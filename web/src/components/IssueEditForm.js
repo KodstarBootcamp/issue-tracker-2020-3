@@ -1,17 +1,17 @@
 import React,{ useState, useEffect } from 'react'
-import { Form, Button,Col, CardColumns } from 'react-bootstrap'
+import { Form, Button,Col, CardColumns,Modal } from 'react-bootstrap'
 import Edit from '../services/issues'
 import LabelSelect from './labels/LabelSelect'
+import CreateLabelForm from './labels/CreateLabelForm'
 
 
 const IssueEditForm = ( props ) => {
 
-  const [colorlabel,setColorLabel]=useState([])//color, text
+  const [smShow, setSmShow] = useState(false)
+  const [colorlabel,setColorLabel]=useState([])
   const [option,setOptions] =useState([])
-  console.log('color label',colorlabel)
   useEffect( async() => {
     const labels= props.labels
-    // labels.map((ıtem) => setOption({ label:ıtem.text,value:ıtem.color }))
     const uniques = [...new Set(labels)]
     const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
     setOptions(allOptions)
@@ -54,6 +54,11 @@ const IssueEditForm = ( props ) => {
       maxWidth:600
     }
   }
+  const handleClick= ( event ) => {
+    event.preventDefault()
+    props.setIssueSelect(true)
+    setSmShow(true)
+  }
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -78,11 +83,10 @@ const IssueEditForm = ( props ) => {
               name="description"
             />
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom03" className="ml-3">
-            <Form.Label>labels</Form.Label>
-            <div>
-              <LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
-            </div>
+          <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
+            <Form.Label>Labels:</Form.Label>
+            {option?<LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>:''}
+            <Button variant="success"  onClick={handleClick}>create label</Button>
           </Form.Group>
         </Form.Row>
         <Form.Group as={CardColumns}>
@@ -92,6 +96,23 @@ const IssueEditForm = ( props ) => {
           </Col>
         </Form.Group>
       </Form>
+      <Modal
+        size="sm"
+        show={smShow}
+        onHide={() => setSmShow(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Create New Label
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreateLabelForm issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} setLabelSelect={props.setLabelSelect}
+            addLabel={props.addLabel}  setSmShow={setSmShow}
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

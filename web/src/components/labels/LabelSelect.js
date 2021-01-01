@@ -4,13 +4,12 @@ import Select from 'react-select'
 const LabelSelect = (props) => {
 
   return (
-    <div style={props.style}>
-      <Select
-        options={ props.option}
-        isMulti={props.isMulti}
-        onChange={props.onChange}
-      />
-    </div>
+    <Select
+      style={props.style}
+      options={ props.option}
+      isMulti={props.isMulti}
+      onChange={props.onChange}
+    />
   )
 }
 
