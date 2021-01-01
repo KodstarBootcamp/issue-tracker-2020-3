@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import Edit from '../../services/labels'
-import ColorSelect from './ColorSelect'
+//import ColorSelect from './ColorSelect'
 
 const LabelEditForm = ( props ) => {
-  const [labelColor,setLabelColor] = React.useState([])
+  const [labelColor] = React.useState([])//setLabelColor
   const handleSubmit = ( event ) => {
     event.preventDefault()
     event.persist()
@@ -28,6 +28,7 @@ const LabelEditForm = ( props ) => {
     props.setView(false)
   }
   console.log('Label Color',labelColor)
+
   return (
     <div>
       <Form onSubmit={handleSubmit}>
@@ -44,9 +45,8 @@ const LabelEditForm = ( props ) => {
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
             <Form.Label >color</Form.Label>
-            <div>
-              <ColorSelect setLabelColor={setLabelColor}/>
-            </div>
+            {//<Button onClick={() => <ColorSelect setLabelColor={setLabelColor}/>}>color select</Button>
+            }
           </Form.Group>
           <Form.Group as={CardColumns}>
             <Col className="ml-3">
