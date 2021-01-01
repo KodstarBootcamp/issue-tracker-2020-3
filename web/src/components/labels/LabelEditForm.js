@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import Edit from '../../services/labels'
-//import ColorSelect from './ColorSelect'
+import ColorSelect from './ColorSelect'
 
 const LabelEditForm = ( props ) => {
-  const [labelColor] = React.useState([])//setLabelColor
+  const [labelColor,setLabelColor] = React.useState([])//
   const handleSubmit = ( event ) => {
     event.preventDefault()
     event.persist()
@@ -16,7 +16,7 @@ const LabelEditForm = ( props ) => {
       text: title,
       color:labelColor,
     }).then(returnedObj => {
-      props.setLabelData( old => {
+      props.setDataLabel( old => {
         old = old.filter (obj =>  obj.id !==id )
         props.setInfoMessage(`${returnedObj.text} updated`)
         setTimeout( () => {
@@ -44,9 +44,10 @@ const LabelEditForm = ( props ) => {
             />
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
-            <Form.Label >color</Form.Label>
-            {//<Button onClick={() => <ColorSelect setLabelColor={setLabelColor}/>}>color select</Button>
-            }
+            <Form.Label >color</Form.Label><br></br>{labelColor}
+            <div>
+              <ColorSelect setLabelColor={setLabelColor}/>
+            </div>
           </Form.Group>
           <Form.Group as={CardColumns}>
             <Col className="ml-3">

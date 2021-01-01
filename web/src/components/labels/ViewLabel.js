@@ -42,7 +42,7 @@ const ViewLabel = ( props ) => {
   return (
     <div>
       <div>
-        <h1>Label Lists, Total:{dataLabel !==null?dataLabel.length:null}</h1>
+        <h1>Label List, Total:{dataLabel !==null?dataLabel.length:null}</h1>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
