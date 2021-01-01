@@ -36,6 +36,16 @@ const testLabels = [
     'color':'#505050'
   }
 ]
+
+const anIssueInstanceFull = {
+  'title': 'An issue title',
+  'description': 'A lengthy description',
+  labels:[
+    { text:'text', color:'#101010' },
+    { text:'text2', color:'#202020' }
+  ]
+}
+
 const issuesInDb = async () => {
   const issues = await Issue.find({})
   return issues.map(issue => issue.toJSON())
@@ -63,6 +73,7 @@ const nonExistingLabelId = async () => {
 module.exports = {
   testLabels,
   testIssues,
+  anIssueInstanceFull,
   issuesInDb,
   nonExistingIssueId,
   labelsInDb,

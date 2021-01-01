@@ -132,7 +132,7 @@ describe('When there is initially some issues saved', () => {
         .expect(404)
       expect(res.text).toBe('Issue not found')
     })
-    test('fails if issue does not exist, with statuscode 405, error:Validation exception', async () => {
+    test('fails if sent unvalid data, with statuscode 405, error:Validation exception', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToUpdate = issuesAtStart[0]
       const res = await api
@@ -144,7 +144,7 @@ describe('When there is initially some issues saved', () => {
   })
 
   describe('|: DELETE-/issue/:id :| - deletion of a issue', () => {
-    test('succeeds to delete with status code 200 if id is valid', async () => {
+    test('succeeds to delete if id is valid with status code 200', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToDelete = issuesAtStart[0]
       await api
