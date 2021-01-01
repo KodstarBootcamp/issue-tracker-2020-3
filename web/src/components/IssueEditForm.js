@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import Edit from '../services/issues'
-import CreateLabelForm from './labels/CreateLabelForm'
+import LabelSelect from './labels/LabelSelect'
 
 
 const IssueEditForm = ( props ) => {
@@ -81,7 +81,7 @@ const IssueEditForm = ( props ) => {
           <Form.Group as={Col} md="4" controlId="validationCustom03" className="ml-3">
             <Form.Label>labels</Form.Label>
             <div>
-              <CreateLabelForm style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
+              <LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
             </div>
           </Form.Group>
         </Form.Row>

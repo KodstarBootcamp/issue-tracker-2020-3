@@ -1,7 +1,7 @@
 import React from 'react'//{ useState }
 import Select from 'react-select'
 
-const CreateLabelForm = (props) => {
+const LabelSelect = (props) => {
 
   return (
     <div style={props.style}>
@@ -14,4 +14,4 @@ const CreateLabelForm = (props) => {
   )
 }
 
-export default CreateLabelForm
+export default LabelSelect

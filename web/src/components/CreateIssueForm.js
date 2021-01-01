@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-import CreateLabelForm from './labels/CreateLabelForm.js'
+import LabelSelect from './labels/LabelSelect.js'
 
 const CreateIssueForm = ( props ) => {
   const [title,setTitle]=useState([])
@@ -64,7 +64,7 @@ const CreateIssueForm = ( props ) => {
           />
           <Form.Label>Labels:</Form.Label>
           <div>
-            {option?<CreateLabelForm style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>:''}
+            {option?<LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>:''}
           </div>
           <Button id="createButton" type="submit" variant="primary">create new issue</Button>
           <Button  variant="secondary" onClick={() => history.push('/labellist')} >labellist</Button>
