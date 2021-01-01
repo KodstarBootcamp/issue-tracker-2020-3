@@ -12,7 +12,7 @@ public class ApiStepDefs {
     public void user_gets_all_data_from_api() {
         Response response =given().contentType(ContentType.JSON).
                             when().get(ConfigReader.getProperty("apiurl")).
-                            then().statusCode(200).contentType(ContentType.JSON).extract().response();
+                            then().contentType(ContentType.JSON).statusCode(200).extract().response();
         response.prettyPrint();
     }
 

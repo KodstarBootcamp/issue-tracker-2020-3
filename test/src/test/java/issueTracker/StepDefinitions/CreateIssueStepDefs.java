@@ -5,7 +5,11 @@ import io.cucumber.java.en.Then;
 import issueTracker.Utilities.ConfigReader;
 import issueTracker.Utilities.Driver;
 import issueTracker.Utilities.Pages;
+import javafx.beans.value.WeakChangeListener;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +57,16 @@ public class CreateIssueStepDefs {
         for (int i=0;i<pages.issueListPage().rows.size();i++){
             rowText.add(pages.issueListPage().rows.get(i).getText());
             System.out.println(pages.issueListPage().rows.get(i).getText());
+            if(pages.issueListPage().rows.get(i).getText().equals(title)){
+                JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
+                int row = i+1;
+                WebElement actualTitle = Driver.getDriver().findElement(By.xpath("//tbody//tr["+row+"]"));
+                js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid green;');", actualTitle);
+                System.out.println(i);
+            }
         }
         Assert.assertTrue("Creation failure", rowText.contains(title));
+
 
     }
 
