@@ -41,7 +41,7 @@ router.route('/').post(async (req, res) => {
     labels:verifiedLabels
   })
   const savedIssue = await (await newIssue.save()).execPopulate('labels')
-  return res.status(200).json(savedIssue)
+  return res.status(201).json(savedIssue)
 })
 
 // ↓↓↓ this route must be top cause of '/all' - ':id' conflict
@@ -117,8 +117,11 @@ router.route('/:id').put(async (req, res) => {
     labels:verifiedLabels
   }
   objCleaner(newIssue)
-  const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
-  return res.status(200).json(savedIssue)
+  const check = await Issue.validate(newIssue).catch(() => res.status(405).send('Validation exception').end())
+  if (!check){
+    const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
+    return res.status(200).json(savedIssue)
+  }
 })
 
 module.exports = router

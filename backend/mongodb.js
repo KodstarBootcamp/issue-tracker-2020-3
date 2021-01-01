@@ -35,6 +35,7 @@ router.get('/stop', (req,res) => {
   res.status(200).send('DB shut down.').end()
 })
 module.exports = {
+  replSet,
   mongodb,
   mongoStop:router
 }
