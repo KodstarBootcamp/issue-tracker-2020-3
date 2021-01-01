@@ -6,7 +6,10 @@ const ColorSelect = (props) => {
 
   return (
     <div >
-      <ColorPicker name='color' defaultValue='#000' hideTextfield onChange={color => props.setLabelColor(color)} />
+      <ColorPicker name='color'
+        onChange={(color) =>  {
+          color!==undefined?props.setLabelColor(color):
+            console.log(color)}} />
     </div>
   )
 }

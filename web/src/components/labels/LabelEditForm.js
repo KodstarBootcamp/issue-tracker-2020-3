@@ -43,7 +43,7 @@ const LabelEditForm = ( props ) => {
             />
           </Form.Group>
           <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
-            <Form.Label >color</Form.Label>
+            <Form.Label >color</Form.Label><br></br>{labelColor}
             <div>
               <ColorSelect setLabelColor={setLabelColor}/>
             </div>
