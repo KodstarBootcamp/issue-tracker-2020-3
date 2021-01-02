@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react'
-import { Form, Button,Col, CardColumns,Modal } from 'react-bootstrap'
+import { Form, ButtonToolbar,ButtonGroup, Button,Col, CardColumns,Modal } from 'react-bootstrap'
 import Edit from '../services/issues'
 import LabelSelect from './labels/LabelSelect'
 import CreateLabelForm from './labels/CreateLabelForm'
@@ -85,14 +85,24 @@ const IssueEditForm = ( props ) => {
           </Form.Group>
           <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
             <Form.Label>Labels:</Form.Label>
-            {option?<LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>:''}
-            <Button variant="success"  onClick={handleClick}>create label</Button>
+            {option?<>
+              <LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
+              <div className="d-flex flex-row-reverse bd-highlight" >
+                <Button  variant="success"  onClick={handleClick}>create label</Button>
+              </div>
+            </>:''}
           </Form.Group>
         </Form.Row>
         <Form.Group as={CardColumns}>
           <Col className="ml-3">
-            <Button type="submit">update</Button>
-            <Button  variant="danger" onClick={() => props.setView(false)} >cancel</Button>
+            <ButtonToolbar aria-label="Toolbar with button groups">
+              <ButtonGroup className="mr-1" aria-label="First group">
+                <Button type="submit">update</Button>
+              </ButtonGroup>
+              <ButtonGroup className="mr-1" aria-label="Second group">
+                <Button  variant="danger" onClick={() => props.setView(false)} >cancel</Button>
+              </ButtonGroup>
+            </ButtonToolbar>
           </Col>
         </Form.Group>
       </Form>

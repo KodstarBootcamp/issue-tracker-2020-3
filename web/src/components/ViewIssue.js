@@ -56,7 +56,7 @@ const ViewIssue = ( props ) => {
             {data!==null ?
               data.map((issue) =>
                 <Issue issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
-                  labels={props.labels} setInfoMessage={props.setInfoMessage}setData={setData}  handleDelete={handleDelete}
+                  labels={props.labels} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete}
                 />
               )
               :<>{props.checkError}</>
