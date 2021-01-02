@@ -118,8 +118,8 @@ const IssueEditForm = ( props ) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateLabelForm issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} setLabelSelect={props.setLabelSelect}
-            addLabel={props.addLabel}  setSmShow={setSmShow}
+          <CreateLabelForm setView={ props.setView } issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} setLabelSelect={props.setLabelSelect}
+            addLabel={props.addLabel} setSmShow={setSmShow}
           />
         </Modal.Body>
       </Modal>

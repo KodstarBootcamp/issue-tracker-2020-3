@@ -16,6 +16,8 @@ const CreateLabelForm = ( props ) => {
     } else if(props.issueSelect) {
       props.setIssueSelect(true)
     }
+
+    props.setView(false)
   }
 
   return (

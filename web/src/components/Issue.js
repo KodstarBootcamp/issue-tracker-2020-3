@@ -4,6 +4,7 @@ import IssueEditForm from './IssueEditForm'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
 const Issue = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
+
   const [view,setView] = useState(false)
   const createDate = new Date(props.issue.createdDate)
   const updateDate = new Date( props.issue.updateDate)
@@ -18,7 +19,6 @@ const Issue = ( props ) => {
         !viewIssue?props.issue.title
           :''}
       {viewIssue?<td>
-
         <tr><h5>Title</h5></tr>
         <tr>{props.issue.title}</tr>
         <tr><h5>Description</h5></tr>
@@ -34,12 +34,11 @@ const Issue = ( props ) => {
         <tr><h5>Date</h5></tr>
         <tr>
           {props.issue.updateDate?
-            <tr><td>Updated:</td> <td><td>{updateDate.toDateString()} </td><td>{updateDate.toTimeString()}</td></td>
+            <tr><td>Updated:</td> <td><tr>{updateDate.toDateString()} </tr><tr>{updateDate.toTimeString()}</tr></td>
             </tr>
             :''}
-          <tr><td>Created:</td><td><td> {createDate.toDateString()} </td><td>{createDate.toTimeString()}</td></td></tr>
+          <tr><td>Created:</td><td><tr> {createDate.toDateString()} </tr><tr>{createDate.toTimeString()}</tr></td></tr>
         </tr>
-
       </td> :''}
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
       <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></td>
