@@ -1,6 +1,6 @@
 import React,{ useState } from 'react'
 import IssueEditForm from './IssueEditForm'
-import { Table } from 'react-bootstrap'
+//import { Table } from 'react-bootstrap'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
 const Issue = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
@@ -18,33 +18,28 @@ const Issue = ( props ) => {
         !viewIssue?props.issue.title
           :''}
       {viewIssue?<td>
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>Title</tr>
-          </thead>
-          <tbody>
-            <tr><h5>Title</h5></tr>
-            <tr>{props.issue.title}</tr>
-            <tr><h5>Description</h5></tr>
-            <tr>{props.issue.description}</tr>
-            <tr><h5>Labels</h5></tr>
-            <tr className="d-flex justify-content-start">
-              {props.issue.labels.map(label =>
-                (
-                  <td key={label.id} style={{ backgroundColor: label.color } }>{label.text}</td>
-                )
-              )}
+
+        <tr><h5>Title</h5></tr>
+        <tr>{props.issue.title}</tr>
+        <tr><h5>Description</h5></tr>
+        <tr>{props.issue.description}</tr>
+        <tr><h5>Labels</h5></tr>
+        <tr className="d-flex justify-content-start">
+          {props.issue.labels.map(label =>
+            (
+              <td key={label.id} style={{ backgroundColor: label.color } }>{label.text}</td>
+            )
+          )}
+        </tr>
+        <tr><h5>Date</h5></tr>
+        <tr>
+          {props.issue.updateDate?
+            <tr><td>Updated:</td> <td><td>{updateDate.toDateString()} </td><td>{updateDate.toTimeString()}</td></td>
             </tr>
-            <tr><h5>Date</h5></tr>
-            <tr>
-              {props.issue.updateDate?
-                <tr><td>Updated:</td> <td><td>{updateDate.toDateString()} </td><td>{updateDate.toTimeString()}</td></td>
-                </tr>
-                :''}
-              <tr><td>Created:</td><td><td> {createDate.toDateString()} </td><td>{createDate.toTimeString()}</td></td></tr>
-            </tr>
-          </tbody>
-        </Table>
+            :''}
+          <tr><td>Created:</td><td><td> {createDate.toDateString()} </td><td>{createDate.toTimeString()}</td></td></tr>
+        </tr>
+
       </td> :''}
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
       <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.issue.id)} className="ml-1" /></td>
