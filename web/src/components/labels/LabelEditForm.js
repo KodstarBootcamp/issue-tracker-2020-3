@@ -16,7 +16,7 @@ const LabelEditForm = ( props ) => {
       text: title,
       color:labelColor,
     }).then(returnedObj => {
-      props.setLabelData( old => {
+      props.setDataLabel( old => {
         old = old.filter (obj =>  obj.id !==id )
         props.setInfoMessage(`${returnedObj.text} updated`)
         setTimeout( () => {
