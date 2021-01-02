@@ -10,8 +10,7 @@ const Label = ( props ) => {
     <tr>
       <td>
         <div className="d-flex justify-content-start">
-          {view?<LabelEditForm key={props.label.id} label={props.label} setData={props.setData}
-            setDataLabel={props.setDataLabel} setInfoMessage={props.setInfoMessage} setView={setView} />:
+          {view?<LabelEditForm key={props.label.id} label={props.label} setDataLabel={props.setDataLabel} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
             !viewLabel?props.label.text:''}
           {viewLabel?<Card.Body>
             <h5>Title:</h5>

@@ -1,22 +1,13 @@
-import React, { useState,useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Form, Button,ButtonToolbar,ButtonGroup, Modal } from 'react-bootstrap'
 import LabelSelect from './labels/LabelSelect.js'
+import CreateLabelForm from './labels/CreateLabelForm'
 
 const CreateIssueForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
-  const [colorlabel,setcolorLabel]=useState([])//color, text
-  const [option,setOptions] =useState([])
-  const history = useHistory()
-
-  useEffect( async() => {
-    const labels= props.labels
-    const uniques = [...new Set(labels)]
-    const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
-    setOptions(allOptions)
-  },
-  [])
+  const [colorlabel,setColorLabel]=useState([])
+  const [smShow, setSmShow] = useState(false)
 
   const addIssue= ( event ) => {
     event.preventDefault()
@@ -27,16 +18,21 @@ const CreateIssueForm = ( props ) => {
 
   function onChangeInput(value){
     if(value){
-      setcolorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+      setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
     }
   }
 
   const styles={
-
     select:{
       width:'100%',
       maxWidth:600
     }
+  }
+
+  const handleClick= ( event ) => {
+    event.preventDefault()
+    props.setLabelSelect(true)
+    setSmShow(true)
   }
 
   return (
@@ -64,12 +60,34 @@ const CreateIssueForm = ( props ) => {
           />
           <Form.Label>Labels:</Form.Label>
           <div>
-            {option?<LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>:''}
+            {props.option?<LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>:''}
           </div>
-          <Button id="createButton" type="submit" variant="primary">create new issue</Button>
-          <Button  variant="secondary" onClick={() => history.push('/labellist')} >labellist</Button>
+          <ButtonToolbar aria-label="Toolbar with button groups">
+            <ButtonGroup className="mr-2" aria-label="First group">
+              < Button id="createButton" type="submit" variant="primary">create new issue</Button>
+            </ButtonGroup>
+            <ButtonGroup className="mr-2" aria-label="Second group">
+              <Button variant="success"  onClick={handleClick}>create label</Button>
+            </ButtonGroup>
+          </ButtonToolbar>
         </Form.Group>
       </Form>
+      <Modal
+        size="sm"
+        show={smShow}
+        onHide={() => setSmShow(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Create New Label
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreateLabelForm setLabelSelect={props.setLabelSelect} labelSelect={props.labelSelect} addLabel={props.addLabel}
+            setSmShow={setSmShow}/>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

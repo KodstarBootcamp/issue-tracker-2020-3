@@ -16,9 +16,16 @@ const App=() => {
   const [infoMessage,setInfoMessage]=react.useState(null)
   const [labels,setLabels]=React.useState([])
   const [checkError, setCheckError]=React.useState([])
+  const [option,setOptions] =react.useState([])
+  const [labelSelect,setLabelSelect] = react.useState(false)
+  const [issueSelect,setIssueSelect] = react.useState(false)
+
   const getData = async () => {
     try{
       const labels  = await labelService.getAll()
+      const uniques = [...new Set(labels)]
+      const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
+      setOptions(allOptions)
       setLabels( labels )
         .catch(err => console.log(err))
     }catch(err){
@@ -44,19 +51,47 @@ const App=() => {
         history.push('/issuelist')
       })
   }
+
+
+  const addLabel = ( labelObject ) => {
+    labelService
+      .create(labelObject)
+      .then(returnedObj => {
+        setLabels(labels.concat(returnedObj))
+        setInfoMessage(`a new label ${returnedObj.text} added`)
+        setTimeout(() => {
+          setInfoMessage(null)
+        }, 5000)
+        if(labelSelect){//It is for when label created in create new issue form
+          setLabelSelect(false)
+          history.push('/addnew')
+        }else if (issueSelect){//It is for when label created in issue edit form
+          setIssueSelect(false)
+          history.push('/issuelist')
+        }else {
+          history.push('/labellist')//It is for when label created in labellist
+        }
+      })
+  }
+
+
   return (
     <div className="container">
       <Navigation />
       <Info message={infoMessage} />
       <Switch>
         <Route exact path="/addnew">
-          <CreateIssueForm createIssue={addIssue} labels={labels}/>
+          <CreateIssueForm setLabelSelect={setLabelSelect} labelSelect={labelSelect} option={option} setOptions={setOptions}
+            setInfoMessage={setInfoMessage} createIssue={addIssue} setLabels={setLabels} labels={labels} addLabel={addLabel}
+          />
         </Route>
         <Route exact path="/issuelist">
-          <ViewIssue setInfoMessage={setInfoMessage} checkError={checkError} setCheckError={setCheckError} labels={labels}/>
+          <ViewIssue setInfoMessage={setInfoMessage} checkError={checkError} setCheckError={setCheckError}
+            labels={labels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
+          />
         </Route>
         <Route exact path="/labellist">
-          <ViewLabel setInfoMessage={setInfoMessage} />
+          <ViewLabel setInfoMessage={setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
         </Route>
         <Route exact path="/">
         </Route>

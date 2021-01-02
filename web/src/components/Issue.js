@@ -1,6 +1,6 @@
 import React,{ useState } from 'react'
 import IssueEditForm from './IssueEditForm'
-import { Card } from 'react-bootstrap'
+//import { Card } from 'react-bootstrap'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
 const Issue = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
@@ -12,19 +12,26 @@ const Issue = ( props ) => {
     <tr>
       <td>
         <div className="d-flex justify-content-start">
-          {view?<IssueEditForm key={props.issue.id} labels={props.labels} issue={props.issue} setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} />:
+          {view?<IssueEditForm key={props.issue.id} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
+            setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} setIssueSelect={props.setIssueSelect}
+            issueSelect={props.issueSelect}
+          />:
             !viewIssue?props.issue.title:''}
-          {viewIssue?<Card.Body>
-            <h5>Title:</h5>
-            <Card.Text>{props.issue.title}</Card.Text>
-            <h5>Description:</h5>
-            <Card.Text> {props.issue.description} </Card.Text>
-            <h5>Labels:</h5>
-            <Card.Text >{props.issue.labels.map(label => label.text)}</Card.Text>
-            <h5>Date:</h5>
-            {props.issue.updateDate?<Card.Text>Updated: {updateDate.toDateString()} {updateDate.toTimeString()}</Card.Text> :''}
-            <Card.Text>Created: {createDate.toDateString()} {createDate.toTimeString()} </Card.Text>
-          </Card.Body>:''}
+          {viewIssue?
+            <div >
+              <h5>Title:</h5>
+              {props.issue.title}
+              <h5>Description:</h5>
+              {props.issue.description}
+              <h5>Labels:</h5>
+              {props.issue.labels.map(label => label.text)}
+              <h5>Date:</h5>
+              {props.issue.updateDate?
+                <div>Updated: {updateDate.toDateString()} {updateDate.toTimeString()}</div>
+                :''}
+              Created: {createDate.toDateString()} {createDate.toTimeString()}
+            </div>
+            :''}
         </div>
       </td>
       <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
