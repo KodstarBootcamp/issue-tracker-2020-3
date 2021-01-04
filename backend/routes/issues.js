@@ -46,25 +46,16 @@ router.route('/').post(async (req, res) => {
 
 // ↓↓↓ this route must be top cause of '/all' - ':id' conflict
 router.route('/all').get(async (req, res) => {
-  const issues = await Issue.find({}).populate('labels')
-  res.status(200).json(issues).end()
+  if (!req.query.start && !req.query.count) {
+    const issues = await Issue.find({}).populate('labels')
+    return res.status(200).json(issues).end()
+  }
+  const skip = Number.parseInt(req.query.start) || 0
+  const limit = Number.parseInt(req.query.count) || 10
+  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
+  return res.status(200).json(issues).end()
 })
 
-router.route('/paginate/:slice').get(async (req, res) => {
-  const slice = String(req.params.slice)
-  const sliceHasDash = slice.includes('-')
-  let skip
-  let limit
-  if (sliceHasDash) {
-    skip = Number.parseInt(slice.split('-')[0])
-    limit = Number.parseInt(slice.split('-')[1]) - skip
-  } else {
-    skip = 0
-    limit = Number.parseInt(slice)
-  }
-  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
-  res.status(200).json(issues)
-})
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
   if (!issue){
