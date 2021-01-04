@@ -16,13 +16,15 @@ const CreateLabelForm = ( props ) => {
     } else if(props.issueSelect) {
       props.setIssueSelect(true)
     }
+
+    props.setView(false)
   }
 
   return (
     <div>
       <Form onSubmit={addLabel}>
         <Form.Row>
-          <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-3">
+          <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-5">
             <Form.Label>title</Form.Label>
             <Form.Control
               required
@@ -31,14 +33,14 @@ const CreateLabelForm = ( props ) => {
               name="title"
             />
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
+          <Form.Group as={Col} md="5" controlId="validationCustom02" className="ml-5">
             <Form.Label >color</Form.Label><br></br>{labelColor}
             <div>
               <ColorSelect setLabelColor={setLabelColor}/>
             </div>
           </Form.Group>
           <Form.Group as={CardColumns}>
-            <Col className="ml-3">
+            <Col className="ml-1">
               <Button type="submit">create label</Button>
               <Button  variant="danger" onClick={() => props.setSmShow(false)} >cancel</Button>
             </Col>

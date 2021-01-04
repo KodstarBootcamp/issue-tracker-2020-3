@@ -25,6 +25,7 @@ const App=() => {
       const labels  = await labelService.getAll()
       const uniques = [...new Set(labels)]
       const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
+      console.log('Optin',allOptions)
       setOptions(allOptions)
       setLabels( labels )
         .catch(err => console.log(err))
@@ -58,6 +59,7 @@ const App=() => {
       .create(labelObject)
       .then(returnedObj => {
         setLabels(labels.concat(returnedObj))
+        getData()
         setInfoMessage(`a new label ${returnedObj.text} added`)
         setTimeout(() => {
           setInfoMessage(null)
