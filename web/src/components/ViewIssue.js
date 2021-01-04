@@ -22,9 +22,6 @@ const ViewIssue = ( props ) => {
     getData()
   },
   [])
-
-
-
   const handleDelete=( id ) => {
     const issueDelete = data.find(b => b.id === id)
     if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
