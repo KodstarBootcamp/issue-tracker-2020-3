@@ -21,6 +21,9 @@ const ViewLabel = ( props ) => {
       })
         .catch(error => {
           setCheckError({ text: `${error.response.data.error}`, class: 'error' })
+          setTimeout(() => {
+            setCheckError(null)
+          }, 5000)
         })
     }
   }

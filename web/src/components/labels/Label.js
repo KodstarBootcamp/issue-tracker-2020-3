@@ -20,8 +20,8 @@ const Label = ( props ) => {
           </Card.Body>:''}
         </div>
       </td>
-      <td style={{ color: '#FF8C00', backgroundColor: props.label.color }}>{props.label.color} </td>
-      <td><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
+      <td style={{ color: '#fcf8f8', backgroundColor: props.label.color }}>{props.label.color} </td>
+      <td ><BsPencil  onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
       <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.label.id)} className="ml-1" /></td>
     </tr>
   )
