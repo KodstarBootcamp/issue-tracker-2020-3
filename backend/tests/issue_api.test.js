@@ -1,6 +1,6 @@
 const supertest = require('supertest')
-const mongoose = require('mongoose')
-const { replSet } = require('../mongodb')
+// const mongoose = require('mongoose')
+// const { replSet } = require('../mongodb')
 const { nonExistingIssueId, issuesInDb, testIssues } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
@@ -171,7 +171,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: GET-/issue/paginate/:start-end :| when req with paginate', () => {
+  describe('|: GET-/issue/all?start={start}&end={end} :| when req with paginate', () => {
     beforeEach(async () => {
       await Issue.deleteMany({})
       const title = 'An issue title-'
@@ -185,18 +185,27 @@ describe('When there is initially some issues saved', () => {
         await new Issue(template).save()
       }
     })
-    test('succeeds request with only end value(/issue/paginate/10),start/end checked, status 200, json', async () => {
+    test('succeeds request with only count value(/issue/all?count=10),start/end checked, status 200, json', async () => {
       const response = await api
-        .get('/issue/paginate/10')
+        .get('/issue/all?count=10')
         .expect(200)
         .expect('Content-Type', /application\/json/)
       expect(response.body.length).toBe(10)
       expect(response.body[0].title).toBe('An issue title-0')
       expect(response.body.pop().title).toBe('An issue title-9')
     })
+    test('succeeds request with only start value,count default 10,start/end checked, status 200, json', async () => {
+      const response = await api
+        .get('/issue/all?start=3')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+      expect(response.body.length).toBe(10)
+      expect(response.body[0].title).toBe('An issue title-3')
+      expect(response.body.pop().title).toBe('An issue title-12')
+    })
     test('succeeds with start and end value, start/end checked, status 200, json', async () => {
       const response = await api
-        .get('/issue/paginate/5-14')
+        .get('/issue/all?start=5&count=9')
         .expect(200)
         .expect('Content-Type', /application\/json/)
       expect(response.body.length).toBe(9)
@@ -205,17 +214,17 @@ describe('When there is initially some issues saved', () => {
     })
     test('succeeds if end value exceed the last index, start/end checked, status 200, json', async () => {
       const response = await api
-        .get('/issue/paginate/15-35')
+        .get('/issue/all?start=5&count=50')
         .expect(200)
         .expect('Content-Type', /application\/json/)
-      expect(response.body.length).toBe(5)
-      expect(response.body[0].title).toBe('An issue title-15')
+      expect(response.body.length).toBe(15)
+      expect(response.body[0].title).toBe('An issue title-5')
       expect(response.body.pop().title).toBe('An issue title-19')
     })
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-  replSet.stop()
-})
+// afterAll(async () => {
+//   mongoose.connection.close()
+//   await replSet.stop()
+// })

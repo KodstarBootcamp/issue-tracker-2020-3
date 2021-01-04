@@ -63,6 +63,14 @@ router.route('/all').get(async (req, res) => {
   return res.status(200).json(issues).end()
 })
 
+router.route('/:id').get(async (req, res) => {
+  const issue = await Issue.findById(req.params.id).populate('labels')
+  if (!issue){
+    return res.status(404).send('Issue not found').end()
+  }
+  return res.status(200).json(issue)
+})
+
 router.route('/:id').delete(async (req, res) => {
   const issue = await Issue.findById(req.params.id)
   if (!issue) {
