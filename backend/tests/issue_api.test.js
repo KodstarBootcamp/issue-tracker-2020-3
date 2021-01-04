@@ -1,6 +1,6 @@
 const supertest = require('supertest')
-const mongoose = require('mongoose')
-const { replSet } = require('../mongodb')
+// const mongoose = require('mongoose')
+// const { replSet } = require('../mongodb')
 const { nonExistingIssueId, issuesInDb, testIssues } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
@@ -215,7 +215,7 @@ describe('When there is initially some issues saved', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-  replSet.stop()
-})
+// afterAll(async () => {
+//   mongoose.connection.close()
+//   await replSet.stop()
+// })
