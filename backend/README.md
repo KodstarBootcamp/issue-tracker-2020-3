@@ -14,7 +14,9 @@ node.js installed from http://nodejs.org
 - CUSTOM_MONGODB_URI
 
 ## Api Documentation
-- Go to [SwaggerHub](https://app.swaggerhub.com/apis/Kodstar/Issue_Tracker_3/1.0.2)
+- Go to [Swagger Editor](https://editor.swagger.io/)
+- Drop Kodstar-Issue_Tracker_3-*.yaml to editor
+- or try other swagger extensions/plugins on your IDE
 
 
 ## Usage
