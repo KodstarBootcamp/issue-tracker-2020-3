@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import Label from './Label'
+import { LabelDetails } from './LabelDetails'
 import { Table,Button, Modal } from 'react-bootstrap'
-import labelService from '../../services/labels'
-import CreateLabelForm from './CreateLabelForm'
+import labelService from '../../services/ApiLabels'
+import { LabelCreateForm } from './LabelCreateForm'
 
-const ViewLabel = ( props ) => {
+export const LabelList = ( props ) => {
   const [checkError, setCheckError]=useState([])
   const [smShow, setSmShow] = useState(false)
 
@@ -44,7 +44,7 @@ const ViewLabel = ( props ) => {
             Create New Label
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body><CreateLabelForm addLabel={props.addLabel} setSmShow={setSmShow}/></Modal.Body>
+            <Modal.Body><LabelCreateForm addLabel={props.addLabel} setSmShow={setSmShow}/></Modal.Body>
           </Modal>
         </div>
         <Table striped bordered hover size="sm">
@@ -59,7 +59,7 @@ const ViewLabel = ( props ) => {
           <tbody>
             {props.labels!==null ?
               props.labels.map((label) =>
-                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={props.setLabels} handleDelete={handleDelete} />
+                <LabelDetails key={label.id} label={label} setInfoMessage={props.setInfoMessage} setLabels={props.setLabels} handleDelete={handleDelete} />
               )
               :<>{checkError}</>
             }
@@ -69,4 +69,3 @@ const ViewLabel = ( props ) => {
     </div>
   )
 }
-export default ViewLabel

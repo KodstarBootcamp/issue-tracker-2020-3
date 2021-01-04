@@ -1,18 +1,18 @@
 import React,{ useState } from 'react'
-import IssueEditForm from './IssueEditForm'
+import { IssueEditForm } from './IssueEditForm'
 import { Card, Container,Row,Col } from 'react-bootstrap'
 import { BsArrowDown, BsTrash,BsChevronCompactUp, BsPencil } from 'react-icons/bs'
-const Issue = ( props ) => {
+
+export const IssueDetails = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
-  const [view,setView] = useState(false)
   const createDate = new Date(props.issue.createdDate)
   const updateDate = new Date( props.issue.updateDate)
 
   return (
     <tr>
       <td>
-        {view?<IssueEditForm key={props.issue.id} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
-          setData={props.setData} setInfoMessage={props.setInfoMessage} setView={setView} setIssueSelect={props.setIssueSelect}
+        {props.viewIssueEdit?<IssueEditForm option={props.option} setOptions={props.setOptions} key={props.issue.id} setViewIssueEdit={props.setViewIssueEdit} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
+          setIssues={props.setIssues} setInfoMessage={props.setInfoMessage} setIssueSelect={props.setIssueSelect}
           issueSelect={props.issueSelect}/>:!viewIssue?props.issue.title
           :null}
         {viewIssue?<Card.Body>
@@ -23,7 +23,7 @@ const Issue = ( props ) => {
           <h5>Labels:</h5>
           <Container className="d-flex-colums justify-content-start">
             <Row>
-              {props.issue.labels.map(label => (<Col md={'first'} style={{ backgroundColor: label.color } } key={label.id}>{label.text}</Col>))}
+              {props.issue.labels.map(label => (<Col md={'first'} style={{ backgroundColor: label.color,hr:10 } } key={label.id}>{label.text}</Col>))}
             </Row>
           </Container>
           <h5>Date:</h5>
@@ -44,14 +44,13 @@ const Issue = ( props ) => {
           </Container>
         </Card.Body>:null}
       </td>
-      <td><BsPencil onClick={() => setView(true)} style={{ color: 'blue' }} className="ml-4" size={16}/></td>
+      <td><BsPencil onClick={() => props.setViewIssueEdit(true)} style={{ color: 'blue' }} className="ml-4" size={16}/></td>
       <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.issue.id)} className="ml-1"/></td>
       <td>{!viewIssue?<BsArrowDown style={{ color: 'green', }} size={28} onClick={ () => setViewIssue(true)}/>
         :<BsChevronCompactUp style={{ color: 'green' }} size={32} onClick={ () => setViewIssue(false)}/>}</td>
     </tr>
   )
 }
-export default Issue
 
 /*
 

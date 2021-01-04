@@ -1,9 +1,9 @@
 import React from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
-import Edit from '../../services/labels'
+import Edit from '../../services/ApiLabels'
 import ColorSelect from './ColorSelect'
 
-const LabelEditForm = ( props ) => {
+export const LabelEditForm = ( props ) => {
   const [labelColor,setLabelColor] = React.useState([])//
   const handleSubmit = ( event ) => {
     event.preventDefault()
@@ -16,7 +16,7 @@ const LabelEditForm = ( props ) => {
       text: title,
       color:labelColor,
     }).then(returnedObj => {
-      props.setDataLabel( old => {
+      props.setLabels( old => {
         old = old.filter (obj =>  obj.id !==id )
         props.setInfoMessage(`${returnedObj.text} updated`)
         setTimeout( () => {
@@ -25,9 +25,8 @@ const LabelEditForm = ( props ) => {
         return old.concat(returnedObj)
       })
     })
-    props.setView(false)
+    props.setViewLabelEdit(false)
   }
-  console.log('Label Color',labelColor)
 
   return (
     <div>
@@ -52,7 +51,7 @@ const LabelEditForm = ( props ) => {
           <Form.Group as={CardColumns}>
             <Col className="ml-3">
               <Button type="submit">update</Button>
-              <Button  variant="danger" onClick={() => props.setView(false)} >cancel</Button>
+              <Button  variant="danger" onClick={() => props.setViewLabelEdit(false)} >cancel</Button>
             </Col>
           </Form.Group>
         </Form.Row>
@@ -60,4 +59,3 @@ const LabelEditForm = ( props ) => {
     </div>
   )
 }
-export default LabelEditForm

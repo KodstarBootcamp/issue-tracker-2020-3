@@ -1,21 +1,12 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState } from 'react'
 import { Form, ButtonToolbar,ButtonGroup, Button,Col, CardColumns,Modal } from 'react-bootstrap'
-import Edit from '../services/issues'
-import LabelSelect from './labels/LabelSelect'
-import CreateLabelForm from './labels/CreateLabelForm'
+import Edit from '../../services/ApiIssues'
+import { LabelSelect, LabelCreateForm } from '../labels'
 
 
-const IssueEditForm = ( props ) => {
+export const IssueEditForm = ( props ) => {
   const [smShow, setSmShow] = useState(false)//
   const [colorlabel,setColorLabel]=useState([])
-  const [option,setOptions] =useState([])
-  useEffect( async() => {
-    const labels= props.labels
-    const uniques = [...new Set(labels)]
-    const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
-    setOptions(allOptions)
-  },
-  [])
 
   const handleSubmit = ( event ) => {
     event.preventDefault()
@@ -24,14 +15,14 @@ const IssueEditForm = ( props ) => {
     const description=event.target.description.value
     event.target.title.value = ''
     event.target.description.value = ''
-    props.setView(false)
+    props.setViewIssueEdit(false)
     Edit.update( {
       id: id,
       title: title,
       description: description,
       labels:colorlabel,
     }).then(returnedObj => {
-      props.setData( old => {
+      props.setIssues( old => {
         old = old.filter (obj =>  obj.id !==id )
         props.setInfoMessage(`${returnedObj.title} updated`)
         setTimeout( () => {
@@ -86,8 +77,8 @@ const IssueEditForm = ( props ) => {
           </Form.Group>
           <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
             <Form.Label>Labels:</Form.Label>
-            {option?<>
-              <LabelSelect style={styles.select} option={option} isMulti={true}  onChange={onChangeInput}/>
+            {props.option?<>
+              <LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>
               <div className="d-flex flex-row-reverse bd-highlight" >
                 <Button  variant="success"  onClick={handleClick}>create label</Button>
               </div>
@@ -101,7 +92,7 @@ const IssueEditForm = ( props ) => {
                 <Button type="submit">update</Button>
               </ButtonGroup>
               <ButtonGroup className="mr-1" aria-label="Second group">
-                <Button  variant="danger" onClick={() => props.setView(false)} >cancel</Button>
+                <Button  variant="danger" onClick={() => props.setViewIssueEdit(false)} >cancel</Button>
               </ButtonGroup>
             </ButtonToolbar>
           </Col>
@@ -119,7 +110,7 @@ const IssueEditForm = ( props ) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateLabelForm setView={ props.setView } issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} setLabelSelect={props.setLabelSelect}
+          <LabelCreateForm setViewIssueEdit={ props.setViewIssueEdit } issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} setLabelSelect={props.setLabelSelect}
             addLabel={props.addLabel} setSmShow={setSmShow}
           />
         </Modal.Body>
@@ -127,4 +118,3 @@ const IssueEditForm = ( props ) => {
     </>
   )
 }
-export default IssueEditForm

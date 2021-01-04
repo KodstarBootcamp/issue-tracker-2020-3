@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Form, Button,ButtonToolbar,ButtonGroup, Modal } from 'react-bootstrap'
-import LabelSelect from './labels/LabelSelect.js'
-import CreateLabelForm from './labels/CreateLabelForm'
+import { LabelSelect } from '../labels'
+import { LabelCreateForm } from '../labels'
 
-const CreateIssueForm = ( props ) => {
+export const IssueCreateForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
   const [colorlabel,setColorLabel]=useState([])
@@ -84,7 +84,7 @@ const CreateIssueForm = ( props ) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateLabelForm setLabelSelect={props.setLabelSelect} labelSelect={props.labelSelect} addLabel={props.addLabel}
+          <LabelCreateForm setViewIssueEdit={props.setViewIssueEdit} setLabelSelect={props.setLabelSelect} labelSelect={props.labelSelect} addLabel={props.addLabel}
             setSmShow={setSmShow}/>
         </Modal.Body>
       </Modal>
@@ -92,4 +92,4 @@ const CreateIssueForm = ( props ) => {
   )
 }
 
-export default CreateIssueForm
+

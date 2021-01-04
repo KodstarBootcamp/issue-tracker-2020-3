@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import ColorSelect from './ColorSelect'
 
-const CreateLabelForm = ( props ) => {
+export const LabelCreateForm = ( props ) => {
   const [labelColor,setLabelColor] = React.useState([])//
 
   const addLabel= ( event ) => {
@@ -10,12 +10,12 @@ const CreateLabelForm = ( props ) => {
     event.persist()
     props.addLabel ({ text: event.target.title.value, color:labelColor })
     event.target.title.value = ''
-    props.setSmShow(false)
-    if( props.labelSelect){
+    if( props.labelSelect){//It is for label create in Labellist page
       props.setLabelSelect(true)
-    } else if(props.issueSelect) {
+    } else if(props.issueSelect) {//It is for issue create in create issue form page
       props.setIssueSelect(true)
     }
+    props.setSmShow(false)
   }
 
   return (
@@ -48,4 +48,3 @@ const CreateLabelForm = ( props ) => {
     </div>
   )
 }
-export default CreateLabelForm

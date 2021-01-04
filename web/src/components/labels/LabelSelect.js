@@ -1,7 +1,7 @@
-import React from 'react'//{ useState }
+import React from 'react'
 import Select from 'react-select'
 
-const LabelSelect = (props) => {
+export const LabelSelect = (props) => {
 
   return (
     <Select
@@ -12,5 +12,3 @@ const LabelSelect = (props) => {
     />
   )
 }
-
-export default LabelSelect
