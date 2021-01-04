@@ -1,15 +1,14 @@
-import React, {useState} from 'react'
-import {Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
-
-const CreateIssueForm = (props) => {
+const CreateIssueForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
   const [labels,setLabels]=useState([])
 
-  const addIssue= (event) => {
+  const addIssue= ( event ) => {
     event.preventDefault()
-    props.createIssue ({title: title, description: description,labels:labels })
+    props.createIssue ({ title: title, description: description, labels:[ { text:labels } ] })
     setTitle('')
     setDescription('')
     setLabels('')
@@ -44,7 +43,7 @@ const CreateIssueForm = (props) => {
             id="labels"
             type="text"
             name="labels"
-            value={labels}
+            //value={props.issue.labels}
             onChange={({ target }) => setLabels(target.value)}
           />
           <Button id="createButton" type="submit" variant="primary">create new issue</Button>
