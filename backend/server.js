@@ -8,7 +8,7 @@ app.use(cors())
 app.use(express.json())
 app.use(middlewares.requestLogger)
 
-if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'local-test') {
+if (process.env.NODE_ENV === 'local') {
   const { mongodb } = require('./mongodb')
   mongodb().then(uri => {
     console.log('MongodbURI:', uri)
@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'local-test') {
 const issuesRouter = require('./routes/issues')
 const labelsRouter = require('./routes/labels')
 
-if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'local-test') {
+if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test') {
   const { mongoStop } = require('./mongodb')
   app.use('/mongodb', mongoStop)
 }

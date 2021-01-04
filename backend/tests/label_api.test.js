@@ -1,6 +1,6 @@
 const supertest = require('supertest')
-const mongoose = require('mongoose')
-const { replSet } = require('../mongodb')
+// const mongoose = require('mongoose')
+// const { replSet } = require('../mongodb')
 const { testLabels, labelsInDb, nonExistingLabelId } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
@@ -145,7 +145,7 @@ describe('When there is initially some labels saved', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-  replSet.stop()
-})
+// afterAll(async () => {
+//   mongoose.connection.close()
+//   await replSet.stop()
+// })

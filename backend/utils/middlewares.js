@@ -26,10 +26,6 @@ const errorHandler = (error, request, response, next) => {
     return response.status(401).json({
       error: 'invalid token'
     })
-  } else {
-    console.log('***',error)
-    console.log('***',error.name)
-    console.log('***',error.message)
   }
   next(error)
 }

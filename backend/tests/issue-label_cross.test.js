@@ -1,6 +1,6 @@
 const supertest = require('supertest')
-const mongoose = require('mongoose')
-const { replSet } = require('../mongodb')
+// const mongoose = require('mongoose')
+// const { replSet } = require('../mongodb')
 const { anIssueInstanceFull, labelsInDb, issuesInDb } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
@@ -92,7 +92,7 @@ describe('When a issue added with labels', () => {
   })
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-  replSet.stop()
-})
+// afterAll(async () => {
+//   mongoose.connection.close()
+//   await replSet.stop()
+// })
