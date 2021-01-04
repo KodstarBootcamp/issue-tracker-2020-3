@@ -56,7 +56,7 @@ const ViewLabel = ( props ) => {
           <tbody>
             {props.labels!==null ?
               props.labels.map((label) =>
-                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={props.setLabels}  handleDelete={handleDelete} />
+                <Label key={label.id} label={label} setInfoMessage={props.setInfoMessage} setDataLabel={props.setLabels} handleDelete={handleDelete} />
               )
               :<>{checkError}</>
             }

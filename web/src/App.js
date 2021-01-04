@@ -7,7 +7,7 @@ import ViewIssue from './components/ViewIssue'
 import Navigation from './components/Navigation'
 import { Switch, Route,useHistory
 } from 'react-router-dom'
-import Info from './components/Info'
+import { Info, Error } from './components/Notification'
 import ViewLabel from './components/labels/ViewLabel'
 
 const App=() => {
@@ -15,7 +15,7 @@ const App=() => {
   const [issues, setIssues] = react.useState([])
   const [infoMessage,setInfoMessage]=react.useState(null)
   const [labels,setLabels]=React.useState([])
-  const [checkError, setCheckError]=React.useState([])
+  const [checkError, setCheckError]=React.useState(null)
   const [option,setOptions] =react.useState([])
   const [labelSelect,setLabelSelect] = react.useState(false)
   const [issueSelect,setIssueSelect] = react.useState(false)
@@ -25,12 +25,15 @@ const App=() => {
       const labels  = await labelService.getAll()
       const uniques = [...new Set(labels)]
       const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
-      console.log('Optin',allOptions)
+
       setOptions(allOptions)
       setLabels( labels )
-        .catch(err => console.log(err))
+
     }catch(err){
-      setCheckError(err.message)
+      setCheckError(`Error: ${err.message}`)
+      setTimeout(() => {
+        setCheckError(null)
+      }, 5000)
     }
   }
 
@@ -41,16 +44,24 @@ const App=() => {
 
 
   const addIssue = ( issueObject ) => {
+
     issueService
       .create(issueObject)
       .then(returnedIssue => {
         setIssues(issues.concat(returnedIssue))
         setInfoMessage(`a new issue ${returnedIssue.title} added`)
-        setTimeout(() => {
-          setInfoMessage(null)
-        }, 5000)
         history.push('/issuelist')
       })
+      .catch(error => {
+        setCheckError(`Error: ${error.message}`)//error.response.data.error
+        console.log('Error',error.response.message)
+        history.push('/addnew')
+      })
+
+    setTimeout(() => {
+      setInfoMessage(null)
+      setCheckError(null)
+    }, 5000)
   }
 
 
@@ -80,7 +91,8 @@ const App=() => {
   return (
     <div className="container">
       <Navigation />
-      <Info message={infoMessage} />
+      <Info info={infoMessage} />
+      <Error error={checkError} />
       <Switch>
         <Route exact path="/addnew">
           <CreateIssueForm setLabelSelect={setLabelSelect} labelSelect={labelSelect} option={option} setOptions={setOptions}

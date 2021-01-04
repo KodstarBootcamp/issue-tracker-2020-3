@@ -6,8 +6,7 @@ import CreateLabelForm from './labels/CreateLabelForm'
 
 
 const IssueEditForm = ( props ) => {
-
-  const [smShow, setSmShow] = useState(false)
+  const [smShow, setSmShow] = useState(false)//
   const [colorlabel,setColorLabel]=useState([])
   const [option,setOptions] =useState([])
   useEffect( async() => {
@@ -25,6 +24,7 @@ const IssueEditForm = ( props ) => {
     const description=event.target.description.value
     event.target.title.value = ''
     event.target.description.value = ''
+    props.setView(false)
     Edit.update( {
       id: id,
       title: title,
@@ -40,7 +40,7 @@ const IssueEditForm = ( props ) => {
         return old.concat(returnedObj)
       })
     })
-    props.setView(false)
+
   }
 
   function onChangeInput(value){
@@ -59,8 +59,9 @@ const IssueEditForm = ( props ) => {
     props.setIssueSelect(true)
     setSmShow(true)
   }
+
   return (
-    <div>
+    <>
       <Form onSubmit={handleSubmit}>
         <Form.Row>
           <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-3">
@@ -90,7 +91,7 @@ const IssueEditForm = ( props ) => {
               <div className="d-flex flex-row-reverse bd-highlight" >
                 <Button  variant="success"  onClick={handleClick}>create label</Button>
               </div>
-            </>:''}
+            </>:null}
           </Form.Group>
         </Form.Row>
         <Form.Group as={CardColumns}>
@@ -114,7 +115,7 @@ const IssueEditForm = ( props ) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-sm">
-            Create New Label
+    Create New Label
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -123,7 +124,7 @@ const IssueEditForm = ( props ) => {
           />
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   )
 }
 export default IssueEditForm

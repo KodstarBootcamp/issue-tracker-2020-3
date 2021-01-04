@@ -5,7 +5,7 @@ import Issue from './Issue'
 import { Table } from 'react-bootstrap'
 
 const ViewIssue = ( props ) => {
-  const [data, setData]=useState(null )
+  const [data, setData]=useState([])
 
   const getData = async () => {
     try{
@@ -13,7 +13,10 @@ const ViewIssue = ( props ) => {
       setData( issues )
         .catch(err => console.log(err))
     }catch(err){
-      props.setCheckError(err.message)
+      props.setCheckError(`Error: ${err.message}`)
+      setTimeout(() => {
+        props.setCheckError(null)
+      }, 1000)
     }
   }
 
@@ -21,8 +24,6 @@ const ViewIssue = ( props ) => {
     getData()
   },
   [])
-
-
 
   const handleDelete=( id ) => {
     const issueDelete = data.find(b => b.id === id)
@@ -35,10 +36,11 @@ const ViewIssue = ( props ) => {
         }, 5000)
       })
         .catch(error => {
-          props.setCheckError({ text: `${error.response.data.error}`, class: 'error' })
+          props.setCheckError(`Error: ${error.message}`)
         })
     }
   }
+
   return (
     <div>
       <div>
@@ -59,8 +61,7 @@ const ViewIssue = ( props ) => {
                   labels={props.labels} setInfoMessage={props.setInfoMessage}setData={setData} handleDelete={handleDelete}
                 />
               )
-              :<>{props.checkError}</>
-            }
+              :null}
           </tbody>
         </Table>
       </div>
