@@ -29,7 +29,6 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
@@ -64,7 +63,6 @@ export const Main =(props) => {
         props.setCheckError(`Error: ${error.message}`)
         history.push('/addnew')
       })
-
     setTimeout(() => {
       props.setInfoMessage(null)
       props.setCheckError(null)
