@@ -5,7 +5,7 @@ import { LabelSelect, LabelCreateForm } from '../labels'
 
 
 export const IssueEditForm = ( props ) => {
-  const [smShow, setSmShow] = useState(false)//
+  const [smShow, setSmShow] = useState(false)
   const [colorlabel,setColorLabel]=useState([])
 
   const handleSubmit = ( event ) => {
