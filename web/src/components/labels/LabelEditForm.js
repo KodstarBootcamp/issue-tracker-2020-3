@@ -4,7 +4,7 @@ import Edit from '../../services/ApiLabels'
 import ColorSelect from './ColorSelect'
 
 export const LabelEditForm = ( props ) => {
-  const [labelColor,setLabelColor] = React.useState([])//
+  const [labelColor,setLabelColor] = React.useState([])
   const handleSubmit = ( event ) => {
     event.preventDefault()
     event.persist()
