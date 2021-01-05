@@ -3,7 +3,7 @@ import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import ColorSelect from './ColorSelect'
 
 export const LabelCreateForm = ( props ) => {
-  const [labelColor,setLabelColor] = React.useState([])//
+  const [labelColor,setLabelColor] = React.useState([])
 
   const addLabel= ( event ) => {
     event.preventDefault()
