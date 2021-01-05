@@ -1,23 +1,29 @@
-module.exports = {
+// eslint-disable-next-line no-undef
+module.exports={
   'env': {
-    'commonjs': true,
-    'es6': true,
-    'node': true,
-    'jest': true,
     'browser': true,
+    'es6': true,
+    'jest/globals': true,
   },
-  'extends': 'eslint:recommended',
-  'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly'
-  },
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended'
+  ],
   'parserOptions': {
-    'sourceType': 'module',
+    'ecmaFeatures': {
+      'jsx': true
+    },
+    'ecmaVersion': 2018,
+    'sourceType': 'module'
   },
+  'plugins': [
+    'react', 'jest',
+  ],
   'rules': {
     'indent': [
       'error',
-      2
+      2,
+      { 'SwitchCase': 1 }
     ],
     'quotes': [
       'error',
@@ -36,6 +42,11 @@ module.exports = {
       'error', { 'before': true, 'after': true }
     ],
     'no-console': 0,
-    'eol-last': ['error', 'always']
+    'react/prop-types': 0
+  },
+  'settings': {
+    'react': {
+      'version': 'detect',
+    },
   }
 }
