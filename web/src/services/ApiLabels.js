@@ -1,6 +1,5 @@
 import axios from 'axios'
 const baseUrl = '/label'
-//red, #0000
 
 const getAll = async () => {
   const baseUrl = '/label/all'
