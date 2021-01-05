@@ -63,6 +63,11 @@ router.route('/all').get(async (req, res) => {
   return res.status(200).json(issues).end()
 })
 
+router.route('/count').get(async (req,res) => {
+  const count = await Issue.collection.countDocuments()
+  res.status(200).json({ count }).end()
+})
+
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
   if (!issue){
