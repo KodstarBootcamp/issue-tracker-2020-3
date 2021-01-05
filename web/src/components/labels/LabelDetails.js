@@ -3,7 +3,6 @@ import { LabelEditForm } from './LabelEditForm'
 import { BsTrash, BsPencil } from 'react-icons/bs'
 
 export const LabelDetails = ( props ) => {
-  //const [viewLabel]= useState(false)
   const [viewLabelEdit,setViewLabelEdit] = useState(false)
 
   return (
