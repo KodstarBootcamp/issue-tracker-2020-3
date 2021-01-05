@@ -51,47 +51,4 @@ export const IssueDetails = ( props ) => {
     </tr>
   )
 }
-
-/*
-
-
-
- <tr><h5>Date</h5>
-            {props.issue.updateDate?
-              <tr>
-                <td>Updated:</td>
-                <tr>{updateDate.toDateString()}</tr>
-                <tr>{updateDate.toTimeString()}</tr>
-              </tr>:null}
-            <tr>
-              <td>Created:</td>
-              <tr>{createDate.toDateString()}</tr>
-              <tr>{createDate.toTimeString()}</tr>
-
-            </tr>
-          </tr>
-
-
-
-
-{viewIssue?<>
-          <h5>Title</h5>
-          {props.issue.title}
-          <tr><h5>Description</h5></tr>
-          {props.issue.description}
-          <h5>Labels</h5>
-          <tr className="d-flex justify-content-start">
-            {props.issue.labels.map(label =>
-              (<td key={label.id} style={{ backgroundColor: label.color } }>{label.text}</td>))}</tr>
-          <h5>Date</h5>
-          <tr>{props.issue.updateDate?
-            <tr><td>Updated:</td>
-              <td>
-                {updateDate.toDateString()}
-                {updateDate.toTimeString()}
-              </td>
-            </tr>:null}
-          <tr><td>Created:</td><td><tr>{createDate.toDateString()}</tr><tr>{createDate.toTimeString()}</tr></td></tr></tr>
-        </>
-          :null}
-*/
+ 
