@@ -1,14 +1,14 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
-import CreateIssueForm from './CreateIssueForm'
-import Issue from './Issue'
+import IssueCreateForm from './IssueCreateForm'
+import IssueDetails from './IssueDetails'
 
 describe('<Issue test', () => {
   describe('<<CreateIssueForm /> test', () => {
     test('<CreateIssueForm />create issue form', () => {
       const createIssue = jest.fn()
-      const component = render(<CreateIssueForm createIssue={ createIssue }/>)
+      const component = render(<IssueCreateForm createIssue={ createIssue }/>)
       const inputTitle = component.container.querySelector('input[name="title"]')
       const inputDescription = component.container.querySelector('input[name="description"]')
       const inputLabels = component.container.querySelector('input[name="labels"]')
@@ -38,7 +38,7 @@ describe('<Issue test', () => {
     }
     test('renders content', () => {
       const component = render(
-        <Issue issue={issueTest} />
+        <IssueDetails issue={issueTest} />
       )
       expect(component.container).toHaveTextContent(issueTest.title)
     })//end of the renders content test
