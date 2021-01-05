@@ -8,8 +8,7 @@ const ColorSelect = (props) => {
     <div >
       <ColorPicker name='color'
         onChange={(color) =>  {
-          color!==undefined?props.setLabelColor(color):
-            console.log(color)}} />
+          color!==undefined?props.setLabelColor(color):null}} />
     </div>
   )
 }
