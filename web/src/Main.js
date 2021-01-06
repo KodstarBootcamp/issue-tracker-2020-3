@@ -9,17 +9,23 @@ import { Switch, Route,useHistory
 import { LabelList } from './components/labels'
 
 export const Main =(props) => {
+  //const [start,setStart] = react.useState(0)
+  //const [count,setCount] = react.useState(0)
   const [issues, setIssues] = react.useState([])
   const [labels,setLabels]=React.useState([])
   const [option,setOptions] =react.useState([])
   const [issueSelect,setIssueSelect] = react.useState(false)
   const [labelSelect,setLabelSelect] = react.useState(false)
   const [viewIssueEdit,setViewIssueEdit] = react.useState(false)
+  const [issueLength, setIssueLength] = react.useState()
   const history = useHistory()
 
-  const getIssueData = async () => {
+  const getIssueData = async ({ start, count }) => {
     try{
-      const issues  = await issueService.getAll()
+      const issues  = await issueService.getAll({ start, count })
+      const issue = await issueService.getAllIssueLength()
+      const issuesLength = issue !==null?issue.length:null
+      setIssueLength(issuesLength)
       setIssues( issues )
         .catch(err => console.log(err))
     }catch(err){
@@ -46,7 +52,8 @@ export const Main =(props) => {
 
   useEffect(() => {
     getLabelData()
-    getIssueData()
+    getIssueData(0,  2)
+
   },
   [])
 
@@ -102,12 +109,13 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList option={option} setOptions={setOptions} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList issueLength={issueLength}  option={option} setOptions={setOptions} viewIssueEdit={viewIssueEdit}
+            setViewIssueEdit={setViewIssueEdit} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
         <Route exact path="/labellist">
-          <LabelList setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
+          <LabelList  setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
         </Route>
         <Route exact path="/">
         </Route>
