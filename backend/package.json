@@ -10,9 +10,9 @@
     "local": "cross-env NODE_ENV=local nodemon index.js",
     "lint": "eslint .",
     "start:test": "cross-env NODE_ENV=local-test jest --verbose -i",
-    "start:test:issue":"cross-env NODE_ENV=local-test jest --verbose  tests/issue_api.test.js",
-    "start:test:label":"cross-env NODE_ENV=local-test jest --verbose  tests/label_api.test.js",
-    "start:test:issue-label":"cross-env NODE_ENV=local-test jest --verbose  tests/issue-label_cross.test.js"
+    "start:test:issue": "cross-env NODE_ENV=local-test jest --verbose  tests/issue_api.test.js",
+    "start:test:label": "cross-env NODE_ENV=local-test jest --verbose  tests/label_api.test.js",
+    "start:test:issue-label": "cross-env NODE_ENV=local-test jest --verbose  tests/issue-label_cross.test.js"
   },
   "author": "",
   "license": "ISC",

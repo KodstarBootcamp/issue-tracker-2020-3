@@ -5,7 +5,7 @@ import io.cucumber.java.en.Then;
 import issueTracker.Utilities.ConfigReader;
 import issueTracker.Utilities.Driver;
 import issueTracker.Utilities.Pages;
-import javafx.beans.value.WeakChangeListener;
+import issueTracker.Utilities.ReusableMethods;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,6 +16,7 @@ import java.util.List;
 
 public class CreateIssueStepDefs {
     Pages pages = new Pages();
+    ReusableMethods reusableMethods =new ReusableMethods();
 
     @Given("user on the homepage")
     public void user_on_the_homepage() {
@@ -53,16 +54,19 @@ public class CreateIssueStepDefs {
     }
     @Then("verify that issue list has {string}")
     public void verify_that_issue_list_has(String title) {
+        reusableMethods.wait(2);
+        pages.homePage().issueListButton.click();
+
         List<String> rowText= new ArrayList<>();
         for (int i=0;i<pages.issueListPage().rows.size();i++){
             rowText.add(pages.issueListPage().rows.get(i).getText());
-            System.out.println(pages.issueListPage().rows.get(i).getText());
+            //System.out.println(pages.issueListPage().rows.get(i).getText());
             if(pages.issueListPage().rows.get(i).getText().equals(title)){
-                JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
+                JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
                 int row = i+1;
                 WebElement actualTitle = Driver.getDriver().findElement(By.xpath("//tbody//tr["+row+"]"));
+                js.executeScript("arguments[0].scrollIntoView(true);", actualTitle);
                 js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid green;');", actualTitle);
-                System.out.println(i);
             }
         }
         Assert.assertTrue("Creation failure", rowText.contains(title));

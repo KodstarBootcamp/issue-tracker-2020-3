@@ -1,4 +1,3 @@
 target
-src/test/java/gmibank/runners
+src/test/java/issueTracker/Runners
 .idea
-libraries
