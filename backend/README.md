@@ -2,10 +2,9 @@
 
 The backend server is built with Express.js and Node.js, which provides completed REST APIs for data interaction.
 
-- Node.js
-node.js installed from http://nodejs.org
+Node.js node.js installed from http://nodejs.org
 
-- Database MongoDB is used as the backend database.
+Database MongoDB is used as the backend database.
 
 ## Local variables
 - PORT
@@ -14,7 +13,9 @@ node.js installed from http://nodejs.org
 - CUSTOM_MONGODB_URI
 
 ## Api Documentation
-- Go to [SwaggerHub](https://app.swaggerhub.com/apis/Kodstar/Issue_Tracker_3/1.0.2)
+- Go to Swagger Editor
+- Drop Kodstar-Issue_Tracker_3-*.yaml to editor
+- or try other swagger extensions/plugins on your IDE
 
 
 ## Usage
