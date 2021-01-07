@@ -29,6 +29,8 @@ public class IssueListPage {
     public WebElement descriptionUpdate;
     @FindBy(id = "validationCustom03")
     public WebElement labelsUpdate;
+    @FindBy(xpath = "//tbody//tr")
+    public List<WebElement> issueList;
 
     public static WebElement findingThead(String columnName) {
         int columnNumber = 0;
