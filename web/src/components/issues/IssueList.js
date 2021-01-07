@@ -1,4 +1,4 @@
-import React  from 'react'//useState
+import React  from 'react'
 import issueService from '../../services/ApiIssues'
 import { IssueDetails } from './IssueDetails'
 import PaginationIssue from '../../components/PaginationIssue'
@@ -22,15 +22,10 @@ export const IssueList = ( props ) => {
     }, 5000)
   }
 
-
   return (
     <div>
       <div>
         <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
-        <div className="d-flex-colums justify-content-reserve">
-          <PaginationIssue issueLength={props.issueLength} setStart={props.setStart}  setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
-        </div>
-
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
@@ -51,22 +46,10 @@ export const IssueList = ( props ) => {
           </tbody>
         </Table>
       </div>
-      {/*<div className="d-flex flex-row align-items-center">
-        <h2 className={headerClass}>
-          <strong className="text-secondary">{totalIssues}</strong> Issues
-        </h2>
-        { currentPage && (
-          <span className="current-page d-inline-block h-100 pl-4 text-secondary">
-                  Page <span className="font-weight-bold">{ currentPage }</span> / <span className="font-weight-bold">{ totalPages }</span>
-          </span>
-        ) }
+      <div className="d-flex flex-row-reverse bd-highlight">
+        <PaginationIssue totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
+          setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
       </div>
-      <div className="d-flex flex-row py-4 align-items-center">
-        <Pagination totalRecords={totalIssues} pageLimit={18} pageNeighbours={1} onPageChanged={onPageChanged} />
-      </div>
-      <div className="d-flex flex-row py-4 align-items-center">
-        {currentIssues.map( issue => {issue}) }
-        </div>*/}
     </div>
   )
 }

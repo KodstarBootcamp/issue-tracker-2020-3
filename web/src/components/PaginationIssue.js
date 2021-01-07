@@ -1,18 +1,15 @@
 import React,{ useState } from 'react'
 import issueService from '../services/ApiIssues'
 import { Pagination } from 'react-bootstrap'
-//import { Pagination } from 'react-pagination'
 
 const PaginationIssue = (props) => {
-  const [first, setFirst] = useState(1)
-  const [limit] = useState(4)
+  const [limit] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const getSetIssueData = async ({ clickValueStart,...props }) => {
     try{
       const start=(clickValueStart-1)*limit
       const count = limit
-      //props.setStart(start)
-      //props.setCount(count)
       const currentIssue  = await issueService.getAll({ start, count })
       props.setIssues( currentIssue )
         .catch(err => console.log(err))
@@ -24,65 +21,64 @@ const PaginationIssue = (props) => {
     }
   }
 
-
   const debugClick = async (e) => {
     const clickValue = e.target.offsetParent.getAttribute('data-page')
       ? e.target.offsetParent.getAttribute('data-page')
       : e.target.getAttribute('data-page')
 
     if(clickValue !==null){
-      console.log('click value',clickValue)
       // eslint-disable-next-line eqeqeq
       if(clickValue == 'firstItem'){
-        setFirst(1)
-        console.log('First ıtem area',1)
+        setCurrentPage(1)
         const clickValueStart=1
         getSetIssueData({ clickValueStart,...props })
         // eslint-disable-next-line eqeqeq
-      }else if((clickValue == 'prevItem'&&first>2)||(clickValue == 'itemLeft')){
-        setFirst(first-1)
-        console.log('previos  and left area',first-1)
-        const clickValueStart=first-1
-
+      }else if((clickValue == 'prevItem'&&currentPage>2)||(clickValue == 'itemLeft')){
+        setCurrentPage(currentPage-1)
+        const clickValueStart=currentPage-1
         getSetIssueData({ clickValueStart, ...props })
         // eslint-disable-next-line eqeqeq
       } else if(clickValue == 'lastItem'){
         if(props.issueLength%limit===0){
-          setFirst(props.issueLength/limit)
-          console.log('Last ıtem area',props.issueLength/limit)
+          setCurrentPage(props.issueLength/limit)
+          const clickValueStart=props.issueLength/limit
+          getSetIssueData({ clickValueStart,...props })
         }else {
-          setFirst(Number.parseInt(props.issueLength/limit)+1)
-          console.log('Last ıtem area',Number.parseInt(props.issueLength/limit)+1)
+          setCurrentPage(Number.parseInt(props.issueLength/limit)+1)
+          const clickValueStart=Number.parseInt(props.issueLength/limit)+1
+          getSetIssueData({ clickValueStart,...props })
         }
-        const clickValueStart=props.issueLength/limit
-        getSetIssueData({ clickValueStart,...props })
-
-      }else if (first<(props.issueLength/limit)) {
-        setFirst(first+1)
+      }else if (currentPage<(props.issueLength/limit)) {
+        setCurrentPage(currentPage+1)
         const clickValueStart= clickValue
         getSetIssueData({ clickValueStart,...props })
       }
     }
   }
 
-  console.log('issue length===>',props.issueLength)
-
-
   return (
     <div className="d-flex-colums justify-content-end">
       <Pagination onClick={debugClick}>
         <Pagination.First key={0} data-page='firstItem'/>
-        {first>2? <Pagination.Prev key={1} data-page='prevItem'/>:''}
-        {first>1? <Pagination.Item key={2} data-page='itemLeft'>
-          {first-1}
+        {currentPage>2?<Pagination.Prev key={1} data-page='prevItem'/>:''}
+        {currentPage>2&&props.totalPage>3&&currentPage<= props.totalPage?<Pagination.Ellipsis />:''}
+        {props.totalPage===currentPage&&props.totalPage>2?<Pagination.Item key={2} data-page={currentPage-2}>
+          {currentPage-2}
         </Pagination.Item>:''}
-        <Pagination.Item active key={3} >
-          {first}
+        {currentPage>1? <Pagination.Item key={3} data-page='itemLeft'>
+          {currentPage-1}
+        </Pagination.Item>:''}
+        <Pagination.Item active key={4} >
+          {currentPage}
         </Pagination.Item>
-        {(first<props.issueLength/limit)? <Pagination.Item key={4} data-page={first+1}>
-          {first+1}
+        {(currentPage<props.totalPage)?<Pagination.Item key={5} data-page={currentPage+1}>
+          {currentPage+1}
         </Pagination.Item>:''}
-        {(first<props.issueLength/limit)?<Pagination.Next key={5} data-page={first}/>:''}
+        {(currentPage===1&&props.totalPage>2)? <Pagination.Item key={6} data-page={currentPage+2}>
+          {currentPage+2}
+        </Pagination.Item>:''}
+        {currentPage<props.totalPage-1?<Pagination.Ellipsis />:''}
+        {currentPage<props.totalPage?<Pagination.Next key={7} data-page={currentPage+1}/>:''}
         <Pagination.Last key={props.issueLength} data-page='lastItem' />
       </Pagination>
     </div>
@@ -91,25 +87,3 @@ const PaginationIssue = (props) => {
 
 export default PaginationIssue
 
-/*
-
-  const [allIssues,setAllIssues ] = useState([])
-  const [currentIssues,currentPage,totalPages] = useState({ allIssues:[],currentIssues:[],currentPage:null,totalPages:null })
-
-  const totalIssues = allIssues.length
-  if (totalIssues === 0) return null
-
-  console.log('allIssues',allIssues)
-  setAllIssues(props.issues )
-
-  const onPageChanged = (data) => {
-    const { allIssues } = this.state
-    const { currentPage, totalPages, pageLimit } = data
-    const offset = (currentPage - 1) * pageLimit
-    const currentIssues = allIssues.slice(offset, offset + pageLimit)
-
-    this.setState({ currentPage, currentIssues, totalPages })
-  }
-
-
-*/
