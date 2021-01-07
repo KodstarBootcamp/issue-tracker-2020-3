@@ -16,7 +16,6 @@ export const Main =(props) => {
   const [option,setOptions] =react.useState([])
   const [issueSelect,setIssueSelect] = react.useState(false)
   const [labelSelect,setLabelSelect] = react.useState(false)
-  const [viewIssueEdit,setViewIssueEdit] = react.useState(false)
   const [issuesLength, setIssuesLength] = react.useState()
   const history = useHistory()
 
@@ -100,7 +99,6 @@ export const Main =(props) => {
           history.push('/addnew')
         }else if (issueSelect){//It is for when label created in issue edit form
           setIssueSelect(false)
-          setViewIssueEdit(false)
           history.push('/issuelist')
         }else {
           history.push('/labellist')//It is for when label created in labellist
@@ -117,8 +115,7 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} viewIssueEdit={viewIssueEdit}
-            setViewIssueEdit={setViewIssueEdit} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>

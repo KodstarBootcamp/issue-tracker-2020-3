@@ -24,7 +24,7 @@ export const IssueList = ( props ) => {
 
   return (
     <div>
-      <div>
+      <div clasName='IssueList'>
         <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
         <Table striped bordered hover size="sm">
           <thead>
@@ -38,7 +38,7 @@ export const IssueList = ( props ) => {
           <tbody>
             {props.issues!==null ?
               props.issues.map((issue) =>
-                <IssueDetails option={props.option} setOptions={props.setOptions} viewIssueEdit={props.viewIssueEdit} setViewIssueEdit={props.setViewIssueEdit} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
+                <IssueDetails option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
                   labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
                 />
               )
