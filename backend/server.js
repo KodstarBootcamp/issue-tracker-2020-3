@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'local') {
 const issuesRouter = require('./routes/issues')
 const labelsRouter = require('./routes/labels')
 
-if (process.env.NODE_ENV === 'local') {
+if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test') {
   const { mongoStop } = require('./mongodb')
   app.use('/mongodb', mongoStop)
 }

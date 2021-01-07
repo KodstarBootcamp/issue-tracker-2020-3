@@ -7,7 +7,10 @@ const objCleaner = require('../utils/objUtils').objCleaner
 router.route('/').post(async (req, res) => {
   const title = req.body.title
   const description = req.body.description
-  const unverifiedLabels = req.body.labels
+  let unverifiedLabels = []
+  if (req.body.labels){
+    unverifiedLabels = req.body.labels
+  }
   const check = await Issue.findOne({ title:req.body.title })
   if (check) {
     return res.status(409).send('Issue already exist').end()
@@ -38,30 +41,21 @@ router.route('/').post(async (req, res) => {
     labels:verifiedLabels
   })
   const savedIssue = await (await newIssue.save()).execPopulate('labels')
-  return res.status(200).json(savedIssue)
+  return res.status(201).json(savedIssue)
 })
 
 // ↓↓↓ this route must be top cause of '/all' - ':id' conflict
 router.route('/all').get(async (req, res) => {
-  const issues = await Issue.find({}).populate('labels')
-  res.status(200).json(issues).end()
+  if (!req.query.start && !req.query.count) {
+    const issues = await Issue.find({}).populate('labels')
+    return res.status(200).json(issues).end()
+  }
+  const skip = Number.parseInt(req.query.start) || 0
+  const limit = Number.parseInt(req.query.count) || 10
+  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
+  return res.status(200).json(issues).end()
 })
 
-router.route('/paginate/:slice').get(async (req, res) => {
-  const slice = String(req.params.slice)
-  const sliceHasDash = slice.includes('-')
-  let skip
-  let limit
-  if (sliceHasDash) {
-    skip = Number.parseInt(slice.split('-')[0])
-    limit = Number.parseInt(slice.split('-')[1]) - skip
-  } else {
-    skip = 0
-    limit = Number.parseInt(slice)
-  }
-  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
-  res.status(200).json(issues)
-})
 router.route('/:id').get(async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
   if (!issue){
@@ -114,8 +108,11 @@ router.route('/:id').put(async (req, res) => {
     labels:verifiedLabels
   }
   objCleaner(newIssue)
-  const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
-  return res.status(200).json(savedIssue)
+  const check = await Issue.validate(newIssue).catch(() => res.status(405).send('Validation exception').end())
+  if (!check){
+    const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
+    return res.status(200).json(savedIssue)
+  }
 })
 
 module.exports = router

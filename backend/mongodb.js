@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 const Issue = require('./models/issue.model')
 const Label = require('./models/label.model')
+const fs = require('fs')
 
 const replSet = new MongoMemoryReplSet({
   replSet: {
@@ -18,6 +19,7 @@ const replSet = new MongoMemoryReplSet({
 })
 
 const mongodb = async () => {
+  fs.mkdir('./DB', e => e ? console.log(e) : null )
   await replSet.waitUntilRunning()
   const uri = await replSet.getUri()
   return uri
@@ -35,6 +37,7 @@ router.get('/stop', (req,res) => {
   res.status(200).send('DB shut down.').end()
 })
 module.exports = {
+  replSet,
   mongodb,
   mongoStop:router
 }

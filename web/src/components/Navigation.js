@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap'
 import '../App.css'
@@ -22,7 +23,7 @@ const Navigation = ( ) => {
             </NavItem>
             <NavItem  id="custom_button" className="nav_button px-2">
               <Link to="/addnew">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Add new</Button>
+                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Create New Issue</Button>
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
@@ -31,8 +32,8 @@ const Navigation = ( ) => {
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
-              <Link to="/remove">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Remove</Button>
+              <Link to="/labellist">
+                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Label List</Button>
               </Link>
             </NavItem>
           </Nav>

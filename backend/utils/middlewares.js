@@ -21,7 +21,7 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send('Invalid ID supplied' )
   } else if (error.name === 'ValidationError') {
-    return response.status(405).send('Validation exception')
+    return response.status(400).send('Validation exception')
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({
       error: 'invalid token'
