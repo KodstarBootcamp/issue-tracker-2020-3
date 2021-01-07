@@ -7,9 +7,9 @@ usersRouter.post('/', async (req, res) => {
   const body = req.body
 
   if (!body.password) {
-    return res.status(400).json({ error: 'password missing' })
+    return res.status(401).send({ error: 'password missing' })
   } else if (body.password.length < 3) {
-    return res.status(400).json({ error: 'password should be at 3 characters long' })
+    return res.status(402).send({ error: 'password should be at 3 characters long' })
   }
 
   const saltRounds = 10
