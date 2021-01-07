@@ -1,3 +1,16 @@
+#root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background: url(../src/images/wallpaper.jpg); */
+  background-color: #aab0bd;
+  background-repeat: repeat;
+  background-size: cover;
+  font-family: 'Nunito', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -10,5 +23,55 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(150, 112, 112);
 }
+#logo {
+  margin: 29%;
+  margin-top: 2%;
+  margin-bottom: 3%;
+}
+
+img {
+  justify-content: center;
+}
+ 
+.welcome form {
+  justify-content:center;
+  text-align: center;
+}
+#welcome_msg {
+ text-align: center;
+}
+
+/* Apply styles
+=============== */
+.FlexTable {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 3em 0;
+  padding: 0;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.4);
+
+}
+.FlexTable .FlexTable-row {
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+}
+.FlexTable .FlexTable-row .FlexTable-cell {
+  -webkit-box-flex: 1;
+          flex-grow: 1;
+  padding: 0.8em 1.2em;
+  overflow: hidden;
+}
+.FlexTable .FlexTable-row .FlexTable-cell.column-heading {
+  background-color: #1a1715;
+  color: white;
+  padding: 1em;
+}
+.FlexTable .FlexTable-row .FlexTable-cell .FlexTable-cell--heading {
+  display: none;
+}
+
