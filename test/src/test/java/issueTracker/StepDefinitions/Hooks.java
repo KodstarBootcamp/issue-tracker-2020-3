@@ -7,18 +7,19 @@ import issueTracker.Utilities.Driver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+
 public class Hooks {
-    @Before
+    @Before(order = 1)//it runs before all and every each one of scenario
     public void setUp(){
     }
 
     @After
     public void tearDown(Scenario scenario){
-        final byte[] screenshot=((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+        //it takes screen hots and works on TestNG and cucumber framework
+        final byte [] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
         if (scenario.isFailed()) {
-            scenario.attach(screenshot, "image/png","screenshots");
+            scenario.embed(screenshot, "image/png");
         }
         Driver.closeDriver();
     }
-
 }

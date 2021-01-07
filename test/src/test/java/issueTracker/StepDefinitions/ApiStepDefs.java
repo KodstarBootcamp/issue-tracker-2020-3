@@ -4,8 +4,7 @@ import io.cucumber.java.en.Given;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import issueTracker.Utilities.ConfigReader;
-
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 
 public class ApiStepDefs {
     @Given("user gets all data from api")
