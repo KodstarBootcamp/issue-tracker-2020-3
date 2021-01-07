@@ -54,7 +54,7 @@ process.env.NODE_ENV !== 'production'
   })) : null
 
 app.use('/login', loginRouter)
-app.use('/signup', userRouter)
+app.use('/users', userRouter)
 app.use('/issue', issuesRouter)
 app.use('/label', labelsRouter)
 app.use(middlewares.errorHandler)

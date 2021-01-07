@@ -18,7 +18,8 @@ usersRouter.post('/', async (req, res) => {
   const user = new User({
     _id: new mongoose.Types.ObjectId(),
     username: body.username,
-    passwordHash
+    passwordHash,
+    email: body.email
   })
 
   const savedUser = await user.save()
