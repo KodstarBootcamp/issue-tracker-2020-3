@@ -33,6 +33,13 @@ describe('When there is initially some issues saved', () => {
         'Browser can execute only Javascript'
       )
     })
+    test('when using sort query', async () => {
+      const response = await api
+        .get('/issue/all?sort=-title')
+        .expect(200)
+        .expect('content-Type', /application\/json/)
+      expect(response.body[0].title).toBe('Another title')
+    })
   })
 
   describe('|: GET-/issue/:id :| - viewing a specific issue', () => {
@@ -171,7 +178,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: GET-/issue/all?start={start}&end={end} :| when req with paginate', () => {
+  describe('|: GET-/issue/all?start={start}&count={count} :| when req with paginate', () => {
     beforeEach(async () => {
       await Issue.deleteMany({})
       const title = 'An issue title-'
@@ -185,7 +192,7 @@ describe('When there is initially some issues saved', () => {
         await new Issue(template).save()
       }
     })
-    test('succeeds request with only count value(/issue/all?count=10),start/end checked, status 200, json', async () => {
+    test('succeeds request with only count value(/issue/all?count=10),start/count checked, status 200, json', async () => {
       const response = await api
         .get('/issue/all?count=10')
         .expect(200)
@@ -194,7 +201,7 @@ describe('When there is initially some issues saved', () => {
       expect(response.body[0].title).toBe('An issue title-0')
       expect(response.body.pop().title).toBe('An issue title-9')
     })
-    test('succeeds request with only start value,count default 10,start/end checked, status 200, json', async () => {
+    test('succeeds request with only start value,count default 10,start/count checked, status 200, json', async () => {
       const response = await api
         .get('/issue/all?start=3')
         .expect(200)
@@ -203,7 +210,7 @@ describe('When there is initially some issues saved', () => {
       expect(response.body[0].title).toBe('An issue title-3')
       expect(response.body.pop().title).toBe('An issue title-12')
     })
-    test('succeeds with start and end value, start/end checked, status 200, json', async () => {
+    test('succeeds with start and count value, start/count checked, status 200, json', async () => {
       const response = await api
         .get('/issue/all?start=5&count=9')
         .expect(200)
@@ -212,7 +219,7 @@ describe('When there is initially some issues saved', () => {
       expect(response.body[0].title).toBe('An issue title-5')
       expect(response.body.pop().title).toBe('An issue title-13')
     })
-    test('succeeds if end value exceed the last index, start/end checked, status 200, json', async () => {
+    test('succeeds if count value exceed the last index, start/count checked, status 200, json', async () => {
       const response = await api
         .get('/issue/all?start=5&count=50')
         .expect(200)
@@ -220,6 +227,13 @@ describe('When there is initially some issues saved', () => {
       expect(response.body.length).toBe(15)
       expect(response.body[0].title).toBe('An issue title-5')
       expect(response.body.pop().title).toBe('An issue title-19')
+    })
+    test('when using also sort query', async () => {
+      const response = await api
+        .get('/issue/all?start=5&count=7&sort=-title')
+        .expect(200)
+        .expect('content-Type', /application\/json/)
+      expect(response.body[0].title).toBe('An issue title-4')
     })
   })
 })
