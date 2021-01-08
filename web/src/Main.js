@@ -7,21 +7,50 @@ import { IssueList } from './components/issues'
 import { Switch, Route,useHistory
 } from 'react-router-dom'
 import { LabelList } from './components/labels'
+import welcome from './components/welcome'
+import UserSignIn from './components/userSign/UserSignIn'
+import UserSignUp from './components/userSign/UserSignUp'
+import loginService from './services/ApiIssues'
 
 export const Main =(props) => {
+  const [totalPage,setTotalPage] = react.useState()
+  const [limit] = react.useState(10)
   const [issues, setIssues] = react.useState([])
   const [labels,setLabels]=React.useState([])
   const [option,setOptions] =react.useState([])
   const [issueSelect,setIssueSelect] = react.useState(false)
   const [labelSelect,setLabelSelect] = react.useState(false)
-  const [viewIssueEdit,setViewIssueEdit] = react.useState(false)
+  const [issuesLength, setIssuesLength] = react.useState()
+  const [user,setUser] = react.useState()
   const history = useHistory()
+
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedIssueAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      loginService.setToken(user.token)
+    }
+  }, [])
+  console.log('Loged User',user)
 
   const getIssueData = async () => {
     try{
-      const issues  = await issueService.getAll()
-      setIssues( issues )
-        .catch(err => console.log(err))
+      const issues  = await issueService.getAll({ start:0, count:10 })
+      const issue = await issueService.getAllIssueLength()
+      const issuesLength = issue !==null?issue.length:null
+      setIssuesLength(issuesLength)
+      if(issuesLength !==null||issuesLength !==undefined){
+        if(issuesLength%limit===0){
+          const pageLength = issuesLength/limit
+          setTotalPage(pageLength)
+        } else{
+          setTotalPage(Number.parseInt(issuesLength/limit)+1)
+        }
+        setIssues( issues )
+          .catch(err => console.log(err))
+      }
     }catch(err){
       props.setCheckError(`Error: ${err.message}`)
       setTimeout(() => {
@@ -29,6 +58,7 @@ export const Main =(props) => {
       }, 3000)
     }
   }
+
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
@@ -85,7 +115,6 @@ export const Main =(props) => {
           history.push('/addnew')
         }else if (issueSelect){//It is for when label created in issue edit form
           setIssueSelect(false)
-          setViewIssueEdit(false)
           history.push('/issuelist')
         }else {
           history.push('/labellist')//It is for when label created in labellist
@@ -102,14 +131,20 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList option={option} setOptions={setOptions} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
         <Route exact path="/labellist">
-          <LabelList setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
+          <LabelList  setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
         </Route>
-        <Route exact path="/">
+        <Route exact path="/userSignIn">
+          <UserSignIn user={user} setUser={setUser} setCheckError={props.setCheckError} />
+        </Route>
+        <Route exact path="/userSignUp">
+          <UserSignUp setCheckError={props.setCheckError} />
+        </Route>
+        <Route exact path="/" component={welcome} >
         </Route>
       </Switch>
     </div>

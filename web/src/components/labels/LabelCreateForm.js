@@ -1,21 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button,Col, CardColumns } from 'react-bootstrap'
 import ColorSelect from './ColorSelect'
 
 export const LabelCreateForm = ( props ) => {
+
+  const [title,setTitle]=useState([])
   const [labelColor,setLabelColor] = React.useState([])
 
   const addLabel= ( event ) => {
     event.preventDefault()
     event.persist()
-    props.addLabel ({ text: event.target.title.value, color:labelColor })
-    event.target.title.value = ''
+    props.addLabel ({ text: title, color:labelColor })
+    setTitle('')
     if( props.labelSelect){//It is for label create in Labellist page
       props.setLabelSelect(true)
     } else if(props.issueSelect) {//It is for issue create in create issue form page
       props.setIssueSelect(true)
+      props.setViewIssueEdit(false)
     }
     props.setSmShow(false)
+
   }
 
   return (
@@ -25,10 +29,13 @@ export const LabelCreateForm = ( props ) => {
           <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-5">
             <Form.Label>title</Form.Label>
             <Form.Control
+              id="title"
               required
               type="text"
               placeholder="title"
               name="title"
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
             />
           </Form.Group>
           <Form.Group as={Col} md="5" controlId="validationCustom02" className="ml-5">
