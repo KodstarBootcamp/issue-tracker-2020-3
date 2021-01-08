@@ -11,6 +11,8 @@
     "lint": "eslint .",
     "start:test": "cross-env NODE_ENV=local-test jest --verbose -i",
     "start:test:issue": "cross-env NODE_ENV=local-test jest --verbose  tests/issue_api.test.js",
+    "start:test:users": "cross-env NODE_ENV=local-test jest --verbose  tests/user.test.js",
+    "start:test:login": "cross-env NODE_ENV=local-test jest --verbose  tests/login.test.js",
     "start:test:label": "cross-env NODE_ENV=local-test jest --verbose  tests/label_api.test.js",
     "start:test:issue-label": "cross-env NODE_ENV=local-test jest --verbose  tests/issue-label_cross.test.js"
   },

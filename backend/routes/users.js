@@ -6,8 +6,8 @@ const mongoose = require('mongoose')
 usersRouter.post('/', async (req, res) => {
   const body = req.body
 
-  if (!body.password) {
-    return res.status(401).send({ error: 'password missing' })
+  if (!body.password || !body.username) {
+    return res.status(401).send({ error: 'password or username missing' })
   } else if (body.password.length < 3) {
     return res.status(402).send({ error: 'password should be at 3 characters long' })
   }
