@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@testing-library/user-event": "^12.6.0",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "chroma-js": "^2.1.0",
     "material-ui-color-picker": "^3.5.1",
     "mb-react-color-picker": "^1.2.0-dev.14",

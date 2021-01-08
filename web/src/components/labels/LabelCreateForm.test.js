@@ -19,3 +19,4 @@ describe('<Label test', () => {
     expect(addLabel.mock.calls[0][0].text).toBe('testing of forms could be easier')
   })//end of the test createform
 })//end of the begining describe
+
