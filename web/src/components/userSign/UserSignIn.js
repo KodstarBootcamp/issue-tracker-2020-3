@@ -7,27 +7,40 @@ import '../../App.css'
 import logo from '../../images/coding.jpg'
 // import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
+import loginService from '../../services/ApiSignIn'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
 
-const UserSignIn = () => {
-
+const UserSignIn = (props) => {
   //whatever user types reseting the value
-  const [values, setValues] = useState({ userName: '', password: '', })
-
-
+  const [values, setValues] = useState({ username: '', password: '', })
+ 
   const handleChange = event => {
     const { name, value } = event.target
-
     setValues({
       ...values,
       [name]: value
     })
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = async (event) => {
     event.preventDefault() // this way not refreshing when clicking submit
-    setValues({ userName: '', password: '' })
+    try {
+      const user = await loginService.login({ username:values.username, password:values.password })
+      window.localStorage.setItem(
+        'loggedIssueAppUser', JSON.stringify(user)
+      )
+      loginService.setToken(user.token)
+      props.setUser(user)
+
+    } catch (exception) {
+      props.setCheckError(`Error: ${exception.message}`)
+      setTimeout(() => {
+        props.setCheckError(null)
+      }, 5000)
+    }
+
+    setValues({ username: '', password: '' })
 
   }
 
@@ -37,14 +50,13 @@ const UserSignIn = () => {
       <div id='welcome_msg'>
         <h3>Sign in Page</h3>
       </div>
-
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            name="userName"
-            type="userName"
+            name="username"
+            type="username"
             placeholder='User Name'
-            value={values.userName}
+            value={values.username}
             onChange={handleChange}
           />
         </div>

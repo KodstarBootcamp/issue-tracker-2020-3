@@ -24,7 +24,7 @@ export const IssueList = ( props ) => {
 
   return (
     <div>
-      <div clasName='IssueList'>
+      <div className='IssueList'>
         <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
         <Table striped bordered hover size="sm">
           <thead>

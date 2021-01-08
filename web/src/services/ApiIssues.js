@@ -1,7 +1,12 @@
 import axios from 'axios'
 const baseUrl = '/issue'
-//cnst baseURL = http://localhost:5000/issue/all?start=1&count=20
-//http://localhost:5000/issue/all?start=1&count=3
+let token = null
+
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+  console.log('Token',token)
+}
+
 const getAll = async ({ start,count }) => {
   if(start===undefined||count===undefined){
     const getbaseUrl=`/issue/all?start=${0}&count=${10}`
@@ -9,9 +14,6 @@ const getAll = async ({ start,count }) => {
 
     return response.data
   }
-  //const getbaseUrl='/issue/all'
-  //axios.get(`/issue/all?start=${start}&count=${count}`)
-
   const getbaseUrl=`/issue/all?start=${start}&count=${count}`
   const response = await axios.get(getbaseUrl)
 
@@ -34,4 +36,4 @@ const update = async updatedObject => {
 const deleteOneIssue =  id  => {
   return  axios.delete(`${baseUrl}/${id}`)
 }
-export default { getAll, create,update, deleteOneIssue,getAllIssueLength }
+export default { getAll, create,update, deleteOneIssue,getAllIssueLength,setToken }
