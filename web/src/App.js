@@ -20,7 +20,6 @@ const App = () => {
   }, [])
   console.log('Loged User',user)
 
-
   return (
     <div className="container">
       <Navigation user={user} setUser={setUser}/>
