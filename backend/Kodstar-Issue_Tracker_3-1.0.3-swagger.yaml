@@ -9,7 +9,7 @@ info:
     name: MIT
     url: 'https://github.com/KodstarBootcamp/issue-tracker-2020-1/blob/main/LICENSE'
 paths:
-  '/issue/{issueId}':
+  /issue/{issueId}:
     get:
       tags:
         - Issue
@@ -204,7 +204,7 @@ paths:
           description: Invalid token
         '409':
           description: Label already exists
-  '/label/{labelId}':
+  /label/{labelId}:
     put:
       tags:
         - Label
