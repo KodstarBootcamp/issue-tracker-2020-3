@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 // import UserProvider from '../UserProvider'
 import { Button, Card, CardBody, Col, Container,
   Form, Input, InputGroup, Row } from 'reactstrap'
 // import ModelPopup from './ModelPopup'
 // import logo from '../../images/coding.jpg'
 import '../../App.css'
+import userService from '../../services/ApiSignUp'
 
-const UserSignUp = () => {
-  const initialInputState = { userName: '', email: '', password:'', password2:'' }
+const UserSignUp = (props) => {
+  const initialInputState = { username: '', email: '', password:'', password2:'' }
   const [userData, setUserData] = useState(initialInputState)
-  const { userName, email, password, password2 } = userData
-
+  const { username, email, password, password2 } = userData
+  const history = useHistory()
 
   const handleChange= ( e ) => {
     e.preventDefault()
@@ -24,8 +26,15 @@ const UserSignUp = () => {
 
     }else{
 
-      const addUserInfo = { userName, email, password }
-      console.log(addUserInfo)
+      try{
+        userService.singUp({ username,email,password })
+        history.push('/userSignIn')
+      } catch (err) {
+        props.setCheckError(`Error: ${err.message}`)
+        setTimeout(() => {
+          props.setCheckError(null)
+        }, 5000)
+      }
     }
   }
 
@@ -34,7 +43,6 @@ const UserSignUp = () => {
       {/* <img className="img-responsive" id="logo" src={logo} alt="logo" /> */}
       <Container>
         <Row className='justify-content-center'>
-
           <Col md='9' lg='7' xl='6'>
             <Card className='mx-4'>
               <CardBody className='p-4'>
@@ -47,8 +55,8 @@ const UserSignUp = () => {
                   <InputGroup className='mb-3'>
                     <Input type='text'
                       onChange={handleChange}
-                      name='userName'
-                      value={userName}
+                      name='username'
+                      value={username}
                       placeholder='User Name' required></Input>
                   </InputGroup>
                   <InputGroup className='mb-3'>
