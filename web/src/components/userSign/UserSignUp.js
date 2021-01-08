@@ -9,7 +9,7 @@ const UserSignUp = (props) => {
   const initialInputState = { username: '', email: '', password:'', password2:'' }
   const [userData, setUserData] = useState(initialInputState)
   const { username, email, password, password2 } = userData
-  const history=useHistory()
+  const history = useHistory()
 
   const handleChange= ( e ) => {
     e.preventDefault()
@@ -20,6 +20,7 @@ const UserSignUp = (props) => {
     if(password!==password2){
       alert('Ooppps ! Your password doesn`t match')
     }else{
+
       try{
         userService.singUp({ username,email,password })
         history.push('/userSignIn')
@@ -36,7 +37,6 @@ const UserSignUp = (props) => {
     <div id='signUpForm' className="app flex-row align-items center">
       <Container>
         <Row className='justify-content-center'>
-
           <Col md='9' lg='7' xl='6'>
             <Card className='mx-4'>
               <CardBody className='p-4'>
