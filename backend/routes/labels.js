@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const Label = require('../models/label.model')
 const Issue = require('../models/issue.model')
-const { objCleaner } = require('../utils/objUtils')
+const { objCleaner, checkToken } = require('../utils/utils')
 require('express-async-errors')
 
 router.route('/').post(async (req, res) => {
+  checkToken(req, res)
   const check = await Label.findOne({ text:req.body.text })
   if (check) {
     return res.status(409).send('Label already exist').end()
@@ -24,6 +25,7 @@ router.route('/all').get((req, res) => {
 })
 
 router.route('/:id').put(async (req, res) => {
+  checkToken(req, res)
   let labelToChange = await Label.findById(req.params.id)
   const newLabel = {
     text:req.body.text,
@@ -42,6 +44,7 @@ router.route('/:id').put(async (req, res) => {
 })
 
 router.route('/:id').delete(async (req, res) => {
+  checkToken(req, res)
   const label = await Label.findById(req.params.id)
   if (!label) {
     return res.status(404).send('Label not found').end()
