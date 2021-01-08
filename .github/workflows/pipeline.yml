@@ -1,0 +1,30 @@
+name: CI/CD pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  ci_cd_pipeline:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: npm install backend
+      working-directory: ./backend
+      run: npm install
+    - name: lint backend
+      working-directory: ./backend
+      run: npm run lint
+    - name: npm install web
+      working-directory: ./web
+      run: npm install
+    - name: lint web
+      working-directory: ./web
+      run: npm run lint
