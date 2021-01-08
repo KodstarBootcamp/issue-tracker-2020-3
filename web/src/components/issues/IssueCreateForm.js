@@ -36,7 +36,7 @@ export const IssueCreateForm = ( props ) => {
   }
 
   return (
-    <div className="formDiv">
+    <div className="form">
       <h2>Create a new issue</h2>
       <Form onSubmit={addIssue}>
         <Form.Group>
