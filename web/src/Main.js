@@ -9,6 +9,7 @@ import { Switch, Route,useHistory
 import { LabelList } from './components/labels'
 import welcome from './components/welcome'
 import UserSignIn from './components/userSign/UserSignIn'
+import UserSignUp from './components/userSign/UserSignUp'
 
 export const Main =(props) => {
   const [issues, setIssues] = react.useState([])
@@ -113,6 +114,9 @@ export const Main =(props) => {
         </Route>
         <Route exact path="/userSignIn">
           <UserSignIn  />
+        </Route>
+        <Route exact path="/userSignUp">
+          <UserSignUp setCheckError={props.setCheckError} />
         </Route>
         <Route exact path="/" component={welcome} >
         </Route>

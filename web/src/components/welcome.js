@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button }  from 'reactstrap'
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 import logo from '../images/coding.png'
 import{ Link } from 'react-router-dom'
@@ -18,10 +17,10 @@ export default class welcome extends Component {
           <h3>Welcome to our platform</h3>
         </div>
         <div id="welcome_buttons" style={buttonStyle}>
-          <Link to ="/login">
+          <Link to ="/userSignIn">
             <Button className="mb-2 "color="primary" bsstyle="primary" bssize="large" block> Login </Button>
           </Link>
-          <Link to ="/register">
+          <Link to ="/userSignUp">
             <Button color="success" bsstyle="primary" bssize="large" block> Register </Button>
           </Link>
         </div>
