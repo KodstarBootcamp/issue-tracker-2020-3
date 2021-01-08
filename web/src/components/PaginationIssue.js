@@ -65,7 +65,7 @@ const PaginationIssue = (props) => {
         {props.totalPage===currentPage&&props.totalPage>2?<Pagination.Item key={2} data-page={currentPage-2}>
           {currentPage-2}
         </Pagination.Item>:''}
-        {currentPage>1? <Pagination.Item key={3} data-page='itemLeft'>
+        {currentPage>1?<Pagination.Item key={3} data-page='itemLeft'>
           {currentPage-1}
         </Pagination.Item>:''}
         <Pagination.Item active key={4} >
@@ -74,12 +74,12 @@ const PaginationIssue = (props) => {
         {(currentPage<props.totalPage)?<Pagination.Item key={5} data-page={currentPage+1}>
           {currentPage+1}
         </Pagination.Item>:''}
-        {(currentPage===1&&props.totalPage>2)? <Pagination.Item key={6} data-page={currentPage+2}>
+        {(currentPage===1&&props.totalPage>2)?<Pagination.Item key={6} data-page={currentPage+2}>
           {currentPage+2}
         </Pagination.Item>:''}
         {currentPage<props.totalPage-1?<Pagination.Ellipsis />:''}
         {currentPage<props.totalPage?<Pagination.Next key={7} data-page={currentPage+1}/>:''}
-        <Pagination.Last key={props.issueLength} data-page='lastItem' />
+        <Pagination.Last key={8} data-page='lastItem' />
       </Pagination>
     </div>
   )

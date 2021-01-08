@@ -10,7 +10,6 @@ import { LabelList } from './components/labels'
 import welcome from './components/welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
-import loginService from './services/ApiIssues'
 
 export const Main =(props) => {
   const [totalPage,setTotalPage] = react.useState()
@@ -23,17 +22,6 @@ export const Main =(props) => {
   const [issuesLength, setIssuesLength] = react.useState()
 
   const history = useHistory()
-  const [user,setUser] = react.useState()
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedIssueAppUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      loginService.setToken(user.token)
-    }
-  }, [])
-  console.log('Loged User',user)
 
   const getIssueData = async () => {
     try{

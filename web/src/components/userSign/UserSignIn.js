@@ -8,13 +8,14 @@ import logo from '../../images/coding.jpg'
 // import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
 import loginService from '../../services/ApiSignIn'
+import { useHistory } from 'react-router-dom'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
 
 const UserSignIn = (props) => {
+  const history = useHistory()
   //whatever user types reseting the value
   const [values, setValues] = useState({ username: '', password: '', })
-
   const handleChange = event => {
     const { name, value } = event.target
     setValues({
@@ -27,11 +28,12 @@ const UserSignIn = (props) => {
     event.preventDefault() // this way not refreshing when clicking submit
     try {
       const user = await loginService.login({ username:values.username, password:values.password })
+      props.setUser(user)
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
       loginService.setToken(user.token)
-      props.setUser(user)
+      history.push('/')
 
     } catch (exception) {
       props.setCheckError(`Error: ${exception.message}`)
