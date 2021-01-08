@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = mongoose.Schema({
-  username: { type: 'string', unique: true },
+  username: { type: 'string', unique: true, required:true },
   passwordHash: { type: 'string' },
-  email: { type: 'string', unique: true }
+  email: { type: 'string', unique: true, required:true }
   //issues: [{ type: mongoose.SchemaType.ObjectId, ref:Issue }]
 })
 

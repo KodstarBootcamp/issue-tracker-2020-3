@@ -7,10 +7,8 @@ const bcrypt = require('bcrypt')
 
 beforeEach(async () => {
   await User.deleteMany({})
-
   const passwordHash = await bcrypt.hash(existingUser.password, 10)
-  const user = new User({ username: existingUser.username, passwordHash: passwordHash })
-
+  const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'dsa' })
   await user.save()
 })
 
@@ -47,7 +45,7 @@ describe('When there is initially some users saved', () => {
         .post('/users')
         .send(newUser)
         .expect(401)
-        .expect('Content-Type', /application\/json/)
+        .expect('Content-Type', 'text/html; charset=utf-8')
 
       await usersInDb()
       expect(errorMessage.text).toContain('password or username missing')
@@ -63,7 +61,7 @@ describe('When there is initially some users saved', () => {
         .post('/users')
         .send(newUser)
         .expect(401)
-        .expect('Content-Type', /application\/json/)
+        .expect('Content-Type', 'text/html; charset=utf-8')
 
       await usersInDb()
       expect(errorMessage.text).toContain('password or username missing')
@@ -80,7 +78,7 @@ describe('When there is initially some users saved', () => {
         .post('/users')
         .send(newUser)
         .expect(402)
-        .expect('Content-Type', /application\/json/)
+        .expect('Content-Type','text/html; charset=utf-8')
 
       await usersInDb()
       expect(errorMessage.text).toContain('password should be at 3 characters long')

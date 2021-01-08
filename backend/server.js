@@ -11,6 +11,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(middlewares.requestLogger)
+app.use(middlewares.setRequestToken)
 
 if (process.env.NODE_ENV === 'local') {
   const { mongodb } = require('./mongodb')
