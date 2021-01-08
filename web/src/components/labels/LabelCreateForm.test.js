@@ -16,7 +16,7 @@ describe('<Label test', () => {
     })
     fireEvent.submit(form)
     expect(addLabel.mock.calls).toHaveLength(1)
-    console.log(addLabel.mock.calls[0][0])
     expect(addLabel.mock.calls[0][0].text).toBe('testing of forms could be easier')
   })//end of the test createform
 })//end of the begining describe
+
