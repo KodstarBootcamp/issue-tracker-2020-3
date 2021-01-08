@@ -19,7 +19,13 @@ const replSet = new MongoMemoryReplSet({
 })
 
 const mongodb = async () => {
-  fs.mkdir('./DB', e => e ? console.log(e) : null )
+  fs.mkdir('./DB', e => {
+    if (e && e.code === 'EEXIST') {
+      console.log('DB folder already exist.')
+    } else if (e){
+      console.log(e)
+    }
+  })
   await replSet.waitUntilRunning()
   const uri = await replSet.getUri()
   return uri

@@ -13,7 +13,9 @@ Database MongoDB is used as the backend database.
 - CUSTOM_MONGODB_URI
 
 ## Api Documentation
-- Go to Swagger Editor
+
+- Go to [Swagger Editor](https://editor.swagger.io/)
+
 - Drop Kodstar-Issue_Tracker_3-*.yaml to editor
 - or try other swagger extensions/plugins on your IDE
 
