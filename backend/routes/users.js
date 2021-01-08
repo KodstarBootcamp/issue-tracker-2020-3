@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user.model')
+const { checkToken } = require('../utils/utils')
 
 usersRouter.post('/', async (req, res) => {
   const body = req.body
@@ -26,6 +27,7 @@ usersRouter.post('/', async (req, res) => {
 })
 
 usersRouter.get('/', async(req, res) => {
+  checkToken(req, res)
   const users = await User
     .find({})
     .populate('issues', { title: 1, id: 1 })
