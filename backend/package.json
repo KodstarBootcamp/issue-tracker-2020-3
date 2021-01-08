@@ -9,14 +9,12 @@
     "test": "cross-env NODE_ENV=test nodemon index.js",
     "local": "cross-env NODE_ENV=local nodemon index.js",
     "lint": "eslint .",
-
     "start:test": "cross-env NODE_ENV=local-test jest --verbose -i --detectOpenHandles --forceExit",
-    "start:test:issue":"cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/issue_api.test.js",
-    "start:test:users":"cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/user.test.js",
-    "start:test:login":"cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/login.test.js",
-    "start:test:label":"cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/label_api.test.js",
-    "start:test:issue-label":"cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/issue-label_cross.test.js"
-
+    "start:test:issue": "cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/issue_api.test.js",
+    "start:test:users": "cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/user.test.js",
+    "start:test:login": "cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/login.test.js",
+    "start:test:label": "cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/label_api.test.js",
+    "start:test:issue-label": "cross-env NODE_ENV=local-test jest --verbose --detectOpenHandles --forceExit tests/issue-label_cross.test.js"
   },
   "author": "",
   "license": "ISC",
