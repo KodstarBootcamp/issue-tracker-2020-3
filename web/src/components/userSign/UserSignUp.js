@@ -4,12 +4,17 @@ import { Button, Card, CardBody, Col, Container,
   Form, Input, InputGroup, Row } from 'reactstrap'
 import '../../App.css'
 import userService from '../../services/ApiSignUp'
+import ModelPopup from './ModelPopup'
 
 const UserSignUp = (props) => {
   const initialInputState = { username: '', email: '', password:'', password2:'' }
   const [userData, setUserData] = useState(initialInputState)
   const { username, email, password, password2 } = userData
   const history = useHistory()
+  const [pop, setPop] = useState({
+    showPopup: false,
+    text:'login'
+  })
 
   const handleChange= ( e ) => {
     e.preventDefault()
@@ -21,17 +26,30 @@ const UserSignUp = (props) => {
       alert('Ooppps ! Your password doesn`t match')
     }else{
 
-      try{
-        userService.singUp({ username,email,password })
-        history.push('/userSignIn')
-      } catch (err) {
-        props.setCheckError(`Error: ${err.message}`)
-        setTimeout(() => {
+      userService.signUp({ username,email,password })
+        .then(restUP => {console.log(restUP)
+          if(restUP.username){
+            console.log('icerde'+restUP.username)
+            setPop({
+              showPopup: !pop.showPopup,
+              text:'Register SUCCESS now you can Login'
+
+            })
+            setTimeout(() => {
+              history.push('/userSignIn')
+            }, 5000)
+          }})
+        .catch(error => { console.log(error)
+
           props.setCheckError(null)
-        }, 5000)
-      }
+          setPop({
+            showPopup: !pop.showPopup,
+            text:'Register Error'
+          })
+        })
     }
   }
+
 
   return(
     <div id='signUpForm' className="app flex-row align-items center">
@@ -47,14 +65,15 @@ const UserSignUp = (props) => {
                     </div>
                   </div>
                   <InputGroup className='mb-3'>
-                    <Input type='text'
+                    <Input
+                      type='text'
                       onChange={handleChange}
                       name='username'
                       value={username}
-                      placeholder='User Name' required></Input>
+                      placeholder='User Name' ></Input>
                   </InputGroup>
                   <InputGroup className='mb-3'>
-                    <Input required
+                    <Input
                       type='text'
                       name = 'email'
                       value = {email}
@@ -62,7 +81,7 @@ const UserSignUp = (props) => {
                       placeholder='email'></Input>
                   </InputGroup>
                   <InputGroup className='mb-3'>
-                    <Input required
+                    <Input
                       type='password'
                       name = 'password'
                       value = {password}
@@ -70,7 +89,7 @@ const UserSignUp = (props) => {
                       placeholder='password'></Input>
                   </InputGroup>
                   <InputGroup className='mb-3'>
-                    <Input required
+                    <Input
                       type='password'
                       name = 'password2'
                       value = {password2}
@@ -78,6 +97,12 @@ const UserSignUp = (props) => {
                       placeholder='confirm password'></Input>
                   </InputGroup>
                   <Button onClick={addUser} color='success' block>Create Account</Button>
+                  {pop.showPopup ?
+                    <ModelPopup
+                      text={pop.text}
+                    />
+                    : null
+                  }
                 </Form>
               </CardBody>
             </Card>

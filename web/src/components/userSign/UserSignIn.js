@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-// import UserContext from '../userContext'
-// import UserProvider from '../UserProvider'
-// import { useHistory } from 'react-router'
 import { Button } from 'reactstrap'
 import '../../App.css'
 import logo from '../../images/coding.jpg'
@@ -15,6 +12,10 @@ const UserSignIn = (props) => {
   //whatever user types reseting the value
   const [values, setValues] = useState({ username: '', password: '', })
 
+  const [pop, setPop] = useState({
+    showPopup: false,
+    text:'login'
+  })
   const handleChange = event => {
     const { name, value } = event.target
     setValues({
@@ -30,11 +31,17 @@ const UserSignIn = (props) => {
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
+      console.log('useruser'+user.token)
       loginService.setToken(user.token)
       props.setUser(user)
 
     } catch (exception) {
       props.setCheckError(`Error: ${exception.message}`)
+      setPop({
+        showPopup: !pop.showPopup,
+        text:'username or password invalid'
+      })
+      console.log(exception)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)
@@ -85,7 +92,6 @@ const UserSignIn = (props) => {
         {/* {pop.showPopup ?
           <ModelPopup
             text={pop.text}
-
           />
           : null
         } */}
