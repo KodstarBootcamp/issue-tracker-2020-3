@@ -1,0 +1,435 @@
+swagger: '2.0'
+info:
+  description: This is the API for issue tracker
+  version: 1.0.2
+  title: Issue Tracker API
+  contact:
+    email: kodstar.bootcamp@gmail.com
+  license:
+    name: MIT
+    url: 'https://github.com/KodstarBootcamp/issue-tracker-2020-1/blob/main/LICENSE'
+paths:
+  '/issue/{issueId}':
+    get:
+      tags:
+        - Issue
+      summary: Get issue
+      description: Gets an issue by ID
+      operationId: getIssueById
+      produces:
+        - application/json
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to return
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Issue'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Issue not found
+    delete:
+      tags:
+        - Issue
+      summary: Delete issue
+      description: Deletes an existing issue
+      operationId: deleteIssue
+      produces:
+        - application/json
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Issue not found
+    put:
+      tags:
+        - Issue
+      summary: Update issue
+      description: Update an existing issue
+      operationId: updateIssue
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to return
+          required: true
+          type: string
+        - in: body
+          name: issue
+          description: Issue object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/NewIssue'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Issue'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Issue not found
+        '405':
+          description: Validation exception
+  /issue:
+    post:
+      tags:
+        - Issue
+      summary: Create issue
+      operationId: createIssue
+      description: Creates a new issue
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: issue
+          description: issue to create
+          schema:
+            $ref: '#/definitions/NewIssue'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Issue'
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing issue already exists
+  /issue/all:
+    get:
+      tags:
+        - Issue
+      summary: Get all issues
+      description: Gets all existing issues with optional queries
+      operationId: getIssues
+      produces:
+        - application/json
+      parameters:
+        - name: start
+          in: query
+          type: integer
+          required: false
+          default: 0
+          description: start index value to get issues
+        - in: query
+          name: count
+          type: integer
+          required: false
+          default: 10
+          description: defines how many issues to get.
+        - in: query
+          name: sort
+          type: string
+          required: false
+          enum: [
+            cratedAt, updatedAt, title,
+            -cratedAt, -updatedAt, -title
+            ]
+          description: sort types createdAt, updatedAt, title. for descending sort -createdAt, -...
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Issue'
+  /issue/count:
+    get:
+      tags:
+        - Issue
+      summary: Get Count of all issue objects
+      description: Gets count of all existing issues
+      operationId: getIssuesCount
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                example: 5
+
+  /label:
+    post:
+      tags:
+        - Label
+      summary: Create Label
+      description: Creates a new Label
+      operationId: createLabel
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Label
+          description: Label to create
+          schema:
+            $ref: '#/definitions/NewLabel'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Label'
+        '400':
+          description: Validation exception
+        '409':
+          description: Label already exists
+  '/label/{labelId}':
+    put:
+      tags:
+        - Label
+      summary: Update Label
+      description: Update an existing label
+      operationId: updateLabel
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: labelId
+          in: path
+          description: ID of label to update
+          required: true
+          type: string
+        - in: body
+          name: Label
+          description: Label object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/NewLabel'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Label'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Label not found
+        '405':
+          description: Validation exception
+    delete:
+      tags:
+        - Label
+      summary: Delete Label
+      description: Deletes an existing Label
+      operationId: deleteLabel
+      produces:
+        - application/json
+      parameters:
+        - name: labelId
+          in: path
+          description: ID of Label to delete
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Label not found
+  /label/all:
+    get:
+      tags:
+        - Label
+      summary: Get all labels
+      description: Gets all existing labels
+      operationId: getAllLabels
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Label'
+
+  /users:
+    post:
+      tags:
+        - User
+      summary: Register
+      operationId: register
+      description: Register an user
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: register
+          description: user to register
+          schema:
+            $ref: '#/definitions/NewUser'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successfull operation
+          schema:
+            $ref: '#definitions/User'
+        '401':
+          description: password missing
+        '402': 
+          description: password should be at 3 characters long
+
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login
+      description: Authenticate an user
+      operationId: login
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: login
+          description: user to login
+          schema:
+            properties: 
+              username:
+                type: string
+                example: testuser
+              password:
+                type: string
+                example: ap!!DF.65rd
+      produces:
+        - application/json
+      responses:
+          '200':
+            description: successfull operation
+            schema:
+              properties: 
+                token:
+                  type: string
+                  example: eyfgdgdsgv56...
+                user:
+                  allOf:
+                    - $ref: '#definitions/User'
+          '400': 
+            description: invalid username or password
+
+definitions:
+  NewIssue:
+    type: object
+    required:
+      - title
+    properties:
+      title:
+        type: string
+        example: An issue title
+        maxLength: 250
+      description:
+        type: string
+        example: A lengthy description
+        maxLength: 1500
+      labels:
+        description: List of labels
+        type: array
+        items:
+          $ref: '#/definitions/NewLabel'
+        example:
+          - text: todo
+            color: '#fff'
+          - text: story
+            color: '#000'
+            id: 5f..ba5
+  Issue:
+    allOf:
+      - properties:
+          createDate:
+            type: string
+            format: ISO
+            example: '2011-10-05T14:48:00.000Z'
+          updateDate:
+            format: ISO
+            type: string
+            example: '2011-10-05T14:48:00.000Z'
+          id:
+            type: string
+            example: 5fe481516234264fba
+      - $ref: '#/definitions/NewIssue'
+    properties:
+      labels:
+        type: array
+        items:
+          $ref: '#/definitions/Label'
+        example:
+          - text: todo
+            color: '#fff'
+            id: 5f..ba4
+          - text: story
+            color: '#000'
+            id: 5f..ba5
+  NewLabel:
+    required:
+      - text
+    properties:
+      text:
+        type: string
+        example: backend
+      color:
+        type: string
+        example: '#fff'
+  Label:
+    allOf:
+      - properties:
+          id:
+            type: string
+            example: 5fe481516234264fba
+      - $ref: '#/definitions/NewLabel'
+  NewUser:
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          example: testuser
+          uniqueItems: true
+        email:
+          type: string
+          example: example@examlemail.exp
+          uniqueItems: true
+        password:
+          type: string
+          example: 'ap!!DF.65rd'
+  User:
+    properties:
+          username:
+            type: string
+            example: testuser
+            uniqueItems: true
+          email:
+            type: string
+            example: example@examlemail.exp
+            uniqueItems: true
+          id:
+            type: string
+            example: 5fe481516234264fba
+host: virtserver.swaggerhub.com
+schemes:
+  - https
+basePath: /Kodstar/Issue_Tracker_3/1.0.2
