@@ -40,7 +40,7 @@ export const Main =(props) => {
           .catch(err => console.log(err))
       }
     }catch(err){
-      props.setCheckError(`Error: ${err.message}`)
+      console.log('Error',err)
       setTimeout(() => {
         props.setCheckError(null)
       }, 3000)
@@ -55,7 +55,7 @@ export const Main =(props) => {
       setOptions(allOptions)
       setLabels( labels )
     }catch(err){
-      props.setCheckError(`Error: ${err.message}`)
+      console.log('Error',err)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)

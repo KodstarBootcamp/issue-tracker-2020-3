@@ -33,7 +33,6 @@ const UserSignIn = (props) => {
         'loggedIssueAppUser', JSON.stringify(user)
       )
       loginService.setToken(user.token)
-      history.push('/')
 
     } catch (exception) {
       props.setCheckError(`Error: ${exception.message}`)
@@ -41,9 +40,8 @@ const UserSignIn = (props) => {
         props.setCheckError(null)
       }, 5000)
     }
-
     setValues({ username: '', password: '' })
-
+    history.push('/')
   }
 
   return (

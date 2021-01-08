@@ -1,9 +1,8 @@
 import React,* as react from 'react'
-import { useState } from 'react'
 import Navigation from './components/Navigation'
 import { Info, Error } from './components/Notification'
 import { Main } from './Main'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import loginService from './services/ApiIssues'
 
 const App = () => {
