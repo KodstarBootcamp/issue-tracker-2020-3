@@ -4,10 +4,17 @@ import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } fr
 import '../App.css'
 import logo from '../logo.svg'
 import { Link } from 'react-router-dom'
+import signOutService from '../services/ApiIssues'
 
-const Navigation = ( ) => {
+const Navigation = (props) => {
   const [isOpen, setIsOpen] = useState(true)
   const toggle = () => setIsOpen(!isOpen)
+
+  const signOut=() => {
+    window.localStorage.removeItem('loggedIssueAppUser')
+    props.setUser(null)
+    signOutService.setToken(null)
+  }
 
   return (
     <div>
@@ -38,8 +45,11 @@ const Navigation = ( ) => {
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
               <Link to="/userSignIn">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">User Sign In</Button>
+                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">User Sign IN</Button>
               </Link>
+            </NavItem>
+            <NavItem  id="custom_button"className="nav_button px-2">
+              <Button  onClick={signOut} className="btn-md  col-sm-6 col-md-12" outline color="danger">User Sign OUT</Button>
             </NavItem>
           </Nav>
         </Collapse>

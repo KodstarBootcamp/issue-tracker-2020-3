@@ -21,9 +21,9 @@ export const Main =(props) => {
   const [issueSelect,setIssueSelect] = react.useState(false)
   const [labelSelect,setLabelSelect] = react.useState(false)
   const [issuesLength, setIssuesLength] = react.useState()
-  const [user,setUser] = react.useState()
-  const history = useHistory()
 
+  const history = useHistory()
+  const [user,setUser] = react.useState()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedIssueAppUser')
@@ -139,7 +139,7 @@ export const Main =(props) => {
           <LabelList  setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
         </Route>
         <Route exact path="/userSignIn">
-          <UserSignIn user={user} setUser={setUser} setCheckError={props.setCheckError} />
+          <UserSignIn user={props.user} setUser={props.setUser} setCheckError={props.setCheckError} />
         </Route>
         <Route exact path="/userSignUp">
           <UserSignUp setCheckError={props.setCheckError} />
