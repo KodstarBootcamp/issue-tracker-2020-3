@@ -2,7 +2,7 @@ import React,* as react from 'react'
 import Navigation from './components/Navigation'
 import { Info, Error } from './components/Notification'
 import { Main } from './Main'
-import { useEffect, useState } from 'react'
+import { useEffect,useState } from 'react'
 import loginService from './services/ApiIssues'
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
       <Navigation user={user} setUser={setUser}/>
       <Info info={infoMessage}/>
       <Error error={checkError}/>
-      <Main user={user} setUser={setUser} info={infoMessage} error={checkError} setInfoMessage={setInfoMessage} setCheckError={setCheckError}/>
+      <Main user={user}setUser={setUser} info={infoMessage} error={checkError} setInfoMessage={setInfoMessage} setCheckError={setCheckError}/>
     </div>
   )
 }

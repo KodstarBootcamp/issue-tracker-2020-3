@@ -7,7 +7,7 @@ import { IssueList } from './components/issues'
 import { Switch, Route,useHistory
 } from 'react-router-dom'
 import { LabelList } from './components/labels'
-import welcome from './components/welcome'
+import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 
@@ -40,7 +40,7 @@ export const Main =(props) => {
           .catch(err => console.log(err))
       }
     }catch(err){
-      console.log('Error',err)
+      console.log(err.message)
       setTimeout(() => {
         props.setCheckError(null)
       }, 3000)
@@ -55,7 +55,8 @@ export const Main =(props) => {
       setOptions(allOptions)
       setLabels( labels )
     }catch(err){
-      console.log('Error',err)
+
+      console.log(err.message)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)
@@ -132,7 +133,8 @@ export const Main =(props) => {
         <Route exact path="/userSignUp">
           <UserSignUp setCheckError={props.setCheckError} />
         </Route>
-        <Route exact path="/" component={welcome} >
+        <Route exact path="/" >
+          <Welcome user={props.user} />
         </Route>
       </Switch>
     </div>

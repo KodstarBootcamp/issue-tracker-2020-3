@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-// import UserContext from '../userContext'
-// import UserProvider from '../UserProvider'
-// import { useHistory } from 'react-router'
 import { Button } from 'reactstrap'
 import '../../App.css'
 import logo from '../../images/coding.jpg'
 // import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
 import loginService from '../../services/ApiSignIn'
+import issueService from '../../services/ApiIssues'
 import { useHistory } from 'react-router-dom'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
@@ -16,6 +14,11 @@ const UserSignIn = (props) => {
   const history = useHistory()
   //whatever user types reseting the value
   const [values, setValues] = useState({ username: '', password: '', })
+
+  const [pop, setPop] = useState({
+    showPopup: false,
+    text:'login'
+  })
   const handleChange = event => {
     const { name, value } = event.target
     setValues({
@@ -32,10 +35,15 @@ const UserSignIn = (props) => {
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
-      loginService.setToken(user.token)
+      console.log('useruser   '+user.token)
+      issueService.setToken(user.token )
 
     } catch (exception) {
-      props.setCheckError(`Error: ${exception.message}`)
+      setPop({
+        showPopup: !pop.showPopup,
+        text:'username or password invalid'
+      })
+      console.log(exception)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)
@@ -85,7 +93,6 @@ const UserSignIn = (props) => {
         {/* {pop.showPopup ?
           <ModelPopup
             text={pop.text}
-
           />
           : null
         } */}
