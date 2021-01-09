@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { Button } from 'reactstrap'
 import '../../App.css'
 import logo from '../../images/coding.jpg'
-// import ModelPopup from './ModelPopup'
+import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
 import loginService from '../../services/ApiSignIn'
-import issueService from '../../services/ApiIssues'
+import loginLabelService from '../../services/ApiLabels'
+import loginIssueService from '../../services/ApiIssues'
 import { useHistory } from 'react-router-dom'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
@@ -35,7 +36,8 @@ const UserSignIn = (props) => {
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
-      issueService.setToken(user.token )
+      loginIssueService.setToken(user.token)
+      loginLabelService.setToken(user.token)
 
     } catch (exception) {
       setPop({
@@ -43,12 +45,11 @@ const UserSignIn = (props) => {
         text:'username or password invalid'
       })
       console.log(exception)
-      setTimeout(() => {
-        props.setCheckError(null)
-      }, 5000)
     }
-    setValues({ username: '', password: '' })
-    history.push('/')
+    setTimeout(() => {
+      setValues({ username: '', password: '' })
+      history.push('/')
+    }, 2000)
   }
 
   return (
@@ -89,12 +90,12 @@ const UserSignIn = (props) => {
             </Link>
           </div>
         </div>
-        {/* {pop.showPopup ?
+        {pop.showPopup ?
           <ModelPopup
             text={pop.text}
           />
           : null
-        } */}
+        }
       </form>
     </div>
   )

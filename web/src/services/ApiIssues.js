@@ -4,7 +4,6 @@ let token = null
 
 const setToken = newToken  => {
   token = `bearer ${newToken}`
-  console.log('Token',token)
 }
 
 const getAll = async ({ start,count }) => {
@@ -26,14 +25,23 @@ const getAllIssueLength = async () => {
   return response.data
 }
 const create = async newObject => {
-  const response =  await axios.post(baseUrl, newObject)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response =  await axios.post(baseUrl, newObject,config)
   return  response.data
 }
 const update = async updatedObject => {
-  const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject)
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject,config)
   return response.data
 }
 const deleteOneIssue =  id  => {
-  return  axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token },
+  }
+  return  axios.delete(`${baseUrl}/${id}`,config)
 }
 export default { getAll, create,update, deleteOneIssue,getAllIssueLength,setToken }

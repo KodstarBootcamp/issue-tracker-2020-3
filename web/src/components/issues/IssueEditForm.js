@@ -34,7 +34,7 @@ export const IssueEditForm = ( props ) => {
 
   }
 
-  function onChangeInput(value){
+  const onChangeInput=(value) => {
     setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
 
   }
@@ -52,52 +52,46 @@ export const IssueEditForm = ( props ) => {
   }
 
   return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Form.Row>
-          <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-3">
-            <Form.Label>title</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="title"
-              defaultValue={props.issue.title}
-              name="title"
-            />
-          </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
-            <Form.Label>description</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="description"
-              defaultValue={props.issue.description}
-              name="description"
-            />
-          </Form.Group>
-          <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
-            <Form.Label>Labels:</Form.Label>
-            {props.option?<>
-              <LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>
-              <div className="d-flex flex-row-reverse bd-highlight" >
-                <Button  variant="success"  onClick={handleClick}>create label</Button>
-              </div>
-            </>:null}
-          </Form.Group>
-        </Form.Row>
-        <Form.Group as={CardColumns}>
-          <Col className="ml-3">
-            <ButtonToolbar aria-label="Toolbar with button groups">
-              <ButtonGroup className="mr-1" aria-label="First group">
-                <Button type="submit">update</Button>
-              </ButtonGroup>
-              <ButtonGroup className="mr-1" aria-label="Second group">
-                <Button  variant="danger" onClick={() => props.setViewIssueEdit(false)} >cancel</Button>
-              </ButtonGroup>
-            </ButtonToolbar>
-          </Col>
+    <Form onSubmit={handleSubmit}>
+      <Form.Row>
+        <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-3">
+          <Form.Label>title</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="title"
+            defaultValue={props.issue.title}
+            name="title"
+          />
         </Form.Group>
-      </Form>
+        <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
+          <Form.Label>description</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="description"
+            defaultValue={props.issue.description}
+            name="description"
+          />
+        </Form.Group>
+        <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
+          <Form.Label>Labels:</Form.Label>
+          <LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>
+          <Button  variant="success"  onClick={handleClick}>create label</Button>
+        </Form.Group>
+      </Form.Row>
+      <Form.Group as={CardColumns}>
+        <Col className="ml-3">
+          <ButtonToolbar aria-label="Toolbar with button groups">
+            <ButtonGroup className="mr-1" aria-label="First group">
+              <Button type="submit">update</Button>
+            </ButtonGroup>
+            <ButtonGroup className="mr-1" aria-label="Second group">
+              <Button  variant="danger" onClick={() => props.setViewIssueEdit(false)} >cancel</Button>
+            </ButtonGroup>
+          </ButtonToolbar>
+        </Col>
+      </Form.Group>
       <Modal
         size="sm"
         show={smShow}
@@ -115,6 +109,6 @@ export const IssueEditForm = ( props ) => {
           />
         </Modal.Body>
       </Modal>
-    </>
+    </Form>
   )
 }
