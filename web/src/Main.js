@@ -7,7 +7,7 @@ import { IssueList } from './components/issues'
 import { Switch, Route,useHistory
 } from 'react-router-dom'
 import { LabelList } from './components/labels'
-import Welcome from './components/welcome'
+import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 
