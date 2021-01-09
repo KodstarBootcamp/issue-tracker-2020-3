@@ -36,7 +36,7 @@ const UserSignUp = (props) => {
             })
             setTimeout(() => {
               history.push('/userSignIn')
-            }, 5000)
+            }, 1000)
           }})
         .catch(error => { console.log(error)
 

@@ -20,7 +20,6 @@ export const Main =(props) => {
   const [issueSelect,setIssueSelect] = useState(false)
   const [labelSelect,setLabelSelect] = useState(false)
   const [issuesLength, setIssuesLength] = useState()
-
   const history = useHistory()
 
   const getIssueData = async () => {
@@ -40,7 +39,6 @@ export const Main =(props) => {
           .catch(err => console.log(err))
       }
     }catch(err){
-      console.log(err.message)
       setTimeout(() => {
         props.setCheckError(null)
       }, 3000)
@@ -55,8 +53,6 @@ export const Main =(props) => {
       setOptions(allOptions)
       setLabels( labels )
     }catch(err){
-
-      console.log(err.message)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)
