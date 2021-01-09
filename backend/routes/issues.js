@@ -2,9 +2,10 @@ const router = require('express').Router()
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
 require('express-async-errors')
-const objCleaner = require('../utils/objUtils').objCleaner
+const { objCleaner, checkToken } = require('../utils/utils')
 
 router.route('/').post(async (req, res) => {
+  checkToken(req, res)
   const title = req.body.title
   const description = req.body.description
   let unverifiedLabels = []
@@ -46,14 +47,26 @@ router.route('/').post(async (req, res) => {
 
 // ↓↓↓ this route must be top cause of '/all' - ':id' conflict
 router.route('/all').get(async (req, res) => {
+  const sortTypes = [
+    'createdAt', 'updatedAt','title',
+    '-createdAt', '-updatedAt','-title'
+  ]
+  if (req.query.sort && !sortTypes.includes(req.query.sort)){
+    return res.status(405).send('unavailable type of sort').end()
+  }
   if (!req.query.start && !req.query.count) {
-    const issues = await Issue.find({}).populate('labels')
+    const issues = await Issue.find({}).sort(req.query.sort).populate('labels')
     return res.status(200).json(issues).end()
   }
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
-  const issues = await Issue.find({}, null, { skip, limit }).populate('labels')
+  const issues = await Issue.find({}, null, { skip, limit }).sort(req.query.sort).populate('labels')
   return res.status(200).json(issues).end()
+})
+
+router.route('/count').get(async (req,res) => {
+  const count = await Issue.collection.countDocuments()
+  res.status(200).json({ count }).end()
 })
 
 router.route('/:id').get(async (req, res) => {
@@ -65,6 +78,7 @@ router.route('/:id').get(async (req, res) => {
 })
 
 router.route('/:id').delete(async (req, res) => {
+  checkToken(req, res)
   const issue = await Issue.findById(req.params.id)
   if (!issue) {
     return res.status(404).send('Issue not found').end()
@@ -74,6 +88,7 @@ router.route('/:id').delete(async (req, res) => {
 })
 
 router.route('/:id').put(async (req, res) => {
+  checkToken(req, res)
   const issue = await Issue.findById(req.params.id)
   const unverifiedLabels = req.body.labels
   if (!issue) {

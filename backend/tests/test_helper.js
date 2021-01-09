@@ -1,5 +1,6 @@
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
+const User = require('../models/user.model')
 
 const testIssues = [
   {
@@ -70,6 +71,23 @@ const nonExistingLabelId = async () => {
   return label._id.toString()
 }
 
+const existingUser = {
+  username: 'root',
+  password: 'root',
+  email:'dsa'
+}
+
+const testUser = {
+  username: 'celiltat',
+  password: 'celiltat',
+  email:'asd'
+}
+
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
+}
+
 module.exports = {
   testLabels,
   testIssues,
@@ -77,5 +95,8 @@ module.exports = {
   issuesInDb,
   nonExistingIssueId,
   labelsInDb,
-  nonExistingLabelId
+  nonExistingLabelId,
+  existingUser,
+  testUser,
+  usersInDb,
 }
