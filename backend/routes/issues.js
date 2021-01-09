@@ -2,9 +2,10 @@ const router = require('express').Router()
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
 require('express-async-errors')
-const objCleaner = require('../utils/objUtils').objCleaner
+const { objCleaner, checkToken } = require('../utils/utils')
 
 router.route('/').post(async (req, res) => {
+  checkToken(req, res)
   const title = req.body.title
   const description = req.body.description
   let unverifiedLabels = []
@@ -77,6 +78,7 @@ router.route('/:id').get(async (req, res) => {
 })
 
 router.route('/:id').delete(async (req, res) => {
+  checkToken(req, res)
   const issue = await Issue.findById(req.params.id)
   if (!issue) {
     return res.status(404).send('Issue not found').end()
@@ -86,6 +88,7 @@ router.route('/:id').delete(async (req, res) => {
 })
 
 router.route('/:id').put(async (req, res) => {
+  checkToken(req, res)
   const issue = await Issue.findById(req.params.id)
   const unverifiedLabels = req.body.labels
   if (!issue) {

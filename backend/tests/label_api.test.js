@@ -1,17 +1,25 @@
 const supertest = require('supertest')
-// const mongoose = require('mongoose')
-// const { replSet } = require('../mongodb')
-const { testLabels, labelsInDb, nonExistingLabelId } = require('./test_helper')
+const { testLabels, labelsInDb, nonExistingLabelId, existingUser } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
 const Label = require('../models/label.model')
+const bcrypt = require('bcrypt')
+const User = require('../models/user.model')
+const jwt = require('jsonwebtoken')
+
+beforeAll(async () => {
+  await User.deleteMany({})
+  const passwordHash = await bcrypt.hash(existingUser.password, 10)
+  const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'asd' })
+  await user.save()
+  global.__tokenForAuth__ = jwt.sign({ username:user.username, id:user._id }, process.env.SECRET)
+})
 
 beforeEach(async () => {
   await Label.deleteMany({})
   const labelObjects = testLabels.map(el => new Label(el))
   const promiseArray = labelObjects.map(el => el.save())
   await Promise.all(promiseArray)
-  //console.log(promiseArray)
 })
 
 describe('When there is initially some labels saved', () => {
@@ -44,6 +52,7 @@ describe('When there is initially some labels saved', () => {
       }
       await api
         .post('/label')
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(newLabels)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -60,10 +69,25 @@ describe('When there is initially some labels saved', () => {
       }
       const errorMessage = await api
         .post('/label')
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(newLabel)
         .expect(400)
       const labelsAtEnd = await labelsInDb()
       expect(errorMessage.text).toBe('Validation exception')
+      expect(labelsAtEnd.length).toBe(testLabels.length)
+    })
+    test('fails if token invalid, with status code 401, error:Invalid token', async () => {
+      const newLabel = {
+        text: 'A text',
+        color: '#606060'
+      }
+      const errorMessage = await api
+        .post('/label')
+        .set('Authorization', 'bearer asd')
+        .send(newLabel)
+        .expect(401)
+      const labelsAtEnd = await labelsInDb()
+      expect(errorMessage.text).toBe('Invalid token')
       expect(labelsAtEnd.length).toBe(testLabels.length)
     })
     test('fails when label already exist, with status code 409, error:Label already exist', async () => {
@@ -71,6 +95,7 @@ describe('When there is initially some labels saved', () => {
       const labelToAdd = labelsAtStart[0]
       const res = await api
         .post('/label')
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(labelToAdd)
         .expect(409)
       expect(res.text).toBe('Label already exist')
@@ -85,6 +110,7 @@ describe('When there is initially some labels saved', () => {
       labelToUpdate.text = newText
       const resultLabel = await api
         .put(`/label/${labelToUpdate.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(labelToUpdate)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -95,13 +121,28 @@ describe('When there is initially some labels saved', () => {
       const invalidId = '5a3da82a3445'
       const res = await api
         .put(`/label/:${invalidId}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
       expect(res.text).toBe('Invalid ID supplied')
+    })
+    test('fails if token invalid, with status code 401, error:Invalid token', async () => {
+      const id = (await labelsInDb())[0].id
+      const newLabel = {
+        text: 'A text',
+        color: '#606060'
+      }
+      const errorMessage = await api
+        .put('/label/' + id)
+        .set('Authorization', 'bearer asd')
+        .send(newLabel)
+        .expect(401)
+      expect(errorMessage.text).toBe('Invalid token')
     })
     test('fails if label does not exist, with statuscode 404, error:Label not found', async () => {
       const validNonexistingId = await nonExistingLabelId()
       const res = await api
         .put(`/label/${validNonexistingId}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
       expect(res.text).toBe('Label not found')
     })
@@ -110,6 +151,7 @@ describe('When there is initially some labels saved', () => {
       const labelToUpdate = labelsAtStart[0]
       const res = await api
         .put(`/label/${labelToUpdate.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send({ 'asd':'value' })
         .expect(405)
       expect(res.text).toBe('Validation exception')
@@ -122,6 +164,7 @@ describe('When there is initially some labels saved', () => {
       const labelToDelete = labelsAtStart[0]
       await api
         .delete(`/label/${labelToDelete.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(200)
       const labelsAtEnd = await labelsInDb()
       expect(labelsAtEnd.length).toBe(
@@ -133,19 +176,24 @@ describe('When there is initially some labels saved', () => {
     test('fails when invalid id, with status 400, error:Invalid ID supplied', async () => {
       const res = await api
         .delete('/label/fd..u54')
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
       expect(res.text).toBe('Invalid ID supplied')
+    })
+    test('fails if token invalid, with status code 401, error:Invalid token', async () => {
+      const id = (await labelsInDb())[0].id
+      const errorMessage = await api
+        .delete('/label/' + id)
+        .set('Authorization', 'bearer asd')
+        .expect(401)
+      expect(errorMessage.text).toBe('Invalid token')
     })
     test('fails with statuscode 404 if label does not exist', async () => {
       const validNonexistingId = await nonExistingLabelId()
       await api
-        .get(`/label/${validNonexistingId}`)
+        .delete(`/label/${validNonexistingId}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
     })
   })
 })
-
-// afterAll(async () => {
-//   mongoose.connection.close()
-//   await replSet.stop()
-// })

@@ -74,11 +74,13 @@ const nonExistingLabelId = async () => {
 const existingUser = {
   username: 'root',
   password: 'root',
+  email:'dsa'
 }
 
 const testUser = {
   username: 'celiltat',
   password: 'celiltat',
+  email:'asd'
 }
 
 const usersInDb = async () => {
