@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import renderer from 'react-test-renderer'
 import { LabelDetails } from './LabelDetails'
 
 
@@ -12,10 +12,9 @@ describe('<Label test', () => {
   }
   test('renders content', () => {
 
-    const component = render( <LabelDetails label={LabelTest} /> )
+    const component = renderer.create( <LabelDetails label={LabelTest} /> )
 
-    const element1 = component.getByText('Jahnsen')
-
-    expect(element1).toBeDefined()
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
   })//end of the issue view test describe
 })//end of the begining describe

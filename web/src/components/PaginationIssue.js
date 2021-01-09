@@ -14,10 +14,7 @@ const PaginationIssue = (props) => {
       props.setIssues( currentIssue )
         .catch(err => console.log(err))
     }catch(err){
-      props.setCheckError(`Error: ${err.message}`)
-      setTimeout(() => {
-        props.setCheckError(null)
-      }, 3000)
+      console.log('Data coming',err)
     }
   }
 

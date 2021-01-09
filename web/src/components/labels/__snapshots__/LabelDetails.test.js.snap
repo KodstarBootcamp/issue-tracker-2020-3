@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Label test renders content 1`] = `
+<tr>
+  <td />
+  <td
+    style={
+      Object {
+        "backgroundColor": "Jahnsen",
+        "color": "#fcf8f8",
+      }
+    }
+  >
+    Jahnsen
+     
+  </td>
+  
+  
+</tr>
+`;

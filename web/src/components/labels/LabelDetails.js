@@ -8,14 +8,18 @@ export const LabelDetails = ( props ) => {
   return (
     <tr>
       <td>
-        {viewLabelEdit?
+        {viewLabelEdit&&
           <LabelEditForm key={props.label.id} label={props.label} setLabels={props.setLabels} setIssues={props.setIssues}
-            setInfoMessage={props.setInfoMessage} setViewLabelEdit={setViewLabelEdit}/>
-          :<>{props.label.text}</>}
+            setInfoMessage={props.setInfoMessage} setViewLabelEdit={setViewLabelEdit}/>}
+        {!viewLabelEdit&&<>{props.label.text}</>}
+
       </td>
       <td style={{ color: '#fcf8f8', backgroundColor: props.label.color }}>{props.label.color} </td>
-      <td ><BsPencil  onClick={() => setViewLabelEdit(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>
-      <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.label.id)} className="ml-1" /></td>
+      {props.user?
+        <td ><BsPencil  onClick={() => setViewLabelEdit(true)} style={{ color: 'blue' }} className="ml-4" size={16} /></td>:''}
+      {props.user?
+        <td><BsTrash style={{ color: 'red' }} onClick={ () => props.handleDelete(props.label.id)} className="ml-1" /></td>
+        :''}
     </tr>
   )
 }

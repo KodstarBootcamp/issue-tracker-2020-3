@@ -30,7 +30,7 @@ const Navigation = (props) => {
             </NavItem>
             <NavItem  id="custom_button" className="nav_button px-2">
               <Link to="/addnew">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Create New Issue</Button>
+                {props.user?<Button className="btn-md  col-sm-6 col-md-12" outline color="success">Create New Issue</Button>:''}
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
