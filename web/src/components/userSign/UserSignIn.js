@@ -49,7 +49,7 @@ const UserSignIn = (props) => {
     setTimeout(() => {
       setValues({ username: '', password: '' })
       history.push('/')
-    }, 5000)
+    }, 2000)
   }
 
   return (
