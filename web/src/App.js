@@ -18,7 +18,6 @@ const App = () => {
       loginService.setToken(user.token)
     }
   }, [])
-  console.log('Loged User',user)
 
   return (
     <div className="container">

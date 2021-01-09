@@ -27,9 +27,8 @@ const UserSignUp = (props) => {
     }else{
 
       userService.signUp({ username,email,password })
-        .then(restUP => {console.log(restUP)
+        .then(restUP => {
           if(restUP.username){
-            console.log('icerde'+restUP.username)
             setPop({
               showPopup: !pop.showPopup,
               text:'Register SUCCESS now you can Login'

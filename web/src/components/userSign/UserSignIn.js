@@ -35,7 +35,6 @@ const UserSignIn = (props) => {
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
-      console.log('useruser   '+user.token)
       issueService.setToken(user.token )
 
     } catch (exception) {
