@@ -2,7 +2,7 @@ import axios from 'axios'
 const baseUrl = '/issue'
 let token = null
 
-const setToken = newToken => {
+const setToken = newToken  => {
   token = `bearer ${newToken}`
   console.log('Token',token)
 }

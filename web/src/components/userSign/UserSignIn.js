@@ -1,20 +1,24 @@
 import React, { useState } from 'react'
-// import UserContext from '../userContext'
-// import UserProvider from '../UserProvider'
-// import { useHistory } from 'react-router'
 import { Button } from 'reactstrap'
 import '../../App.css'
 import logo from '../../images/coding.jpg'
 // import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
 import loginService from '../../services/ApiSignIn'
+import issueService from '../../services/ApiIssues'
+import { useHistory } from 'react-router-dom'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
 
 const UserSignIn = (props) => {
+  const history = useHistory()
   //whatever user types reseting the value
   const [values, setValues] = useState({ username: '', password: '', })
- 
+
+  const [pop, setPop] = useState({
+    showPopup: false,
+    text:'login'
+  })
   const handleChange = event => {
     const { name, value } = event.target
     setValues({
@@ -27,21 +31,24 @@ const UserSignIn = (props) => {
     event.preventDefault() // this way not refreshing when clicking submit
     try {
       const user = await loginService.login({ username:values.username, password:values.password })
+      props.setUser(user)
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
-      loginService.setToken(user.token)
-      props.setUser(user)
+      issueService.setToken(user.token )
 
     } catch (exception) {
-      props.setCheckError(`Error: ${exception.message}`)
+      setPop({
+        showPopup: !pop.showPopup,
+        text:'username or password invalid'
+      })
+      console.log(exception)
       setTimeout(() => {
         props.setCheckError(null)
       }, 5000)
     }
-
     setValues({ username: '', password: '' })
-
+    history.push('/')
   }
 
   return (
@@ -85,7 +92,6 @@ const UserSignIn = (props) => {
         {/* {pop.showPopup ?
           <ModelPopup
             text={pop.text}
-
           />
           : null
         } */}
