@@ -28,6 +28,17 @@ if (process.env.NODE_ENV === 'local') {
       console.log('MongoDB connection established')
     })
   })
+} else if (process.env.NODE_ENV === 'local-test') {
+  mongoose.connect('mongodb://127.0.0.1:59759/issueTrackerDB?replicaSet=testset', {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  })
+  const connection = mongoose.connection
+  connection.once('open', () => {
+    console.log('MongoDB connection established')
+  })
 } else {
   mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true,

@@ -6,13 +6,14 @@ const Label = require('../models/label.model')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.model')
 const jwt = require('jsonwebtoken')
+const config = require('../utils/config')
 
 beforeAll(async () => {
   await User.deleteMany({})
   const passwordHash = await bcrypt.hash(existingUser.password, 10)
   const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'asd' })
   await user.save()
-  global.__tokenForAuth__ = jwt.sign({ username:user.username, id:user._id }, process.env.SECRET)
+  global.__tokenForAuth__ = jwt.sign({ username:user.username, id:user._id }, config.SECRET)
 })
 
 beforeEach(async () => {
