@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const config = require('./config')
 const objCleaner = obj => {
   Object.getOwnPropertyNames(obj).forEach(property => {
     if (obj[property] === null || obj[property] === undefined){
@@ -8,7 +9,7 @@ const objCleaner = obj => {
 }
 
 const checkToken = (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, config.SECRET)
   if (!request.token || !decodedToken.id) {
     return response.status(401).send('token missing or invalid' ).end()
   }

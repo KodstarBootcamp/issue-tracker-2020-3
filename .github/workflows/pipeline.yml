@@ -24,7 +24,7 @@ jobs:
       run: npm run lint
     - name: test backend
       working-directory: ./backend
-      run: npm run start:test
+      run: npm run start:test:github
     - name: npm install web
       working-directory: ./web
       run: npm install
