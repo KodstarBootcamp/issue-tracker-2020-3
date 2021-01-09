@@ -24,6 +24,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select": "^3.1.1",
+    "react-test-renderer": "^17.0.1",
     "reactcss": "^1.2.3",
     "reactstrap": "^8.7.1",
     "semantic-ui-react": "^2.0.1",
@@ -33,6 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "npm test -- --watchAll=false": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint"
   },

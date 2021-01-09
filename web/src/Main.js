@@ -1,5 +1,5 @@
-import React,* as react from 'react'
-import { useEffect } from 'react'
+
+import React, { useEffect,useState } from 'react'
 import { IssueCreateForm } from './components/issues'
 import issueService from './services/ApiIssues'
 import labelService from './services/ApiLabels'
@@ -12,14 +12,14 @@ import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 
 export const Main =(props) => {
-  const [totalPage,setTotalPage] = react.useState()
-  const [limit] = react.useState(10)
-  const [issues, setIssues] = react.useState([])
-  const [labels,setLabels]=React.useState([])
-  const [option,setOptions] =react.useState([])
-  const [issueSelect,setIssueSelect] = react.useState(false)
-  const [labelSelect,setLabelSelect] = react.useState(false)
-  const [issuesLength, setIssuesLength] = react.useState()
+  const [totalPage,setTotalPage] = useState()
+  const [limit] = useState(10)
+  const [issues, setIssues] = useState([])
+  const [labels,setLabels]=useState([])
+  const [option,setOptions] =useState([])
+  const [issueSelect,setIssueSelect] = useState(false)
+  const [labelSelect,setLabelSelect] = useState(false)
+  const [issuesLength, setIssuesLength] = useState()
 
   const history = useHistory()
 
@@ -34,7 +34,7 @@ export const Main =(props) => {
           const pageLength = issuesLength/limit
           setTotalPage(pageLength)
         } else{
-          setTotalPage(Number.parseInt(issuesLength/limit)+1)
+          setTotalPage(parseInt(issuesLength/limit)+1)
         }
         setIssues( issues )
           .catch(err => console.log(err))
@@ -63,7 +63,7 @@ export const Main =(props) => {
     }
   }
 
-  useEffect(() => {
+  useEffect( () => {
     getLabelData()
     getIssueData()
   },
@@ -120,12 +120,12 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
         <Route exact path="/labellist">
-          <LabelList  setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
+          <LabelList user={props.user} setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
         </Route>
         <Route exact path="/userSignIn">
           <UserSignIn user={props.user} setUser={props.setUser} setCheckError={props.setCheckError} />

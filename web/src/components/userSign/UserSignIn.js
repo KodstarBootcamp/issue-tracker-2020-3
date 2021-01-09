@@ -5,7 +5,8 @@ import logo from '../../images/coding.jpg'
 // import ModelPopup from './ModelPopup'
 import{ Link } from 'react-router-dom'
 import loginService from '../../services/ApiSignIn'
-import issueService from '../../services/ApiIssues'
+import loginLabelService from '../../services/ApiLabels'
+import loginIssueService from '../../services/ApiIssues'
 import { useHistory } from 'react-router-dom'
 
 const buttonStyle = { maxWidth: 200, margin: '20px  auto 10px ' }
@@ -35,7 +36,8 @@ const UserSignIn = (props) => {
       window.localStorage.setItem(
         'loggedIssueAppUser', JSON.stringify(user)
       )
-      issueService.setToken(user.token )
+      loginIssueService.setToken(user.token)
+      loginLabelService.setToken(user.token)
 
     } catch (exception) {
       setPop({

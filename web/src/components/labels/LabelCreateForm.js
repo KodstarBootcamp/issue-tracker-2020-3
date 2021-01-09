@@ -5,7 +5,7 @@ import ColorSelect from './ColorSelect'
 export const LabelCreateForm = ( props ) => {
 
   const [title,setTitle]=useState([])
-  const [labelColor,setLabelColor] = React.useState([])
+  const [labelColor,setLabelColor] = useState([])
 
   const addLabel= ( event ) => {
     event.preventDefault()
@@ -29,7 +29,6 @@ export const LabelCreateForm = ( props ) => {
           <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-5">
             <Form.Label>title</Form.Label>
             <Form.Control
-              id="title"
               required
               type="text"
               placeholder="title"

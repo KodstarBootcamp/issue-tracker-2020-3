@@ -30,15 +30,15 @@ export const IssueList = ( props ) => {
           <thead>
             <tr>
               <th>Title</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              {props.user&&<th>Edit</th>}
+              {props.user&&<th>Delete</th>}
               <th>Details</th>
             </tr>
           </thead>
           <tbody>
             {props.issues!==null ?
               props.issues.map((issue) =>
-                <IssueDetails option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
+                <IssueDetails user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
                   labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
                 />
               )

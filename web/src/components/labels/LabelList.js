@@ -32,7 +32,7 @@ export const LabelList = ( props ) => {
       <div>
         <h1>Label List, Total:{props.labels !==null?props.labels.length:null}</h1>
         <div className="d-flex flex-row-reverse bd-highlight">
-          <Button onClick={() => setSmShow(true)}>create label</Button>{' '}
+          {props.user?<Button onClick={() => setSmShow(true)}>create label</Button>:''}
           <Modal
             size="sm"
             show={smShow}
@@ -52,14 +52,14 @@ export const LabelList = ( props ) => {
             <tr>
               <th>Title</th>
               <th>Color</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              {props.user?<th>Edit</th>:''}
+              {props.user?<th>Delete</th>:''}
             </tr>
           </thead>
           <tbody>
             {props.labels!==null ?
               props.labels.map((label) =>
-                <LabelDetails key={label.id} label={label} setInfoMessage={props.setInfoMessage} setLabels={props.setLabels} handleDelete={handleDelete} />
+                <LabelDetails user={props.user} key={label.id} label={label} setInfoMessage={props.setInfoMessage} setLabels={props.setLabels} handleDelete={handleDelete} />
               )
               :<>{checkError}</>
             }
