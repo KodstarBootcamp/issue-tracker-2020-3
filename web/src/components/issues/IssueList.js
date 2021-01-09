@@ -36,9 +36,10 @@ export const IssueList = ( props ) => {
             </tr>
           </thead>
           <tbody>
-            {props.issues!==null ?
+            {props.issues!==null?
               props.issues.map((issue) =>
-                <IssueDetails user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect} key={issue.id} issue={issue} addLabel={props.addLabel}
+                <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                  issue={issue} addLabel={props.addLabel}
                   labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
                 />
               )

@@ -63,9 +63,9 @@ export const Main =(props) => {
     }
   }
 
-  useEffect( () => {
-    getLabelData()
-    getIssueData()
+  useEffect( async () => {
+    await getLabelData()
+    await getIssueData()
   },
   [])
 

@@ -3,7 +3,8 @@ import Navigation from './components/Navigation'
 import { Info, Error } from './components/Notification'
 import { Main } from './Main'
 import { useEffect,useState } from 'react'
-import loginService from './services/ApiIssues'
+import loginIsueService from './services/ApiIssues'
+import loginLabelService from './services/ApiLabels'
 
 const App = () => {
   const [infoMessage,setInfoMessage]=react.useState(null)
@@ -15,7 +16,8 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      loginService.setToken(user.token)
+      loginIsueService.setToken(user.token)
+      loginLabelService.setToken(user.token)
     }
   }, [])
 

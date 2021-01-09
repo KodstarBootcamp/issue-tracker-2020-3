@@ -52,8 +52,8 @@ export const LabelList = ( props ) => {
             <tr>
               <th>Title</th>
               <th>Color</th>
-              {props.user?<th>Edit</th>:''}
-              {props.user?<th>Delete</th>:''}
+              {props.user&&<th>Edit</th>}
+              {props.user&&<th>Delete</th>}
             </tr>
           </thead>
           <tbody>

@@ -29,11 +29,11 @@ export const IssueDetails = ( props ) => {
           <h5>Date:</h5>
           <Container className="d-flex-colums justify-content-start">
             <Row style={{ backgroundColor: 'greenyellow' } }>
-              {props.issue.updateDate&&(updateDate.toTimeString()!==createDate.toTimeString())?<Col>
+              {props.issue.updateDate&&(updateDate.toTimeString()!==createDate.toTimeString())&&<Col>
                 <Row>Updated:</Row>
                 <Row>{updateDate.toDateString()}</Row>
                 <Row>{updateDate.toTimeString()}</Row>
-              </Col>:''}
+              </Col>}
             </Row>
             <Row style={{ backgroundColor: '#ff8700' } }>
               <Col><Row>Created:</Row>

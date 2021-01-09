@@ -23,34 +23,30 @@ export const LabelCreateForm = ( props ) => {
   }
 
   return (
-    <div>
-      <Form onSubmit={addLabel}>
-        <Form.Row>
-          <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-5">
-            <Form.Label>title</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="title"
-              name="title"
-              value={title}
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </Form.Group>
-          <Form.Group as={Col} md="5" controlId="validationCustom02" className="ml-5">
-            <Form.Label >color</Form.Label><br></br>{labelColor}
-            <div>
-              <ColorSelect setLabelColor={setLabelColor}/>
-            </div>
-          </Form.Group>
-          <Form.Group as={CardColumns}>
-            <Col className="ml-1">
-              <Button type="submit">create label</Button>
-              <Button  variant="danger" onClick={() => props.setSmShow(false)} >cancel</Button>
-            </Col>
-          </Form.Group>
-        </Form.Row>
-      </Form>
-    </div>
+    <Form onSubmit={addLabel}>
+      <Form.Row>
+        <Form.Group as={Col} md="4" controlId="validationCustom01"  className="ml-5">
+          <Form.Label>title</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="title"
+            name="title"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </Form.Group>
+        <Form.Group as={Col} md="5" controlId="validationCustom02" className="ml-5">
+          <Form.Label >color</Form.Label><br></br>{labelColor}
+          <ColorSelect setLabelColor={setLabelColor}/>
+        </Form.Group>
+        <Form.Group as={CardColumns}>
+          <Col className="ml-1">
+            <Button type="submit">create label</Button>
+            <Button  variant="danger" onClick={() => props.setSmShow(false)} >cancel</Button>
+          </Col>
+        </Form.Group>
+      </Form.Row>
+    </Form>
   )
 }
