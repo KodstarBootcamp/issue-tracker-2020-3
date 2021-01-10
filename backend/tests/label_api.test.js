@@ -55,7 +55,7 @@ describe('When there is initially some labels saved', () => {
         .post('/label')
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(newLabels)
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', /application\/json/)
       const labelsAtEnd = await labelsInDb()
       expect(labelsAtEnd.length).toBe(initialLabels.length + 1)
@@ -74,7 +74,7 @@ describe('When there is initially some labels saved', () => {
         .send(newLabel)
         .expect(400)
       const labelsAtEnd = await labelsInDb()
-      expect(errorMessage.text).toBe('Validation exception')
+      expect(errorMessage.body.error).toBe('Validation exception')
       expect(labelsAtEnd.length).toBe(testLabels.length)
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
@@ -88,7 +88,7 @@ describe('When there is initially some labels saved', () => {
         .send(newLabel)
         .expect(401)
       const labelsAtEnd = await labelsInDb()
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
       expect(labelsAtEnd.length).toBe(testLabels.length)
     })
     test('fails when label already exist, with status code 409, error:Label already exist', async () => {
@@ -99,7 +99,7 @@ describe('When there is initially some labels saved', () => {
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(labelToAdd)
         .expect(409)
-      expect(res.text).toBe('Label already exist')
+      expect(res.body.error).toContain('Label already exist. Dup value:')
     })
   })
 
@@ -124,7 +124,7 @@ describe('When there is initially some labels saved', () => {
         .put(`/label/:${invalidId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
-      expect(res.text).toBe('Invalid ID supplied')
+      expect(res.body.error).toBe('Invalid ID supplied')
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
       const id = (await labelsInDb())[0].id
@@ -137,7 +137,7 @@ describe('When there is initially some labels saved', () => {
         .set('Authorization', 'bearer asd')
         .send(newLabel)
         .expect(401)
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
     })
     test('fails if label does not exist, with statuscode 404, error:Label not found', async () => {
       const validNonexistingId = await nonExistingLabelId()
@@ -145,17 +145,17 @@ describe('When there is initially some labels saved', () => {
         .put(`/label/${validNonexistingId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
-      expect(res.text).toBe('Label not found')
+      expect(res.body.error).toBe('label not found')
     })
-    test('fails if sent unvalid data, with statuscode 405, error:Validation exception', async () => {
+    test('fails if sent invalid data, with statuscode 400, error:Validation exception', async () => {
       const labelsAtStart = await labelsInDb()
       const labelToUpdate = labelsAtStart[0]
       const res = await api
         .put(`/label/${labelToUpdate.id}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send({ 'asd':'value' })
-        .expect(405)
-      expect(res.text).toBe('Validation exception')
+        .expect(400)
+      expect(res.body.error).toBe('Validation exception')
     })
   })
 
@@ -179,7 +179,7 @@ describe('When there is initially some labels saved', () => {
         .delete('/label/fd..u54')
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
-      expect(res.text).toBe('Invalid ID supplied')
+      expect(res.body.error).toBe('Invalid ID supplied')
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
       const id = (await labelsInDb())[0].id
@@ -187,14 +187,15 @@ describe('When there is initially some labels saved', () => {
         .delete('/label/' + id)
         .set('Authorization', 'bearer asd')
         .expect(401)
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
     })
     test('fails with statuscode 404 if label does not exist', async () => {
       const validNonexistingId = await nonExistingLabelId()
-      await api
+      const res = await api
         .delete(`/label/${validNonexistingId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
+      expect(res.body.error).toBe('label not found')
     })
   })
 })

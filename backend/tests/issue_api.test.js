@@ -67,14 +67,14 @@ describe('When there is initially some issues saved', () => {
       const res = await api
         .get(`/issue/:${invalidId}`)
         .expect(400)
-      expect(res.text).toBe('Invalid ID supplied')
+      expect(res.body.error).toBe('Invalid ID supplied')
     })
     test('fails with statuscode 404 if issue does not exist', async () => {
       const validNonexistingId = await nonExistingIssueId()
       const res = await api
         .get(`/issue/${validNonexistingId}`)
         .expect(404)
-      expect(res.text).toBe('Issue not found')
+      expect(res.body.error).toBe('issue not found')
     })
   })
 
@@ -111,7 +111,7 @@ describe('When there is initially some issues saved', () => {
         .send(newIssue)
         .expect(401)
       const issuesAtEnd = await issuesInDb()
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
       expect(issuesAtEnd.length).toBe(testIssues.length)
     })
     test('fails if data invalid, with status code 400, error:Validation exception', async () => {
@@ -124,7 +124,7 @@ describe('When there is initially some issues saved', () => {
         .send(newIssue)
         .expect(400)
       const issuesAtEnd = await issuesInDb()
-      expect(errorMessage.text).toBe('Validation exception')
+      expect(errorMessage.body.error).toBe('Validation exception')
       expect(issuesAtEnd.length).toBe(testIssues.length)
     })
     test('fails when issue already exist, with status code 409, error:Issue already exist', async () => {
@@ -135,7 +135,7 @@ describe('When there is initially some issues saved', () => {
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(issueToAdd)
         .expect(409)
-      expect(res.text).toBe('Issue already exist')
+      expect(res.body.error).toContain('Issue already exist. Dup value:')
     })
   })
 
@@ -160,7 +160,7 @@ describe('When there is initially some issues saved', () => {
         .put(`/issue/:${invalidId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
-      expect(res.text).toBe('Invalid ID supplied')
+      expect(res.body.error).toBe('Invalid ID supplied')
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
       const id = (await issuesInDb())[0].id
@@ -174,25 +174,25 @@ describe('When there is initially some issues saved', () => {
         .set('Authorization', 'bearer asd')
         .send(newIssue)
         .expect(401)
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
     })
-    test('fails if issue does not exist, with statuscode 404, error:Issue not found', async () => {
+    test('fails if issue does not exist, with statuscode 404, error:issue not found', async () => {
       const validNonexistingId = await nonExistingIssueId()
       const res = await api
         .put(`/issue/${validNonexistingId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
-      expect(res.text).toBe('Issue not found')
+      expect(res.body.error).toBe('issue not found')
     })
-    test('fails if sent unvalid data, with statuscode 405, error:Validation exception', async () => {
+    test('fails if sent unvalid data, with statuscode 400, error:Validation exception', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToUpdate = issuesAtStart[0]
       const res = await api
         .put(`/issue/${issueToUpdate.id}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send({ 'asd':'value' })
-        .expect(405)
-      expect(res.text).toBe('Validation exception')
+        .expect(400)
+      expect(res.body.error).toBe('Validation exception')
     })
   })
 
@@ -216,7 +216,7 @@ describe('When there is initially some issues saved', () => {
         .delete('/issue/fd..u54')
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(400)
-      expect(res.text).toBe('Invalid ID supplied')
+      expect(res.body.error).toBe('Invalid ID supplied')
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
       const id = (await issuesInDb())[0].id
@@ -224,14 +224,15 @@ describe('When there is initially some issues saved', () => {
         .delete('/issue/' + id)
         .set('Authorization', 'bearer asd')
         .expect(401)
-      expect(errorMessage.text).toBe('Invalid token')
+      expect(errorMessage.body.error).toBe('Invalid token')
     })
     test('fails with statuscode 404 if issue does not exist', async () => {
       const validNonexistingId = await nonExistingIssueId()
-      await api
+      const response = await api
         .delete(`/issue/${validNonexistingId}`)
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .expect(404)
+      expect(response.body.error).toBe('issue not found')
     })
   })
 

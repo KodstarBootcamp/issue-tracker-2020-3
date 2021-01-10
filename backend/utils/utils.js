@@ -8,15 +8,24 @@ const objCleaner = obj => {
   })
 }
 
-const checkToken = (request, response) => {
+const checkToken = (request) => {
   const decodedToken = jwt.verify(request.token, config.SECRET)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).send('token missing or invalid' ).end()
-  }
   return decodedToken
 }
 
+const existanceError = (obj, res) => {
+  /**
+   * @obj object /{ a }
+   * @res response object
+   * if a is null or undef response error
+   */
+  const name = Object.getOwnPropertyNames(obj)[0]
+  if (obj[name] === null || obj[name] === undefined){
+    return res.status(404).json({ error:`${name} not found` }).end()
+  }
+}
 module.exports = {
   objCleaner,
-  checkToken
+  checkToken,
+  existanceError
 }
