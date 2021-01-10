@@ -26,7 +26,7 @@ describe('When there is initially some users saved', () => {
         .expect(200)
         .expect('Content-Type', /application\/json/)
       expect(response.body.token).toBeDefined()
-      expect(response.body.username).toBe(testUser.username)
+      expect(response.body.user.username).toBe(testUser.username)
     })
 
     test('login fails with wrong password', async () => {
@@ -38,8 +38,8 @@ describe('When there is initially some users saved', () => {
         .post('/login')
         .send(credentials)
         .expect(401)
-        .expect('Content-Type', 'text/html; charset=utf-8')
-      expect(response.text).toBe('invalid username or password')
+        .expect('Content-Type', /application\/json/)
+      expect(response.body.error).toBe('invalid username or password')
     })
 
     test('login fails with wrong user', async () => {
@@ -51,8 +51,8 @@ describe('When there is initially some users saved', () => {
         .post('/login')
         .send(credentials)
         .expect(401)
-        .expect('Content-Type', 'text/html; charset=utf-8')
-      expect(response.text).toBe('invalid username or password')
+        .expect('Content-Type', /application\/json/)
+      expect(response.body.error).toBe('invalid username or password')
     })
   })
 })

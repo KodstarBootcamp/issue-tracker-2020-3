@@ -7,9 +7,9 @@ usersRouter.post('/', async (req, res) => {
   const body = req.body
 
   if (!body.password || !body.username) {
-    return res.status(401).send('password or username missing')
+    return res.status(400).json({ error:'password or username missing' })
   } else if (body.password.length < 3) {
-    return res.status(402).send('password should be at 3 characters long')
+    return res.status(400).json({ error:'password should be at 3 characters long' })
   }
 
   const saltRounds = 10
@@ -23,14 +23,12 @@ usersRouter.post('/', async (req, res) => {
 
   const savedUser = await user.save()
 
-  res.json(savedUser)
+  res.status(201).json(savedUser)
 })
 
 usersRouter.get('/', async(req, res) => {
-  checkToken(req, res)
-  const users = await User
-    .find({})
-    .populate('issues', { title: 1, id: 1 })
+  checkToken(req)
+  const users = await User.find({})
   res.json(users)
 })
 
