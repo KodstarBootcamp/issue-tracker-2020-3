@@ -16,7 +16,21 @@ const checkToken = (request, response) => {
   return decodedToken
 }
 
+const createFilterObj = (req) => {
+  const filter = {}
+  req.query.title && (filter.title = req.query.title)
+  // req.query.state && filter.state(req.query.state)
+  if (req.query.creation) {
+    const start = new Date(req.query.creation)
+    const end = new Date(req.query.creation)
+    start.setUTCHours(0,0,0,0)
+    end.setUTCHours(23,59,59,999)
+    filter.createdAt = { $gte:start, $lte:end }
+  }
+  return filter
+}
 module.exports = {
   objCleaner,
-  checkToken
+  checkToken,
+  createFilterObj
 }

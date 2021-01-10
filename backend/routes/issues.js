@@ -1,8 +1,9 @@
+
 const router = require('express').Router()
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
 require('express-async-errors')
-const { objCleaner, checkToken } = require('../utils/utils')
+const { objCleaner, checkToken, createFilterObj } = require('../utils/utils')
 
 router.route('/').post(async (req, res) => {
   checkToken(req, res)
@@ -54,13 +55,14 @@ router.route('/all').get(async (req, res) => {
   if (req.query.sort && !sortTypes.includes(req.query.sort)){
     return res.status(405).send('unavailable type of sort').end()
   }
+  const filter = createFilterObj(req)
   if (!req.query.start && !req.query.count) {
-    const issues = await Issue.find({}).sort(req.query.sort).populate('labels')
+    const issues = await Issue.find(filter).sort(req.query.sort).populate('labels')
     return res.status(200).json(issues).end()
   }
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
-  const issues = await Issue.find({}, null, { skip, limit }).sort(req.query.sort).populate('labels')
+  const issues = await Issue.find(filter, null, { skip, limit }).sort(req.query.sort).populate('labels')
   return res.status(200).json(issues).end()
 })
 
