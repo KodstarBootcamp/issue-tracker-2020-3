@@ -22,7 +22,6 @@
         #           type: string
         #           example: 5f..ba4
 
-
         # - in: query
         #   name: title
         #   type: string

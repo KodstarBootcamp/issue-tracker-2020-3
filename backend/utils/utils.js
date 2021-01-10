@@ -1,5 +1,10 @@
 const jwt = require('jsonwebtoken')
 const config = require('./config')
+
+/**
+ * delete all undef and null properties of an object
+ * @param {Object} obj Object
+ */
 const objCleaner = obj => {
   Object.getOwnPropertyNames(obj).forEach(property => {
     if (obj[property] === null || obj[property] === undefined){
@@ -8,11 +13,15 @@ const objCleaner = obj => {
   })
 }
 
-const checkToken = (request, response) => {
+/**
+   * checks auth token,
+   *
+   * if succeed return decoded token object,
+   * else throws jwt error,
+   *  @param request request,
+   */
+const checkToken = (request) => {
   const decodedToken = jwt.verify(request.token, config.SECRET)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).send('token missing or invalid' ).end()
-  }
   return decodedToken
 }
 
@@ -29,8 +38,24 @@ const createFilterObj = (req) => {
   }
   return filter
 }
+
+/**
+   * Expect an object with one property
+   *
+   * if the property is null or undefined → response error
+   * @param {Object} obj: a wrapped variable
+   * @param {Response} res: response
+   */
+const existanceError = (obj, res) => {
+  const name = Object.getOwnPropertyNames(obj)[0]
+  if (obj[name] === null || obj[name] === undefined){
+    return res.status(404).json({ error:`${name} not found` }).end()
+  }
+}
+
 module.exports = {
   objCleaner,
   checkToken,
-  createFilterObj
+  createFilterObj,
+  existanceError
 }
