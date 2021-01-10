@@ -29,6 +29,10 @@
   margin: 29%;
   margin-top: 2%;
   margin-bottom: 3%;
+
+}
+#navlogo{
+  width: 70px;
 }
 
 img {
@@ -101,10 +105,14 @@ img {
   bottom: 25%;  
   margin: auto;  
   border-radius: 10px;  
-  background:rgb(129, 34, 34);  
+  background:rgba(123, 46, 143, 0.425);  
   font-style: italic;
   text-align: center;  
 }
 .popup-inner h1{
-  color: wheat;
+  color:rgb(136, 37, 37);
+  font-weight: 1000;
+}
+.popup-inner h6{
+  color:white;
 }
