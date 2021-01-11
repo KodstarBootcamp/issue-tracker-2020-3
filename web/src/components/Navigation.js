@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap'
 import '../App.css'
-import logo from '../logo.svg'
+import logo from '../images/logo.png'
 import { Link } from 'react-router-dom'
 import signOutService from '../services/ApiIssues'
 
@@ -11,9 +11,11 @@ const Navigation = (props) => {
   const toggle = () => setIsOpen(!isOpen)
 
   const signOut=() => {
-    window.localStorage.removeItem('loggedIssueAppUser')
-    props.setUser(null)
-    signOutService.setToken(null)
+    if (window.confirm(`${props.user.username}, do you want to Sign OUT ?`)) {
+      window.localStorage.removeItem('loggedIssueAppUser')
+      props.setUser(null)
+      signOutService.setToken(null)
+    }
   }
 
   return (
@@ -30,17 +32,17 @@ const Navigation = (props) => {
             </NavItem>
             <NavItem  id="custom_button" className="nav_button px-2">
               <Link to="/addnew">
-                {props.user?<Button className="btn-md  col-sm-6 col-md-12" outline color="success">Create New Issue</Button>:''}
+                {props.user?<Button className="btn-md  col-sm-6 col-md-12" outline color="success">New Issue</Button>:''}
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
               <Link to="/issuelist">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Issue List</Button>
+                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">List Issue</Button>
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
               <Link to="/labellist">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Label List</Button>
+                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">List Label</Button>
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
@@ -51,17 +53,15 @@ const Navigation = (props) => {
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
-              {props.user?
-                <Button  onClick={signOut} className="btn-md  col-sm-6 col-md-12" outline color="danger">User Sign OUT</Button>
-                :''}
             </NavItem>
+            {props.user?
+              <Button  onClick={signOut} className="btn-md  col-sm-6 col-md-2"  color="danger">{props.user.username}<br/>
+              Loged In
+              </Button>:''}
           </Nav>
         </Collapse>
       </Navbar>
-      {props.user?
-        <Button  className="btn-md  col-sm-6 col-md-2"  color="danger">{props.user.username}<br/>
-              Loged In
-        </Button>:''}
+
     </div>
   )
 }

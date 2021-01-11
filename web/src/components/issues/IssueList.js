@@ -3,6 +3,7 @@ import issueService from '../../services/ApiIssues'
 import { IssueDetails } from './IssueDetails'
 import PaginationIssue from '../../components/PaginationIssue'
 import { Table } from 'react-bootstrap'
+import LoadingSpinner from './LoadingSpinner'
 
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
@@ -22,7 +23,7 @@ export const IssueList = ( props ) => {
     }, 5000)
   }
 
-  return (
+  return props.issues.length?(
     <div>
       <div className='IssueList'>
         <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
@@ -36,7 +37,7 @@ export const IssueList = ( props ) => {
             </tr>
           </thead>
           <tbody>
-            {props.issues!==null?
+            {props.issues.length?
               props.issues.map((issue) =>
                 <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
                   issue={issue} addLabel={props.addLabel}
@@ -52,5 +53,5 @@ export const IssueList = ( props ) => {
           setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
       </div>
     </div>
-  )
+  ):(<LoadingSpinner/>)
 }

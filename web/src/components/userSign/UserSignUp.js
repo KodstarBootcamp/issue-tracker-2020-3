@@ -13,7 +13,8 @@ const UserSignUp = (props) => {
   const history = useHistory()
   const [pop, setPop] = useState({
     showPopup: false,
-    text:'login'
+    text:'register',
+    ext:'ext'
   })
 
   const handleChange= ( e ) => {
@@ -36,14 +37,15 @@ const UserSignUp = (props) => {
             })
             setTimeout(() => {
               history.push('/userSignIn')
-            }, 1000)
+            }, 2000)
           }})
-        .catch(error => { console.log(error)
+        .catch(error => { console.log('catch'+error)
 
           props.setCheckError(null)
           setPop({
             showPopup: !pop.showPopup,
-            text:'Register Error'
+            text:'Register Error',
+            ext:'\n'+error
           })
         })
     }
@@ -99,6 +101,7 @@ const UserSignUp = (props) => {
                   {pop.showPopup ?
                     <ModelPopup
                       text={pop.text}
+                      ext={pop.ext}
                     />
                     : null
                   }
