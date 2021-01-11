@@ -11,12 +11,13 @@ Database MongoDB is used as the backend database.
 - MONGODB_URI
 - TEST_MONGODB_URI
 - CUSTOM_MONGODB_URI
+- SECRET
 
 ## Api Documentation
 
 - Go to [Swagger Editor](https://editor.swagger.io/)
 
-- Drop Kodstar-Issue_Tracker_3-*.yaml to editor
+- Drop api-receipt-1.0.4.yaml to editor
 - or try other swagger extensions/plugins on your IDE
 
 
@@ -28,8 +29,7 @@ Database MongoDB is used as the backend database.
 
 - Add .env file for environment variables
 
-- Add a folder which name of DB for run local mongodb server
-    - For run with mongodb-local run 'npm run local'
+- For run with mongodb-local run 'npm run local'
     - Local URI will be printed on console. It can use for Compass tool.
     - If the port number of the URI (on console) different from the port number that is written at mongodb.js change the port number at the file.
     - For shut down server send GET request to '/mongodb/stop'
@@ -37,7 +37,7 @@ Database MongoDB is used as the backend database.
 
 - For run custom URI assign CUSTOM_MONGODB_URI environment variable(.env) run 'npm run custom-db'
 
-- for run modes look scripts at packages.json (npm start, npm run dev, etc.)
+- for other run modes look scripts at packages.json (npm start, npm run dev, etc.)
 
 
-Go to http://localhost:\<PORT\> to check the application.
+Go to http://localhost:<PORT\> to check the application.

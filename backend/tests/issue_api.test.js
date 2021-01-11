@@ -15,6 +15,7 @@ beforeAll(async () => {
   const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'asd' })
   await user.save()
   global.__tokenForAuth__ = jwt.sign({ username:user.username, id:user._id }, config.SECRET)
+  global.__userId__ = user._id
 })
 
 beforeEach(async () => {
@@ -79,14 +80,14 @@ describe('When there is initially some issues saved', () => {
   })
 
   describe('|: POST-/issue :| - adding of a new issue', () => {
-    test('succeeds with valid data with status 201, json aplication', async () => {
+    test('succeeds with valid data with status 201, json aplication, createdBy populated', async () => {
       const initialIssues = await issuesInDb()
       const newIssue = {
         title: 'A title',
         description: 'async/await simplifies making async calls',
         labels: []
       }
-      await api
+      const res = await api
         .post('/issue')
         .set('Authorization', `bearer ${global.__tokenForAuth__}`)
         .send(newIssue)
@@ -98,6 +99,7 @@ describe('When there is initially some issues saved', () => {
       expect(contents).toContain(
         'async/await simplifies making async calls'
       )
+      expect(res.body.createdBy.id).toBe(global.__userId__.toString())
     })
     test('fails if token invalid, with status code 401, error:Invalid token', async () => {
       const newIssue = {
@@ -236,14 +238,15 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: GET-/issue/all?start={start}&count={count} :| when req with paginate', () => {
+  describe('|: GET-/issue/all?... :| when req with paginate & query', () => {
     beforeEach(async () => {
       await Issue.deleteMany({})
       const title = 'An issue title-'
       const template = {
         'title': null,
         'description': 'A lengthy description',
-        'labels': []
+        'labels': [],
+        'createdBy': global.__userId__
       }
       for (let i = 0; i < 20; i++){
         template.title = title + i
@@ -286,12 +289,39 @@ describe('When there is initially some issues saved', () => {
       expect(response.body[0].title).toBe('An issue title-5')
       expect(response.body.pop().title).toBe('An issue title-19')
     })
-    test('when using also sort query', async () => {
+    test('when using also sort & filter query "createdby"', async () => {
+      await new Issue({ title:'new issue', description:'saved by another person', labels:[] }).save()
       const response = await api
-        .get('/issue/all?start=5&count=7&sort=-title')
+        .get('/issue/all')
+        .query({
+          start:5,
+          count:7,
+          sort:'-title',
+          createdby:global.__userId__.toString()
+        })
         .expect(200)
         .expect('content-Type', /application\/json/)
       expect(response.body[0].title).toBe('An issue title-4')
+    })
+    test('when using filter query "title"', async () => {
+      const response = await api
+        .get('/issue/all')
+        .query({
+          title:'An issue title-19'
+        })
+        .expect(200)
+        .expect('content-Type', /application\/json/)
+      expect(response.body[0].title).toBe('An issue title-19')
+    })
+    test('when using filter query "creation"', async () => {
+      const response = await api
+        .get('/issue/all')
+        .query({
+          creation:new Date().toISOString()
+        })
+        .expect(200)
+        .expect('content-Type', /application\/json/)
+      expect(response.body.length).toBe(20)
     })
   })
 })
