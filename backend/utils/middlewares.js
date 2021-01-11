@@ -3,11 +3,12 @@ const util = require('util')
 
 const requestLogger = (request, response, next) => {
   logger.info(
-    '-----',
+    '-------',
     `Method: ${request.method}`,
-    `Path: ${request.path}`,
-    `Body: ${util.inspect(request.body, false, null)}`,
-    '-----'
+    `Path  : ${request.path}`,
+    `Query : ${util.inspect(request.query, false, null)}`,
+    `Body  : ${util.inspect(request.body, false, null)}`,
+    '-------'
   )
   next()
 }
