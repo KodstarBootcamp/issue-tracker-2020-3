@@ -4,7 +4,7 @@ const Label = require('../models/label.model')
 require('express-async-errors')
 const { objCleaner, checkToken, existanceError } = require('../utils/utils')
 
-router.route('/').post(async (req, res) => {
+router.route('/').post( async (req, res) => {
   checkToken(req)
   const title = req.body.title
   const description = req.body.description
@@ -41,10 +41,21 @@ router.route('/').post(async (req, res) => {
   return res.status(201).json(savedIssue)
 })
 
-router.route('/all').get(async (req, res) => {
+router.route('/assign/:id').post( async (req, res) => {
+  const decodedToken = checkToken(req)
+  const issue = await Issue.findById(req.params.id)
+  if (existanceError({ issue }, res)) return
+  if (issue.assignees.contains(decodedToken.id)) {
+    issue.assignees = issue.assignees.filter( id => id !== decodedToken.id)
+  } else {
+    issue.assignees = issue.assignees.concat(decodedToken.id)
+  }
+})
+
+router.route('/all').get( async (req, res) => {
   const sortTypes = [
-    'createdAt', 'updatedAt','title',
-    '-createdAt', '-updatedAt','-title'
+    'createdAt', 'updatedAt', 'title',
+    '-createdAt', '-updatedAt', '-title'
   ]
   if (req.query.sort && !sortTypes.includes(req.query.sort)) {
     return res.status(405).error({ error: 'unavailable type of sort' }).end()
@@ -65,13 +76,13 @@ router.route('/count').get(async (req, res) => {
 })
 
 // ↓↓↓ this route must be end of other get methods, cause of route ('/:id') conflict
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get( async (req, res) => {
   const issue = await Issue.findById(req.params.id).populate('labels')
   if (existanceError({ issue }, res)) return
   return res.status(200).json(issue)
 })
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete( async (req, res) => {
   checkToken(req)
   const issue = await Issue.findById(req.params.id)
   if (existanceError({ issue }, res)) return
@@ -79,7 +90,7 @@ router.route('/:id').delete(async (req, res) => {
   return res.status(200).json({ OK:'successfull operation' })
 })
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put( async (req, res) => {
   checkToken(req)
   const issue = await Issue.findById(req.params.id)
   const unverifiedLabels = req.body.labels
