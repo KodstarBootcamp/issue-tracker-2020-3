@@ -10,9 +10,17 @@ const issueSchema = new Schema({
       ref:'Label'
     }
   ],
-}, {
-  timestamps: true
-})
+  assignees:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'User'
+    }
+  ],
+  createdBy:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  }
+}, { timestamps: true })
 
 issueSchema.set('toJSON', {
   transform: (document, returnedObj) => {

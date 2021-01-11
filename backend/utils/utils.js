@@ -14,27 +14,48 @@ const objCleaner = obj => {
 }
 
 /**
-   * checks auth token,
-   *
-   * if succeed return decoded token object,
-   * else throws jwt error,
-   *  @param request request,
+   * checks auth token. if succeed return decoded token object, else response jwt error
+   * @param {Request} request request
+   * @returns {Object} decoded token
    */
 const checkToken = (request) => {
   const decodedToken = jwt.verify(request.token, config.SECRET)
   return decodedToken
 }
 
+/**
+ * creates a filter object from request
+ *
+ * Available filter fields:
+ * - body.labels: list of ID labels
+ * - query: title, state, creation, modification, assignee, createdby.
+ * @param {Request} request
+ */
 const createFilterObj = (req) => {
   const filter = {}
+  if (req.body.labels && req.body.labels.length) {
+    filter.$and = []
+    for (let i = 0; i < req.body.labels.length; i++) {
+      filter.$and.push({ labels: { $elemMatch:{ $eq:req.body.labels[i] } } })
+    }
+  }
   req.query.title && (filter.title = req.query.title)
-  // req.query.state && filter.state(req.query.state)
+  req.query.assignee && (filter.assignee = { $elemMatch:{ $eq:req.query.assignee } })
+  req.query.createdby && (filter.createdBy = req.query.createdby)
+  // req.query.state && filter.state(req.query.state) → waiting for states
   if (req.query.creation) {
     const start = new Date(req.query.creation)
     const end = new Date(req.query.creation)
     start.setUTCHours(0,0,0,0)
     end.setUTCHours(23,59,59,999)
     filter.createdAt = { $gte:start, $lte:end }
+  }
+  if (req.query.modification) {
+    const start = new Date(req.query.modification)
+    const end = new Date(req.query.modification)
+    start.setUTCHours(0,0,0,0)
+    end.setUTCHours(23,59,59,999)
+    filter.updatedAt = { $gte:start, $lte:end }
   }
   return filter
 }

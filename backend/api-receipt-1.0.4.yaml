@@ -1,49 +1,3 @@
-
-        # - name: assignees
-        #   in: body
-        #   required: false
-        #   description: Id list of defined users to search
-        #   schema:
-        #     properties: 
-        #       assignees:
-        #         type: array
-        #         items: 
-        #           type: string
-        #           example: 5f..ba4
-        # - name: labels
-        #   in: body
-        #   required: false
-        #   description: Id list of defined labels to search
-        #   schema:
-        #     properties: 
-        #       labels:
-        #         type: array
-        #         items: 
-        #           type: string
-        #           example: 5f..ba4
-
-        # - in: query
-        #   name: title
-        #   type: string
-        #   required: false
-        #   description: search by issue title
-        # - in: query
-        #   name: state
-        #   type: string
-        #   required: false
-        #   description: search by issue state
-        # - in: query
-        #   name: creation
-        #   type: string
-        #   format: ISO
-        #   required: false
-        #   description: search by issue creation date. Ignores hours and other time parts
-        # - in: query
-        #   name: modification
-        #   type: string
-        #   required: false
-        #   description: search by issue update date. Ignores hours and other time parts
-
 openapi: 3.0.1
 info:
   title: Issue Tracker API
@@ -54,6 +8,7 @@ info:
     name: MIT
     url: https://github.com/KodstarBootcamp/issue-tracker-2020-1/blob/main/LICENSE
   version: 1.0.4
+
 paths:
   /issue/{issueId}:
     get:
@@ -113,6 +68,8 @@ paths:
           $ref: '#/components/responses/401'
         404:
           $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
     delete:
       tags:
         - Issue
@@ -135,6 +92,44 @@ paths:
           $ref: '#/components/responses/401'
         404:
           $ref: '#/components/responses/404'
+
+  /issue/assign/{issueId}:
+    post:
+      tags:
+        - Issue
+      summary: assign an user to an issue
+      description: Assigns an user to an issue with issue ID. works like toggle
+      operationId: assignIsssue
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to be assigned
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user:
+                  type: string
+                  description: ID of an user
+                  example: 45kl...54
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+
   /issue:
     post:
       tags:
@@ -163,7 +158,6 @@ paths:
         409:
           $ref: '#/components/responses/409'
 
-
   /issue/all:
     get:
       tags:
@@ -171,6 +165,20 @@ paths:
       summary: Get all issues
       description: Gets all existing issues with optional queries
       operationId: getIssues
+      requestBody:
+        description: Id list of defined labels to search
+        required: false
+        content:
+          application/json:
+            schema:
+              properties: 
+                labels:
+                  type: array
+                  items: 
+                    type: string
+                    example:
+                      - 5f..ba4
+                      - 5f..ba5
       parameters:
       - name: start
         in: query
@@ -191,12 +199,43 @@ paths:
         schema:
           type: string
           enum:
-          - cratedAt
-          - updatedAt
-          - title
-          - -cratedAt
-          - -updatedAt
-          - -title
+            - cratedAt
+            - updatedAt
+            - title
+            - -cratedAt
+            - -updatedAt
+            - -title
+      - name: title
+        in: query
+        description: search by issue title
+        schema:
+          type: string
+      - name: state
+        in: query
+        description: search by ID of issue state
+        schema:
+          type: string
+      - name: createdby
+        in: query
+        description: search by user ID who created issue
+        schema:
+          type: string
+      - name: creation
+        in: query
+        description: search by issue creation date. Ignores hours and other time parts
+        schema:
+          type: string
+          format: ISO
+      - name: modification
+        in: query
+        description: search by issue update date. Ignores hours and other time parts
+        schema:
+          type: string
+      - name: assignee
+        in: query
+        description: search by user ID of an assignee
+        schema:
+          type: string
       responses:
         200:
           description: successful operation
@@ -206,6 +245,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Issue'
+
   /issue/count:
     get:
       tags:
@@ -224,6 +264,7 @@ paths:
                   count:
                     type: number
                     example: 5.0
+
   /label:
     post:
       tags:
@@ -286,6 +327,8 @@ paths:
           $ref: '#/components/responses/401'
         404:
           $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
     delete:
       tags:
       - Label
@@ -308,6 +351,7 @@ paths:
           $ref: '#/components/responses/401'
         404:
           $ref: '#/components/responses/404'
+
   /label/all:
     get:
       tags:
@@ -324,10 +368,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Label'
+
   /users:
     post:
       tags:
-      - User
+        - User
       summary: Register
       description: Register an user
       operationId: register
@@ -347,12 +392,28 @@ paths:
                 $ref: '#/components/schemas/User'
         400:
           $ref: '#/components/responses/400'
-
+    get:
+      summary: Get all users
+      description: Get users in a list. Only authenticated user can get list.
+      operationId: getUsersList
+      tags: 
+        - User
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: "#/components/responses/401"
 
   /login:
     post:
       tags:
-      - Login
+        - Login
       summary: Login
       description: Authenticate an user
       operationId: login
@@ -385,7 +446,135 @@ paths:
                     $ref: '#/components/schemas/User'
         401:
           $ref: '#/components/responses/401'
+  
+  /state:
+    post:
+      tags:
+        - State
+      summary: Create a state
+      description: Creates a states for workflows that contains other issues
+      operationId: createState
+      requestBody:
+        description: state to create
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref:  "#/components/schemas/NewState"
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/State"
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        409:
+          $ref: '#/components/responses/409'
 
+  /state/all:
+    get:
+      tags:
+        - State
+      summary: get all states
+      description: get all states in list
+      operationId: getAllStates
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/State'
+  
+  /state/{stateId}:
+    get:
+      tags:
+        - State
+      summary: Get a state
+      description: Get a state object with state Id
+      operationId: GetState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to get
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+    put:
+      tags:
+        - State
+      summary: update a state
+      description: update a state with state ID
+      operationId: updateState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/NewState'
+              properties:
+                issues:
+                  type: array
+                  items:
+                    description: Id of issues
+                    type: string
+                    example: 45df...54
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
+    delete:
+      tags:
+        - State
+      summary: delete a state
+      operationId: deleteState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
 
 components:
   schemas:
@@ -397,6 +586,7 @@ components:
         title:
           maxLength: 250
           type: string
+          uniqueItems: true
           example: An issue title
         description:
           maxLength: 1500
@@ -405,30 +595,68 @@ components:
         labels:
           type: array
           description: List of labels
-          example:
-          - text: todo
-            color: '#fff'
-          - text: story
-            color: '#000'
-            id: 5f..ba5
           items:
             $ref: '#/components/schemas/NewLabel'
+            example:
+              - text: todo
+                color: '#fff'
+              - text: story
+                color: '#000'
+                id: 5f..ba5
+        state:
+          type: string
+          description: ID of a state
+          example: 5fg...j67
+        assignees:
+          type: array
+          items:
+            type: string
+            description: ID of users
+          example:
+            - 5fg...j68
+            - 5fg...j69                                                                                                                                                                                                             
     Issue:
-      allOf:
-      - type: object
-        properties:
-          createDate:
-            type: string
-            format: ISO
-            example: 2011-10-05T14:48:00.000Z
-          updateDate:
-            type: string
-            format: ISO
-            example: 2011-10-05T14:48:00.000Z
-          id:
-            type: string
-            example: 5fe481516234264fba
-      - $ref: '#/components/schemas/NewIssue'
+      properties:
+        title:
+          maxLength: 250
+          type: string
+          uniqueItems: true
+          example: An issue title
+        description:
+          maxLength: 1500
+          type: string
+          example: A lengthy description
+        labels:
+          type: array
+          description: List of labels
+          items:
+            $ref: '#/components/schemas/NewLabel'
+            example:
+              - text: todo
+                color: '#fff'
+                id: 5f..ba4
+              - text: story
+                color: '#000'
+                id: 5f..ba5
+        state:
+          $ref: '#/components/schemas/State'
+        assignees:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        createdBy:
+          $ref: '#/components/schemas/User'
+        createDate:
+          type: string
+          format: ISO
+          example: 2011-10-05T14:48:00.000Z
+        updateDate:
+          type: string
+          format: ISO
+          example: 2011-10-05T14:48:00.000Z
+        id:
+          type: string
+          example: 5fe481516234264fba
     NewLabel:
       required:
       - text
@@ -437,17 +665,18 @@ components:
         text:
           type: string
           example: backend
+          uniqueItems: true
         color:
           type: string
           example: '#fff'
     Label:
       allOf:
-      - type: object
-        properties:
-          id:
-            type: string
-            example: 5fe481516234264fba
       - $ref: '#/components/schemas/NewLabel'
+      - type: object
+      properties:
+        id:
+          type: string
+          example: 5fe481516234264fba
     NewUser:
       required:
       - email
@@ -457,9 +686,11 @@ components:
         username:
           type: string
           example: testuser
+          uniqueItems: true
         email:
           type: string
           example: example@examlemail.exp
+          uniqueItems: true
         password:
           type: string
           example: ap!!DF.65rd
@@ -469,12 +700,46 @@ components:
         username:
           type: string
           example: testuser
+          uniqueItems: true
         email:
           type: string
           example: example@examlemail.exp
+          uniqueItems: true
         id:
           type: string
-          example: 5fe481516234264fba
+          example: 5fe481516234264fda
+    NewState:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: backend
+          uniqueItems: true
+        order_no:
+          type: integer
+          example: 0
+          uniqueItems: true
+
+    State:
+      properties:
+        name:
+          type: string
+          example: backend
+          uniqueItems: true
+        order_no:
+          type: integer
+          example: 0
+          uniqueItems: true
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+          description: issues list field
+        id:
+          type: string
+          example: 5fe481516234264fca
 
   responses:
     '200':
