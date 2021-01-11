@@ -26,12 +26,10 @@ describe('When there is initially some users saved', () => {
       await api
         .post('/users')
         .send(newUser)
-        .expect(200)
+        .expect(201)
         .expect('Content-Type', /application\/json/)
-
       const usersAtEnd = await usersInDb()
       expect(usersAtEnd).toHaveLength(initialUsers.length + 1)
-
       const usernames = usersAtEnd.map(u => u.username)
       expect(usernames).toContain(testUser.username)
     })
@@ -44,12 +42,10 @@ describe('When there is initially some users saved', () => {
       const errorMessage = await api
         .post('/users')
         .send(newUser)
-        .expect(401)
-        .expect('Content-Type', 'text/html; charset=utf-8')
-
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
       await usersInDb()
-      expect(errorMessage.text).toContain('password or username missing')
-
+      expect(errorMessage.body.error).toContain('password or username missing')
     })
 
     test('fails if there is no password', async () => {
@@ -60,12 +56,10 @@ describe('When there is initially some users saved', () => {
       const errorMessage = await api
         .post('/users')
         .send(newUser)
-        .expect(401)
-        .expect('Content-Type', 'text/html; charset=utf-8')
-
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
       await usersInDb()
-      expect(errorMessage.text).toContain('password or username missing')
-
+      expect(errorMessage.body.error).toContain('password or username missing')
     })
 
     test('fails if password invalid', async () => {
@@ -77,13 +71,10 @@ describe('When there is initially some users saved', () => {
       const errorMessage = await api
         .post('/users')
         .send(newUser)
-        .expect(402)
-        .expect('Content-Type','text/html; charset=utf-8')
-
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
       await usersInDb()
-      expect(errorMessage.text).toContain('password should be at 3 characters long')
-
+      expect(errorMessage.body.error).toContain('password should be at 3 characters long')
     })
-
   })
 })
