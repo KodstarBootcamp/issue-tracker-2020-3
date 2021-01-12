@@ -16,3 +16,16 @@ export const LabelSelect = (props) => {
     />
   )
 }
+/*
+export const SortSelect = () => {
+
+  return (
+    <Select
+
+
+      options={ props.option}
+      isMulti={props.isMulti}
+      onChange='{props.onChange}'
+    />
+  )
+}*/

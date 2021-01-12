@@ -20,13 +20,15 @@ export const Main =(props) => {
   const [issueSelect,setIssueSelect] = useState(false)
   const [labelSelect,setLabelSelect] = useState(false)
   const [issuesLength, setIssuesLength] = useState()
+  const [sort,setSort] = useState('title')
   const history = useHistory()
 
   const getIssueData = async () => {
     try{
-      const issues  = await issueService.getAll({ start:0, count:10 })
-      const issue = await issueService.getAllIssueLength()
-      const issuesLength = issue !==null?issue.length:null
+      const issues  = await issueService.getAll({ start:0, count:10,sort })
+      const issueLength = await issueService.getAllIssueLength()
+      const issuesLength = issueLength !==null?issueLength.count:null
+      console.log('İssue length',issuesLength)
       setIssuesLength(issuesLength)
       if(issuesLength !==null||issuesLength !==undefined){
         if(issuesLength%limit===0){
@@ -63,7 +65,7 @@ export const Main =(props) => {
     await getLabelData()
     await getIssueData()
   },
-  [])
+  [sort])
 
   const addIssue = (issueObject) => {
 
@@ -116,7 +118,7 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList  sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
