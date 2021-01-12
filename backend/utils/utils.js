@@ -29,9 +29,10 @@ const checkToken = (request) => {
  * Available filter fields:
  * - body.labels: list of ID labels
  * - query: title, state, creation, modification, assignee, createdby.
- * @param {Request} request
+ * @param {Request} req request
+ * @param {Response} res response
  */
-const createFilterObj = (req) => {
+const createFilter = (req) => {
   const filter = {}
   if (req.body.labels && req.body.labels.length) {
     filter.$and = []
@@ -46,18 +47,39 @@ const createFilterObj = (req) => {
   if (req.query.creation) {
     const start = new Date(req.query.creation)
     const end = new Date(req.query.creation)
-    start.setUTCHours(0,0,0,0)
-    end.setUTCHours(23,59,59,999)
+    start.setUTCHours(0, 0, 0, 0)
+    end.setUTCHours(23, 59, 59, 999)
     filter.createdAt = { $gte:start, $lte:end }
   }
   if (req.query.modification) {
     const start = new Date(req.query.modification)
     const end = new Date(req.query.modification)
-    start.setUTCHours(0,0,0,0)
-    end.setUTCHours(23,59,59,999)
+    start.setUTCHours(0, 0, 0, 0)
+    end.setUTCHours(23, 59, 59, 999)
     filter.updatedAt = { $gte:start, $lte:end }
   }
   return filter
+}
+
+/**
+ * if date queries invalid responses error
+ * @param {Request} req request
+ * @param {Response} res response
+ * @returns {Response | void}
+ */
+const validateDateError = (req, res) => {
+  if (req.query.creation) {
+    const date = new Date(req.query.creation)
+    if (isNaN(date.getTime())) {
+      return res.status(400).json({ error: 'Unsupported time format. Available format: ISO' })
+    }
+  }
+  if (req.query.modification) {
+    const date = new Date(req.query.modification)
+    if (isNaN(date.getTime())) {
+      return res.status(400).json({ error: 'Unsupported time format. Available format: ISO' })
+    }
+  }
 }
 
 /**
@@ -66,6 +88,7 @@ const createFilterObj = (req) => {
    * if the property is null or undefined → response error
    * @param {Object} obj: a wrapped variable
    * @param {Response} res: response
+   * @returns {Response | void}
    */
 const existanceError = (obj, res) => {
   const name = Object.getOwnPropertyNames(obj)[0]
@@ -77,6 +100,7 @@ const existanceError = (obj, res) => {
 module.exports = {
   objCleaner,
   checkToken,
-  createFilterObj,
-  existanceError
+  createFilter,
+  existanceError,
+  validateDateError
 }
