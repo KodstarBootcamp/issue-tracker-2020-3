@@ -10,13 +10,11 @@ export const IssueEditForm = ( props ) => {
 
   const handleSubmit = ( event ) => {
     event.preventDefault()
-    console.log('color Label',colorlabel)
     const id= props.issue.id
     if(!props.issueSelect){
       const title= event.target.title.value
       const description=event.target.description.value
       const sendingLabel = (colorlabel.length===0)?props.issue.labels.map(label => ({ text:label.text,color:label.color })):colorlabel
-      console.log('Sending Label',sendingLabel)
       event.target.title.value = ''
       event.target.description.value = ''
       props.setViewIssueEdit(false)
