@@ -51,6 +51,7 @@ export const IssueCreateForm = ( props ) => {
           />
           <Form.Label>description:</Form.Label>
           <Form.Control
+            as="textarea"
             required
             id="description"
             type="text"
