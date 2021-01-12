@@ -2,19 +2,22 @@ import React,{ useState } from 'react'
 import { IssueEditForm } from './IssueEditForm'
 import { Card, Container,Row,Col } from 'react-bootstrap'
 import { BsFillCaretDownFill, BsTrash,BsFillCaretUpFill, BsPencil } from 'react-icons/bs'
+import dateFormat from 'dateformat'
 
 export const IssueDetails = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
   const [viewIssueEdit,setViewIssueEdit] = useState(false)
   const createDate = new Date(props.issue.createdDate)
+  const createDateFormat = dateFormat(createDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
   const updateDate = new Date( props.issue.updateDate)
+  const updateDateFormat = dateFormat(updateDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
   return (
     <tr>
       <td>
-        {viewIssueEdit&&<IssueEditForm option={props.option} setOptions={props.setOptions} key={props.issue.id} setViewIssueEdit={setViewIssueEdit} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
+        {viewIssueEdit&&<IssueEditForm option={props.option} setOptions={props.setOptions} key={props.issue.id} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
           setIssues={props.setIssues} setInfoMessage={props.setInfoMessage} setIssueSelect={props.setIssueSelect}
           issueSelect={props.issueSelect}/>}
-        {!viewIssue&&props.issue.title}
+        {!viewIssue&&!viewIssueEdit&&props.issue.title}
         {viewIssue&&<Card.Body className='IssueDetails'>
           <h5>Title:</h5>
           <Card.Text className='title'>{props.issue.title}</Card.Text>
@@ -31,14 +34,12 @@ export const IssueDetails = ( props ) => {
             <Row style={{ backgroundColor: 'greenyellow' } }>
               {props.issue.updateDate&&(updateDate.toTimeString()!==createDate.toTimeString())&&<Col>
                 <Row>Updated:</Row>
-                <Row>{updateDate.toDateString()}</Row>
-                <Row>{updateDate.toTimeString()}</Row>
+                <Row>{updateDateFormat}</Row>
               </Col>}
             </Row>
             <Row style={{ backgroundColor: '#ff8700' } }>
               <Col><Row>Created:</Row>
-                <Row>{createDate.toDateString()}</Row>
-                <Row>{createDate.toTimeString()}</Row>
+                <Row>{createDateFormat}</Row>
               </Col>
             </Row>
           </Container>

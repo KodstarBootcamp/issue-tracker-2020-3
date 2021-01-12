@@ -10,32 +10,39 @@ export const IssueEditForm = ( props ) => {
 
   const handleSubmit = ( event ) => {
     event.preventDefault()
+    console.log('color Label',colorlabel)
     const id= props.issue.id
-    const title= event.target.title.value
-    const description=event.target.description.value
-    event.target.title.value = ''
-    event.target.description.value = ''
-    props.setViewIssueEdit(false)
-    Edit.update( {
-      id: id,
-      title: title,
-      description: description,
-      labels:colorlabel,
-    }).then(returnedObj => {
-      props.setIssues( old => {
-        old = old.filter (obj =>  obj.id !==id )
-        props.setInfoMessage(`${returnedObj.title} updated`)
-        setTimeout( () => {
-          props.setInfoMessage(null)
-        }, 5000)
-        return old.concat(returnedObj)
+    if(!props.issueSelect){
+      const title= event.target.title.value
+      const description=event.target.description.value
+      const sendingLabel = (colorlabel.length===0)?props.issue.labels.map(label => ({ text:label.text,color:label.color })):colorlabel
+      console.log('Sending Label',sendingLabel)
+      event.target.title.value = ''
+      event.target.description.value = ''
+      props.setViewIssueEdit(false)
+      Edit.update( {
+        id: id,
+        title: title,
+        description: description,
+        labels:sendingLabel,
+      }).then(returnedObj => {
+        props.setIssues( old => {
+          old = old.filter (obj =>  obj.id !==id )
+          props.setInfoMessage(`${returnedObj.title} updated`)
+          setTimeout( () => {
+            props.setInfoMessage(null)
+          }, 5000)
+          return old.concat(returnedObj)
+        })
       })
-    })
+    }
 
   }
 
   const onChangeInput=(value) => {
-    setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+    if(value){
+      setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+    }
 
   }
   const styles={
@@ -67,6 +74,7 @@ export const IssueEditForm = ( props ) => {
         <Form.Group as={Col} md="4" controlId="validationCustom02" className="ml-3">
           <Form.Label>description</Form.Label>
           <Form.Control
+            as="textarea"
             required
             type="text"
             placeholder="description"
@@ -76,7 +84,7 @@ export const IssueEditForm = ( props ) => {
         </Form.Group>
         <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
           <Form.Label>Labels:</Form.Label>
-          <LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>
+          <LabelSelect issue={props.issue} style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>
           <Button  variant="success"  onClick={handleClick}>create label</Button>
         </Form.Group>
       </Form.Row>
