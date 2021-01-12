@@ -1,0 +1,832 @@
+openapi: 3.0.1
+info:
+  title: Issue Tracker API
+  description: This is the API for issue tracker
+  contact:
+    email: kodstar.bootcamp@gmail.com
+  license:
+    name: MIT
+    url: https://github.com/KodstarBootcamp/issue-tracker-2020-1/blob/main/LICENSE
+  version: 1.0.4
+
+paths:
+  /issue/{issueId}:
+    get:
+      tags:
+        - Issue
+      summary: Get issue
+      description: Gets an issue by ID
+      operationId: getIssueById
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to return
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - Issue
+      summary: Update issue
+      description: Update an existing issue
+      operationId: updateIssue
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to return
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Issue object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewIssue'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
+    delete:
+      tags:
+        - Issue
+      summary: Delete issue
+      description: Deletes an existing issue
+      operationId: deleteIssue
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+
+  /issue/assign/{issueId}:
+    post:
+      tags:
+        - Issue
+      summary: assign an user to an issue
+      description: Assigns an user to an issue with issue ID. works like toggle
+      operationId: assignIsssue
+      parameters:
+        - name: issueId
+          in: path
+          description: ID of issue to be assigned
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user:
+                  type: string
+                  description: ID of an user
+                  example: 45kl...54
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+
+  /issue:
+    post:
+      tags:
+        - Issue
+      summary: Create issue
+      description: Creates a new issue
+      operationId: createIssue
+      requestBody:
+        description: issue to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewIssue'
+        required: false
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        409:
+          $ref: '#/components/responses/409'
+
+  /issue/all:
+    get:
+      tags:
+      - Issue
+      summary: Get all issues
+      description: Gets all existing issues with optional queries
+      operationId: getIssues
+      requestBody:
+        description: Id list of defined labels to search
+        required: false
+        content:
+          application/json:
+            schema:
+              properties: 
+                labels:
+                  type: array
+                  items: 
+                    type: string
+                    example:
+                      - 5f..ba4
+                      - 5f..ba5
+      parameters:
+      - name: start
+        in: query
+        description: start index value to get issues
+        schema:
+          type: integer
+          default: 0
+      - name: count
+        in: query
+        description: defines how many issues to get.
+        schema:
+          type: integer
+          default: 10
+      - name: sort
+        in: query
+        description: sort types createdAt, updatedAt, title. for descending sort -createdAt, -...
+          
+        schema:
+          type: string
+          enum:
+            - cratedAt
+            - updatedAt
+            - title
+            - -cratedAt
+            - -updatedAt
+            - -title
+      - name: title
+        in: query
+        description: search by issue title
+        schema:
+          type: string
+      - name: state
+        in: query
+        description: search by ID of issue state
+        schema:
+          type: string
+      - name: createdby
+        in: query
+        description: search by user ID who created issue
+        schema:
+          type: string
+      - name: creation
+        in: query
+        description: search by issue creation date. Ignores hours and other time parts
+        schema:
+          type: string
+          format: ISO
+      - name: modification
+        in: query
+        description: search by issue update date. Ignores hours and other time parts
+        schema:
+          type: string
+      - name: assignee
+        in: query
+        description: search by user ID of an assignee
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+
+  /issue/count:
+    get:
+      tags:
+      - Issue
+      summary: Get Count of all issue objects
+      description: Gets count of all existing issues
+      operationId: getIssuesCount
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    example: 5.0
+
+  /label:
+    post:
+      tags:
+      - Label
+      summary: Create Label
+      description: Creates a new Label
+      operationId: createLabel
+      requestBody:
+        description: Label to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewLabel'
+        required: false
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        409:
+          $ref: '#/components/responses/409'
+
+  /label/{labelId}:
+    put:
+      tags:
+      - Label
+      summary: Update Label
+      description: Update an existing label
+      operationId: updateLabel
+      parameters:
+      - name: labelId
+        in: path
+        description: ID of label to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Label object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewLabel'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
+    delete:
+      tags:
+      - Label
+      summary: Delete Label
+      description: Deletes an existing Label
+      operationId: deleteLabel
+      parameters:
+      - name: labelId
+        in: path
+        description: ID of Label to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+
+  /label/all:
+    get:
+      tags:
+      - Label
+      summary: Get all labels
+      description: Gets all existing labels
+      operationId: getAllLabels
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Label'
+
+  /users:
+    post:
+      tags:
+        - User
+      summary: Register
+      description: Register an user
+      operationId: register
+      requestBody:
+        description: user to register
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+        required: false
+      responses:
+        201:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          $ref: '#/components/responses/400'
+    get:
+      summary: Get all users
+      description: Get users in a list. Only authenticated user can get list.
+      operationId: getUsersList
+      tags: 
+        - User
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: "#/components/responses/401"
+
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Login
+      description: Authenticate an user
+      operationId: login
+      requestBody:
+        description: user to login
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: testuser
+                password:
+                  type: string
+                  example: ap!!DF.65rd
+        required: false
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: ey5gf....
+                  user:
+                    $ref: '#/components/schemas/User'
+        401:
+          $ref: '#/components/responses/401'
+  
+  /state:
+    post:
+      tags:
+        - State
+      summary: Create a state
+      description: Creates a states for workflows that contains other issues
+      operationId: createState
+      requestBody:
+        description: state to create
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref:  "#/components/schemas/NewState"
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/State"
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        409:
+          $ref: '#/components/responses/409'
+
+  /state/all:
+    get:
+      tags:
+        - State
+      summary: get all states
+      description: get all states in list
+      operationId: getAllStates
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/State'
+  
+  /state/{stateId}:
+    get:
+      tags:
+        - State
+      summary: Get a state
+      description: Get a state object with state Id
+      operationId: GetState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to get
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+    put:
+      tags:
+        - State
+      summary: update a state
+      description: update a state with state ID
+      operationId: updateState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/NewState'
+              properties:
+                issues:
+                  type: array
+                  items:
+                    description: Id of issues
+                    type: string
+                    example: 45df...54
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/State'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+        409:
+          $ref: '#/components/responses/409'
+    delete:
+      tags:
+        - State
+      summary: delete a state
+      operationId: deleteState
+      parameters:
+        - name: stateId
+          in: path
+          description: ID of state to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        404:
+          $ref: '#/components/responses/404'
+
+components:
+  schemas:
+    NewIssue:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 250
+          type: string
+          uniqueItems: true
+          example: An issue title
+        description:
+          maxLength: 1500
+          type: string
+          example: A lengthy description
+        labels:
+          type: array
+          description: List of labels
+          items:
+            $ref: '#/components/schemas/NewLabel'
+            example:
+              - text: todo
+                color: '#fff'
+              - text: story
+                color: '#000'
+                id: 5f..ba5
+        state:
+          type: string
+          description: ID of a state
+          example: 5fg...j67
+        assignees:
+          type: array
+          items:
+            type: string
+            description: ID of users
+          example:
+            - 5fg...j68
+            - 5fg...j69                                                                                                                                                                                                             
+    Issue:
+      properties:
+        title:
+          maxLength: 250
+          type: string
+          uniqueItems: true
+          example: An issue title
+        description:
+          maxLength: 1500
+          type: string
+          example: A lengthy description
+        labels:
+          type: array
+          description: List of labels
+          items:
+            $ref: '#/components/schemas/NewLabel'
+            example:
+              - text: todo
+                color: '#fff'
+                id: 5f..ba4
+              - text: story
+                color: '#000'
+                id: 5f..ba5
+        state:
+          $ref: '#/components/schemas/State'
+        assignees:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        createdBy:
+          $ref: '#/components/schemas/User'
+        createDate:
+          type: string
+          format: ISO
+          example: 2011-10-05T14:48:00.000Z
+        updateDate:
+          type: string
+          format: ISO
+          example: 2011-10-05T14:48:00.000Z
+        id:
+          type: string
+          example: 5fe481516234264fba
+    NewLabel:
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          type: string
+          example: backend
+          uniqueItems: true
+        color:
+          type: string
+          example: '#fff'
+    Label:
+      allOf:
+      - $ref: '#/components/schemas/NewLabel'
+      - type: object
+      properties:
+        id:
+          type: string
+          example: 5fe481516234264fba
+    NewUser:
+      required:
+      - email
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: testuser
+          uniqueItems: true
+        email:
+          type: string
+          example: example@examlemail.exp
+          uniqueItems: true
+        password:
+          type: string
+          example: ap!!DF.65rd
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          example: testuser
+          uniqueItems: true
+        email:
+          type: string
+          example: example@examlemail.exp
+          uniqueItems: true
+        id:
+          type: string
+          example: 5fe481516234264fda
+    NewState:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: backend
+          uniqueItems: true
+        order_no:
+          type: integer
+          example: 0
+          uniqueItems: true
+
+    State:
+      properties:
+        name:
+          type: string
+          example: backend
+          uniqueItems: true
+        order_no:
+          type: integer
+          example: 0
+          uniqueItems: true
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+          description: issues list field
+        id:
+          type: string
+          example: 5fe481516234264fca
+
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            properties:
+              OK:
+                type: string
+                example: successfull operation
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid ID supplied
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: Validation exception
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: password or username missing
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: password should be at 3 characters long
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid token
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: invalid username or password
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: issue not found
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: label not found
+    '409':
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Issue already exist. Dup value: {VALUE}'
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'label already exist. Dup value: {VALUE}'
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Username or email already exist. Dup value: {VALUE}'

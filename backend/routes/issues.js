@@ -2,10 +2,10 @@ const router = require('express').Router()
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
 require('express-async-errors')
-const { objCleaner, checkToken, existanceError } = require('../utils/utils')
+const { objCleaner, checkToken, createFilterObj, existanceError } = require('../utils/utils')
 
 router.route('/').post(async (req, res) => {
-  checkToken(req)
+  const decodedToken = checkToken(req)
   const title = req.body.title
   const description = req.body.description
   let unverifiedLabels = []
@@ -35,9 +35,10 @@ router.route('/').post(async (req, res) => {
   const newIssue = new Issue({
     title,
     description,
-    labels:verifiedLabels
+    labels:verifiedLabels,
+    createdBy:decodedToken.id
   })
-  const savedIssue = await (await newIssue.save()).execPopulate('labels')
+  const savedIssue = await (await newIssue.save()).execPopulate('labels createdBy')
   return res.status(201).json(savedIssue)
 })
 
@@ -49,13 +50,14 @@ router.route('/all').get(async (req, res) => {
   if (req.query.sort && !sortTypes.includes(req.query.sort)) {
     return res.status(405).error({ error: 'unavailable type of sort' }).end()
   }
+  const filter = createFilterObj(req)
   if (!req.query.start && !req.query.count) {
-    const issues = await Issue.find({}).sort(req.query.sort).populate('labels')
+    const issues = await Issue.find(filter).sort(req.query.sort).populate('labels createdBy')
     return res.status(200).json(issues).end()
   }
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
-  const issues = await Issue.find({}, null, { skip, limit }).sort(req.query.sort).populate('labels')
+  const issues = await Issue.find(filter, null, { skip, limit }).sort(req.query.sort).populate('labels createdBy')
   return res.status(200).json(issues).end()
 })
 
@@ -66,7 +68,7 @@ router.route('/count').get(async (req, res) => {
 
 // ↓↓↓ this route must be end of other get methods, cause of route ('/:id') conflict
 router.route('/:id').get(async (req, res) => {
-  const issue = await Issue.findById(req.params.id).populate('labels')
+  const issue = await Issue.findById(req.params.id).populate('labels createdBy')
   if (existanceError({ issue }, res)) return
   return res.status(200).json(issue)
 })
@@ -115,7 +117,7 @@ router.route('/:id').put(async (req, res) => {
   objCleaner(newIssue)
   const check = await Issue.validate(newIssue).catch(() => res.status(400).json({ error:'Validation exception' }).end())
   if (!check){
-    const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels')
+    const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels createdBy')
     return res.status(200).json(savedIssue)
   }
 })
