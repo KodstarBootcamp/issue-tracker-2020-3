@@ -4,6 +4,7 @@ import { LabelDetails } from './LabelDetails'
 import { Table,Button, Modal } from 'react-bootstrap'
 import labelService from '../../services/ApiLabels'
 import { LabelCreateForm } from './LabelCreateForm'
+import LoadingSpinner from '../issues/LoadingSpinner'
 
 export const LabelList = ( props ) => {
   const [checkError, setCheckError]=useState([])
@@ -27,7 +28,7 @@ export const LabelList = ( props ) => {
         })
     }
   }
-  return (
+  return props.labels.length? (
     <div>
       <div>
         <h1>Label List, Total:{props.labels !==null?props.labels.length:null}</h1>
@@ -67,5 +68,5 @@ export const LabelList = ( props ) => {
         </Table>
       </div>
     </div>
-  )
+  ):(<LoadingSpinner/>)
 }

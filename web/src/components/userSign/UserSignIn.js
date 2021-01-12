@@ -18,7 +18,8 @@ const UserSignIn = (props) => {
 
   const [pop, setPop] = useState({
     showPopup: false,
-    text:'login'
+    text:'login',
+    ext:'ext'
   })
   const handleChange = event => {
     const { name, value } = event.target
@@ -38,18 +39,16 @@ const UserSignIn = (props) => {
       )
       loginIssueService.setToken(user.token)
       loginLabelService.setToken(user.token)
-
-    } catch (exception) {
-      setPop({
-        showPopup: !pop.showPopup,
-        text:'username or password invalid'
-      })
-      console.log(exception)
-    }
-    setTimeout(() => {
       setValues({ username: '', password: '' })
       history.push('/')
-    }, 2000)
+
+    } catch (error) {
+      setPop({
+        showPopup: !pop.showPopup,
+        text:'Login Error',
+        ext:'\n'+error
+      })
+    }
   }
 
   return (
@@ -93,6 +92,7 @@ const UserSignIn = (props) => {
         {pop.showPopup ?
           <ModelPopup
             text={pop.text}
+            ext={pop.ext}
           />
           : null
         }
