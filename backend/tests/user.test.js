@@ -1,5 +1,8 @@
 const supertest = require('supertest')
-const { existingUser, usersInDb, testUser } = require('./test_helper')
+const {
+  existingUser, usersInDb, testUser,
+  title1, title2
+} = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
 const User = require('../models/user.model')
@@ -12,9 +15,8 @@ beforeEach(async () => {
   await user.save()
 })
 
-describe('When there is initially some users saved', () => {
-
-  describe('|: POST-/users :| - adding of a new user', () => {
+describe(title1('When there is initially some users saved'), () => {
+  describe(title2('POST-/users', '- adding of a new user'), () => {
     test('creation succeeds for a new username', async () => {
 
       const initialUsers = await usersInDb()

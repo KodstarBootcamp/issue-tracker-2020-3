@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const labelSchema = new Schema({
-  text: { type: String, required: true , unique: true },
+  text: { type: String, required: true, unique: true },
   color: { type: String }
 })
 

@@ -1,5 +1,5 @@
 const supertest = require('supertest')
-const { testUser } = require('./test_helper')
+const { testUser, title1, title2 } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
 const User = require('../models/user.model')
@@ -12,9 +12,8 @@ beforeEach(async () => {
   await user.save()
 })
 
-describe('When there is initially some users saved', () => {
-
-  describe('|: POST-/login :| - log in system', () => {
+describe(title1('When there is initially some users saved'), () => {
+  describe(title2(1, 'POST-/login', '- log in system'), () => {
     test('login succeeds with correct password', async () => {
       const credentials = {
         username: testUser.username,

@@ -1,5 +1,8 @@
 const supertest = require('supertest')
-const { testLabels, labelsInDb, nonExistingLabelId, existingUser } = require('./test_helper')
+const {
+  testLabels, labelsInDb, nonExistingLabelId,
+  existingUser, title1, title2
+} = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
 const Label = require('../models/label.model')
@@ -23,8 +26,8 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-describe('When there is initially some labels saved', () => {
-  describe('|: GET-/label/all :|', () => {
+describe(title1('When there is initially some labels saved'), () => {
+  describe(title2(1, 'GET-/label/all'), () => {
     test('labels are returned as json with status 200', async () => {
       await api
         .get('/label/all')
@@ -44,7 +47,7 @@ describe('When there is initially some labels saved', () => {
     })
   })
 
-  describe('|: POST-/label :| - adding of a new label', () => {
+  describe(title2(0, 'POST-/label', '- adding of a new label'), () => {
     test('succeeds with valid data with status 201, json aplication', async () => {
       const initialLabels = await labelsInDb()
       const newLabels = {
@@ -103,7 +106,7 @@ describe('When there is initially some labels saved', () => {
     })
   })
 
-  describe('|: PUT-/label/:id :| - updating a label', () => {
+  describe(title2(0, 'PUT-/label/:id', '- updating a label'), () => {
     test('succeeds to update with a valid id with status 200, application json', async () => {
       const labelsAtStart = await labelsInDb()
       const labelToUpdate = labelsAtStart[0]
@@ -159,7 +162,7 @@ describe('When there is initially some labels saved', () => {
     })
   })
 
-  describe('|: DELETE-/label/:id :| - deletion of a label', () => {
+  describe(title2(0, 'DELETE-/label/:id', '- deletion of a label'), () => {
     test('succeeds to delete if id is valid with status code 200', async () => {
       const labelsAtStart = await labelsInDb()
       const labelToDelete = labelsAtStart[0]

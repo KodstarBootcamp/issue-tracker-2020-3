@@ -28,7 +28,9 @@ usersRouter.post('/', async (req, res) => {
 
 usersRouter.get('/', async(req, res) => {
   checkToken(req)
-  const users = await User.find({})
+  const filter = {}
+  req.query.username && (filter.username = req.query.username)
+  const users = await User.find(filter)
   res.json(users)
 })
 

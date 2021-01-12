@@ -185,12 +185,14 @@ paths:
         description: start index value to get issues
         schema:
           type: integer
+          example: 5
           default: 0
       - name: count
         in: query
         description: defines how many issues to get.
         schema:
           type: integer
+          example: 10
           default: 10
       - name: sort
         in: query
@@ -198,6 +200,7 @@ paths:
           
         schema:
           type: string
+          example: -updatedAt
           enum:
             - cratedAt
             - updatedAt
@@ -210,32 +213,39 @@ paths:
         description: search by issue title
         schema:
           type: string
+          example: Search%20issue%20backend
       - name: state
         in: query
         description: search by ID of issue state
         schema:
           type: string
+          example: 5fkhldf93j5jjk53k8
       - name: createdby
         in: query
         description: search by user ID who created issue
         schema:
           type: string
+          example: 5fkhldf93j5jjk53kl
       - name: creation
         in: query
         description: search by issue creation date. Ignores hours and other time parts
         schema:
           type: string
           format: ISO
+          example: 2021-01-10
       - name: modification
         in: query
         description: search by issue update date. Ignores hours and other time parts
         schema:
           type: string
+          format: ISO
+          example: 2021-01-10T14:30:58.698Z
       - name: assignee
         in: query
         description: search by user ID of an assignee
         schema:
           type: string
+          example: 5fkhldf93j5jjk53ke
       responses:
         200:
           description: successful operation
@@ -245,6 +255,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Issue'
+        400:
+          $ref: "#/components/responses/400"
 
   /issue/count:
     get:
@@ -392,12 +404,22 @@ paths:
                 $ref: '#/components/schemas/User'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
     get:
       summary: Get all users
       description: Get users in a list. Only authenticated user can get list.
       operationId: getUsersList
       tags: 
         - User
+      parameters:
+        - name: username
+          in: query
+          required: false
+          description: username query to serach user
+          schema:
+            type: string
+            example: John
       responses:
         '200':
           description: successfull operation
@@ -462,7 +484,7 @@ paths:
               type: object
               $ref:  "#/components/schemas/NewState"
       responses:
-        200:
+        201:
           description: successfull operation
           content:
             application/json:
@@ -777,6 +799,11 @@ components:
                   error:
                     type: string
                     example: password should be at 3 characters long
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Unsupported time format. Available format: ISO'
     '401':
       description: Unauthorized
       content:
@@ -809,6 +836,11 @@ components:
                   error:
                     type: string
                     example: label not found
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    example: user not found
     '409':
       description: Conflict
       content:

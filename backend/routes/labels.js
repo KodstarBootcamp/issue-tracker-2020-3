@@ -30,7 +30,9 @@ router.route('/:id').put(async (req, res) => {
     color:req.body.color
   }
   objCleaner(newLabel)
-  const check = await Label.validate(newLabel).catch(() => res.status(400).json({ error:'Validation exception' }).end())
+  const check = await Label.validate(newLabel).catch(() => {
+    return res.status(400).json({ error:'Validation exception' }).end()
+  })
   if (!check){
     const updatedLabel = await Label.findByIdAndUpdate(req.params.id, newLabel, { new:true })
     return res.status(200).json(updatedLabel)

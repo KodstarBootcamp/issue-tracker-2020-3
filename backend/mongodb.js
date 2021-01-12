@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 const Issue = require('./models/issue.model')
 const Label = require('./models/label.model')
+const User = require('./models/user.model')
 const fs = require('fs')
 
 const replSet = new MongoMemoryReplSet({
@@ -34,10 +35,11 @@ const mongodb = async () => {
 router.delete('/all', async (req, res) => {
   await Issue.deleteMany({})
   await Label.deleteMany({})
+  await User.deleteMany({})
   res.status(200).send('All data deleted from DB.').end()
 })
 
-router.get('/stop', (req,res) => {
+router.get('/stop', (req, res) => {
   mongoose.disconnect()
   replSet.stop()
   res.status(200).send('DB shut down.').end()
