@@ -53,6 +53,10 @@ module.exports = {
       'error',
       { 'before': true, 'after': true }
     ],
+    'comma-spacing': [
+      'error',
+      { 'before': false, 'after': true }
+    ],
     'no-console': 0,
     'eol-last': ['error', 'always']
   }

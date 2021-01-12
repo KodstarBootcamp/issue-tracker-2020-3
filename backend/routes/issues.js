@@ -1,8 +1,12 @@
 const router = require('express').Router()
 const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
+const User = require('../models/user.model')
 require('express-async-errors')
-const { objCleaner, checkToken, createFilterObj, existanceError } = require('../utils/utils')
+const {
+  objCleaner, checkToken, createFilter,
+  existanceError, validateDateError
+} = require('../utils/utils')
 
 router.route('/').post(async (req, res) => {
   const decodedToken = checkToken(req)
@@ -42,22 +46,46 @@ router.route('/').post(async (req, res) => {
   return res.status(201).json(savedIssue)
 })
 
-router.route('/all').get(async (req, res) => {
+router.route('/assign/:id').post( async (req, res) => {
+  checkToken(req)
+  const issue = await Issue.findById(req.params.id)
+  const user = await User.findById(req.body.user)
+  if (existanceError({ user }, res)) return
+  if (existanceError({ issue }, res)) return
+  if (issue.assignees.includes(req.body.user)) {
+    issue.assignees = issue.assignees.filter( id => id.toString() !== req.body.user)
+  } else {
+    issue.assignees = issue.assignees.concat(req.body.user)
+  }
+  const savedIssue = await Issue.findByIdAndUpdate(
+    req.params.id,
+    issue,
+    { new:true }
+  ).populate('labels createdBy assignees')
+  return res.status(200).json(savedIssue)
+})
+
+router.route('/all').get( async (req, res) => {
   const sortTypes = [
-    'createdAt', 'updatedAt','title',
-    '-createdAt', '-updatedAt','-title'
+    'createdAt', 'updatedAt', 'title',
+    '-createdAt', '-updatedAt', '-title'
   ]
   if (req.query.sort && !sortTypes.includes(req.query.sort)) {
     return res.status(405).error({ error: 'unavailable type of sort' }).end()
   }
-  const filter = createFilterObj(req)
+  if (validateDateError(req, res)) return
+  const filter = createFilter(req)
   if (!req.query.start && !req.query.count) {
-    const issues = await Issue.find(filter).sort(req.query.sort).populate('labels createdBy')
+    const issues = await Issue.find(filter)
+      .sort(req.query.sort)
+      .populate('labels createdBy assignees')
     return res.status(200).json(issues).end()
   }
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
-  const issues = await Issue.find(filter, null, { skip, limit }).sort(req.query.sort).populate('labels createdBy')
+  const issues = await Issue.find(filter, null, { skip, limit })
+    .sort(req.query.sort)
+    .populate('labels createdBy assignees')
   return res.status(200).json(issues).end()
 })
 
@@ -68,12 +96,12 @@ router.route('/count').get(async (req, res) => {
 
 // ↓↓↓ this route must be end of other get methods, cause of route ('/:id') conflict
 router.route('/:id').get(async (req, res) => {
-  const issue = await Issue.findById(req.params.id).populate('labels createdBy')
+  const issue = await Issue.findById(req.params.id).populate('labels createdBy assignees')
   if (existanceError({ issue }, res)) return
   return res.status(200).json(issue)
 })
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete( async (req, res) => {
   checkToken(req)
   const issue = await Issue.findById(req.params.id)
   if (existanceError({ issue }, res)) return
@@ -81,7 +109,7 @@ router.route('/:id').delete(async (req, res) => {
   return res.status(200).json({ OK:'successfull operation' })
 })
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put( async (req, res) => {
   checkToken(req)
   const issue = await Issue.findById(req.params.id)
   const unverifiedLabels = req.body.labels
@@ -115,9 +143,15 @@ router.route('/:id').put(async (req, res) => {
     labels:verifiedLabels
   }
   objCleaner(newIssue)
-  const check = await Issue.validate(newIssue).catch(() => res.status(400).json({ error:'Validation exception' }).end())
+  const check = await Issue.validate(newIssue).catch(() => {
+    return res.status(400).json({ error:'Validation exception' }).end()
+  })
   if (!check){
-    const savedIssue = await Issue.findByIdAndUpdate(req.params.id, newIssue, { new:true }).populate('labels createdBy')
+    const savedIssue = await Issue.findByIdAndUpdate(
+      req.params.id,
+      newIssue,
+      { new:true }
+    ).populate('labels createdBy assignees')
     return res.status(200).json(savedIssue)
   }
 })

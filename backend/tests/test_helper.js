@@ -52,6 +52,10 @@ const issuesInDb = async () => {
   return issues.map(issue => issue.toJSON())
 }
 
+/**
+ * @async
+ * @returns {Promise<String>} valid id not exist
+ */
 const nonExistingIssueId = async () => {
   const issue = new Issue({ title: 'willremovethissoon', description: 'des' })
   await issue.save()
@@ -64,6 +68,10 @@ const labelsInDb = async () => {
   return labels.map(label => label.toJSON())
 }
 
+/**
+ * @async
+ * @returns {Promise<String>} valid id not exist
+ */
 const nonExistingLabelId = async () => {
   const label = new Label({ text:'asd' })
   await label.save()
@@ -88,6 +96,21 @@ const usersInDb = async () => {
   return users.map(u => u.toJSON())
 }
 
+const title1 = (...args) => {
+  const text = args.join(' ')
+  return '\n  ' + text + '\n  ' + '¯'.repeat(text.length)
+}
+
+/**
+ * @param {Boolean} isFirst default false, is first line after title1?
+ * @param  {...String} args title parts
+ * @returns {String} title2 text
+ */
+const title2 = (isFirst = false, ...args) => {
+  args[0] = '|: ' + args[0] + ' :|'
+  const text = args.join(' ')
+  return (isFirst ? '' : '\n    ') + text
+}
 module.exports = {
   testLabels,
   testIssues,
@@ -99,4 +122,6 @@ module.exports = {
   existingUser,
   testUser,
   usersInDb,
+  title1,
+  title2,
 }
