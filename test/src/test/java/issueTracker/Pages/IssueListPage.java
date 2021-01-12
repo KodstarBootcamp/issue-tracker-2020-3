@@ -17,6 +17,18 @@ public class IssueListPage {
     public WebElement text;
     @FindBy(xpath = "//tbody//tr")
     public List<WebElement> rows;
+    @FindBy(xpath = "//div[@class='info']")
+    public WebElement message;
+    @FindBy(id = "validationCustom01")
+    public WebElement titleUpdate;
+    @FindBy(xpath = "//button[@type='submit']")
+    public WebElement updateButton;
+    @FindBy(xpath = "//button[@class='btn btn-danger']")
+    public WebElement cancelButton;
+    @FindBy(id = "validationCustom02")
+    public WebElement descriptionUpdate;
+    @FindBy(id = "validationCustom03")
+    public WebElement labelsUpdate;
 
     public static WebElement findingThead(String columnName) {
         int columnNumber = 0;
@@ -33,4 +45,5 @@ public class IssueListPage {
         WebElement thead = Driver.getDriver().findElement(By.xpath("//thead//th[" + columnNumber + "]"));
         return thead;
     }
+
 }
