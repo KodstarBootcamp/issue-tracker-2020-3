@@ -1,5 +1,8 @@
 const supertest = require('supertest')
-const { anIssueInstanceFull, labelsInDb, issuesInDb, existingUser } = require('./test_helper')
+const {
+  anIssueInstanceFull, labelsInDb, title2,
+  issuesInDb, existingUser, title1,
+} = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
 const Issue = require('../models/issue.model')
@@ -22,8 +25,8 @@ beforeEach(async () => {
   await Issue.deleteMany({})
 })
 
-describe('when db is empty', () => {
-  describe('|: POST-/issue :|', () => {
+describe(title1('when db is empty'), () => {
+  describe(title2(1, 'POST-/issue'), () => {
     test('when new Issue added also new Labels added, and populated', async () => {
       const newIssue = anIssueInstanceFull
       const res = await api
@@ -37,8 +40,8 @@ describe('when db is empty', () => {
       const labels = await labelsInDb()
       expect(labels.length).toBe(newIssue.labels.length)
     })
-    test('(a label have added)when new Issue added, new label added, old one doesn\'t'
-      + ' duplicate, if necessesary it\'ll update', async () => {
+    test('(a label have added)when new Issue added, new label added,'
+      + ' old one doesn\'t duplicate, it\'ll update', async () => {
       const newIssue = anIssueInstanceFull
       await new Label({ ...newIssue.labels[0] }).save()
       newIssue.labels[0].color = '$$$$'
@@ -53,8 +56,8 @@ describe('when db is empty', () => {
   })
 })
 
-describe('When a issue added with labels', () => {
-  describe('|: PUT-/issue/:id :|', () => {
+describe(title1('When a issue added with labels'), () => {
+  describe(title2( 1, 'PUT-/issue/:id'), () => {
     test('when update an issue, new labels added, labels that removed from the label list are'
       + ' not delete permanently, populated', async () => {
       const initialIssue = await api
@@ -94,7 +97,7 @@ describe('When a issue added with labels', () => {
     })
   })
 
-  describe('|: DELETE-/issue/:id :|', () => {
+  describe(title2(0, 'DELETE-/issue/:id'), () => {
     test('when delete a issue Labels are still exist', async () => {
       const initialIssue = await api
         .post('/issue')
@@ -110,7 +113,7 @@ describe('When a issue added with labels', () => {
     })
   })
 
-  describe('|: DELETE-/label/:id :|', () => {
+  describe(title2(0, 'DELETE-/label/:id'), () => {
     test('when delete a label, the label are removed from all issues', async () => {
       await api
         .post('/issue')

@@ -6,21 +6,21 @@ const setToken = newToken  => {
   token = `bearer ${newToken}`
 }
 
-const getAll = async ({ start,count }) => {
+const getAll = async ({ start,count,sort }) => {
   if(start===undefined||count===undefined){
-    const getbaseUrl=`/issue/all?start=${0}&count=${10}`
+    const getbaseUrl=`/issue/all?start=${0}&count=${10}&count=${'title'}`
     const response = await axios.get(getbaseUrl)
 
     return response.data
   }
-  const getbaseUrl=`/issue/all?start=${start}&count=${count}`
+  const getbaseUrl=`/issue/all?start=${start}&count=${count}&sort=${sort}`
   const response = await axios.get(getbaseUrl)
 
   return response.data
 }
 
 const getAllIssueLength = async () => {
-  const getbaseUrlLength ='/issue/all'
+  const getbaseUrlLength ='/issue/count'
   const response = await axios.get(getbaseUrlLength)
   return response.data
 }

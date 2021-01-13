@@ -10,7 +10,8 @@ const PaginationIssue = (props) => {
     try{
       const start=(clickValueStart-1)*limit
       const count = limit
-      const currentIssue  = await issueService.getAll({ start, count })
+      const sort=props.sort
+      const currentIssue  = await issueService.getAll({ start, count,sort })
       props.setIssues( currentIssue )
         .catch(err => console.log(err))
     }catch(err){

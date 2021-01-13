@@ -1,12 +1,12 @@
-import React  from 'react'
+import React from 'react'
 import issueService from '../../services/ApiIssues'
 import { IssueDetails } from './IssueDetails'
 import PaginationIssue from '../../components/PaginationIssue'
-import { Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'//Form,Col,Button
 import LoadingSpinner from './LoadingSpinner'
 import Select from 'react-select'
 import '../../App.css'
-
+ 
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
@@ -45,11 +45,9 @@ export const IssueList = ( props ) => {
     control: (_, { selectProps: { width } }) => ({
       width: width
     }),
-
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1
       const transition = 'opacity 300ms'
-
       return { ...provided, opacity, transition }
     }
   }
@@ -84,9 +82,9 @@ export const IssueList = ( props ) => {
           <tbody>
             {props.issues.length?
               props.issues.map((issue) =>
-                <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
-                  issue={issue} addLabel={props.addLabel}
-                  labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
+                <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect}
+                  setIssueSelect={props.setIssueSelect} issue={issue} addLabel={props.addLabel} labels={props.labels} setInfoMessage={props.setInfoMessage}
+                  setIssues={props.setIssues} handleDelete={handleDelete}
                 />
               )
               :null}
@@ -94,7 +92,7 @@ export const IssueList = ( props ) => {
         </Table>
       </div>
       <div className="d-flex flex-row-reverse bd-highlight">
-        <PaginationIssue totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
+        <PaginationIssue sort={props.sort} setSort={props.setSort} totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
           setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
       </div>
     </div>

@@ -60,6 +60,7 @@ export const Main =(props) => {
     await getIssueData()
   },
   [sort])
+
   const addIssue = (issueObject) => {
     issueService
       .create(issueObject)

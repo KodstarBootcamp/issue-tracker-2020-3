@@ -1,5 +1,7 @@
 const supertest = require('supertest')
-const { nonExistingIssueId, issuesInDb, testIssues, existingUser
+const {
+  nonExistingIssueId, issuesInDb, title1, title2,
+  testIssues, existingUser
 } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
@@ -20,13 +22,16 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await Issue.deleteMany({})
-  const issueObjects = testIssues.map(el => new Issue(el))
+  const issueObjects = testIssues.map(el => {
+    el.createdBy = global.__userId__.toString()
+    return new Issue(el)
+  })
   const promiseArray = issueObjects.map(el => el.save())
   await Promise.all(promiseArray)
 })
 
-describe('When there is initially some issues saved', () => {
-  describe('|: GET-/issue/all :|', () => {
+describe(title1('When there is initially some issues saved'), () => {
+  describe(title2(1, 'GET-/issue/all'), () => {
     test('issues are returned as json with status 200', async () => {
       await api
         .get('/issue/all')
@@ -53,7 +58,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: GET-/issue/:id :| - viewing a specific issue', () => {
+  describe(title2(0, 'GET-/issue/:id :| - viewing a specific issue'), () => {
     test('succeeds with a valid id with status 200, application json', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToView = issuesAtStart[0]
@@ -61,6 +66,8 @@ describe('When there is initially some issues saved', () => {
         .get(`/issue/${issueToView.id}`)
         .expect(200)
         .expect('Content-Type', /application\/json/)
+      // delete resultIssue.body.createdBy -> cause field populated
+      resultIssue.body.createdBy = global.__userId__.toString()
       expect(JSON.stringify(resultIssue.body)).toEqual(JSON.stringify(issueToView))
     })
     test('fails with statuscode 400 id is invalid', async () => {
@@ -79,7 +86,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: POST-/issue :| - adding of a new issue', () => {
+  describe(title2(0, 'POST-/issue', '- adding of a new issue'), () => {
     test('succeeds with valid data with status 201, json aplication, createdBy populated', async () => {
       const initialIssues = await issuesInDb()
       const newIssue = {
@@ -141,7 +148,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: PUT-/issue/:id :| - updating a issue', () => {
+  describe(title2(0, 'PUT-/issue/:id', '- updating a issue'), () => {
     test('succeeds to update with a valid id with status 200, application json', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToUpdate = issuesAtStart[0]
@@ -198,7 +205,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: DELETE-/issue/:id :| - deletion of a issue', () => {
+  describe(title2(0, 'DELETE-/issue/:id', '- deletion of a issue'), () => {
     test('succeeds to delete if id is valid with status code 200', async () => {
       const issuesAtStart = await issuesInDb()
       const issueToDelete = issuesAtStart[0]
@@ -238,7 +245,7 @@ describe('When there is initially some issues saved', () => {
     })
   })
 
-  describe('|: GET-/issue/all?... :| when req with paginate & query', () => {
+  describe(title2(0, 'GET-/issue/all?...', '- when req with paginate & query'), () => {
     beforeEach(async () => {
       await Issue.deleteMany({})
       const title = 'An issue title-'
@@ -322,6 +329,66 @@ describe('When there is initially some issues saved', () => {
         .expect(200)
         .expect('content-Type', /application\/json/)
       expect(response.body.length).toBe(20)
+    })
+  })
+
+  describe(title2(0, 'POST-/issue/assign/:id', '- assign an user to an issue'), () => {
+    test('succeed assign, assignees populated. works like toggle. status 200, json', async () => {
+      const issuesAtStart = await issuesInDb()
+      const anIssue = issuesAtStart[0]
+      const res = await api
+        .post(`/issue/assign/${anIssue.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:global.__userId__.toString() })
+        .expect(200)
+        .expect('content-Type', /application\/json/)
+      expect(res.body.assignees[0].id).toBe(global.__userId__.toString())
+      const res2 = await api
+        .post(`/issue/assign/${anIssue.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:global.__userId__.toString() })
+      expect(res2.body.assignees.toString()).not.toContain(global.__userId__.toString())
+    })
+    test('fails with valid issue id that actually not exist, status 404, message', async () => {
+      const id = await nonExistingIssueId()
+      await api.post(`/issue/assign/${id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:global.__userId__.toString() })
+        .expect(404)
+        .expect('content-Type', /application\/json/)
+        .expect({ error:'issue not found' })
+    })
+    test('fails with valid user id that actually not exist, status 404, message', async () => {
+      const issuesAtStart = await issuesInDb()
+      const id = await nonExistingIssueId()
+      const anIssue = issuesAtStart[0]
+      await api
+        .post(`/issue/assign/${anIssue.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:id })
+        .expect(404)
+        .expect('content-Type', /application\/json/)
+        .expect({ error:'user not found' })
+    })
+    test('fails with invalid user id, status 400, message', async () => {
+      const issuesAtStart = await issuesInDb()
+      const anIssue = issuesAtStart[0]
+      await api
+        .post(`/issue/assign/${anIssue.id}`)
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:'id' })
+        .expect(400)
+        .expect('content-Type', /application\/json/)
+        .expect({ error:'Invalid ID supplied' })
+    })
+    test('fails with invalid issue id, status 400, message', async () => {
+      await api
+        .post('/issue/assign/id}')
+        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
+        .send({ user:global.__userId__.toString() })
+        .expect(400)
+        .expect('content-Type', /application\/json/)
+        .expect({ error:'Invalid ID supplied' })
     })
   })
 })
