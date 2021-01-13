@@ -5,8 +5,7 @@ import PaginationIssue from '../../components/PaginationIssue'
 import { Table } from 'react-bootstrap'//Form,Col,Button
 import LoadingSpinner from './LoadingSpinner'
 import Select from 'react-select'
-
-
+import '../../App.css'
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
@@ -41,48 +40,32 @@ export const IssueList = ( props ) => {
       padding: 10,
       backgroundColor:'rgba(100,100,50,0.8)'
     }),
-
     control: (_, { selectProps: { width } }) => ({
       width: width
     }),
-
     singleValue: (provided, state) => {
       const opacity = state.isDisabled ? 0.5 : 1
       const transition = 'opacity 300ms'
-
       return { ...provided, opacity, transition }
     }
   }
-  /*
-d-flex
-.d-inline-flex
-.d-sm-flex
-.d-sm-inline-flex
-.d-md-flex
-.d-md-inline-flex
-.d-lg-flex
-.d-lg-inline-flex
-.d-xl-flex
-.d-xl-inline-flex
-
-  */
-
   return props.issues.length?(
     <div>
-      <div className='IssueList'>
-        <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
-        <div className="d-flex flex-row-start ml-1">
-          <div className="d-flex flex-row-around ml-3">
-            <h5 style={ { color:'blue' }}> Sort by:</h5>
+      <div className=''>
+        <div className="d-flex  ">
+          <div className="p-2 ">
+            <h5 style={ { color:'blue' }}> Sort by</h5>
           </div>
-
-          <div className="d-flex flex-row-around ml-3">
+          <div style={ { display:'inline', color:'blue' }}className="p2 flex-fill">
             <Select
               options={options}
               onChange={onChange}
               styles={styles}
-            /></div>
-
+            />
+          </div>
+          <div className='p-2 mr-auto flex-fill'>
+            <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
+          </div>
         </div>
         <Table striped bordered hover size="sm">
           <thead>
