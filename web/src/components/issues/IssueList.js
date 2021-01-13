@@ -29,7 +29,7 @@ export const IssueList = ( props ) => {
     { value: 'createdAt', label: 'createdAt' },
     { value: 'updatedAt', label: 'updatedAt' }
   ]
-  const onChange = (value) => {console.log(props)
+  const onChange = (value) => {
     props.setSort(value.value)
   }
   const styles={

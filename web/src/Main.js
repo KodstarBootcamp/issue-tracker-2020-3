@@ -1,4 +1,3 @@
-
 import React, { useEffect,useState } from 'react'
 import { IssueCreateForm } from './components/issues'
 import issueService from './services/ApiIssues'
@@ -10,7 +9,6 @@ import { LabelList } from './components/labels'
 import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
-
 export const Main =(props) => {
   const [totalPage,setTotalPage] = useState()
   const [limit] = useState(10)
@@ -20,13 +18,13 @@ export const Main =(props) => {
   const [issueSelect,setIssueSelect] = useState(false)
   const [labelSelect,setLabelSelect] = useState(false)
   const [issuesLength, setIssuesLength] = useState()
+  const [sort,setSort] = useState('title')
   const history = useHistory()
-
   const getIssueData = async () => {
     try{
-      const issues  = await issueService.getAll({ start:0, count:10 })
-      const issue = await issueService.getAllIssueLength()
-      const issuesLength = issue !==null?issue.length:null
+      const issues  = await issueService.getAll({ start:0, count:10,sort })
+      const issueLength = await issueService.getAllIssueLength()
+      const issuesLength = issueLength !==null?issueLength.count:null
       setIssuesLength(issuesLength)
       if(issuesLength !==null||issuesLength !==undefined){
         if(issuesLength%limit===0){
@@ -44,7 +42,6 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
@@ -58,15 +55,12 @@ export const Main =(props) => {
       }, 5000)
     }
   }
-
   useEffect( async () => {
     await getLabelData()
     await getIssueData()
   },
-  [])
-
+  [sort])
   const addIssue = (issueObject) => {
-
     issueService
       .create(issueObject)
       .then(returnedIssue => {
@@ -83,8 +77,6 @@ export const Main =(props) => {
       props.setCheckError(null)
     }, 5000)
   }
-
-
   const addLabel = (labelObject) => {
     labelService
       .create(labelObject)
@@ -106,7 +98,6 @@ export const Main =(props) => {
         }
       })
   }
-
   return (
     <div className="container">
       <Switch>
@@ -116,7 +107,7 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList  sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
