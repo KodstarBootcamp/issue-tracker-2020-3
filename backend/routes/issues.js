@@ -12,6 +12,10 @@ router.route('/').post(async (req, res) => {
   const decodedToken = checkToken(req)
   const title = req.body.title
   const description = req.body.description
+  for (let id of req.body.assignees) {
+    const checkUser = await User.findById(id)
+    if (existanceError({ checkUser }, res)) return
+  }
   let unverifiedLabels = []
   if (req.body.labels) {
     unverifiedLabels = req.body.labels
@@ -40,7 +44,8 @@ router.route('/').post(async (req, res) => {
     title,
     description,
     labels:verifiedLabels,
-    createdBy:decodedToken.id
+    createdBy:decodedToken.id,
+    assignees:req.body.assignees
   })
   const savedIssue = await (await newIssue.save()).execPopulate('labels createdBy')
   return res.status(201).json(savedIssue)
@@ -114,6 +119,10 @@ router.route('/:id').put( async (req, res) => {
   const issue = await Issue.findById(req.params.id)
   const unverifiedLabels = req.body.labels
   if (existanceError({ issue }, res)) return
+  for (let id of req.body.assignees) {
+    const checkUser = await User.findById(id)
+    if (existanceError({ checkUser }, res)) return
+  }
   let verifiedLabels
   if (req.body.labels) {
     verifiedLabels = []
@@ -140,7 +149,8 @@ router.route('/:id').put( async (req, res) => {
   const newIssue = {
     title:req.body.title,
     description:req.body.description,
-    labels:verifiedLabels
+    labels:verifiedLabels,
+    assignees:req.body.assignees
   }
   objCleaner(newIssue)
   const check = await Issue.validate(newIssue).catch(() => {
