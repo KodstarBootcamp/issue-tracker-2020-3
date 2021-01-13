@@ -40,7 +40,7 @@ const createFilter = (req) => {
       filter.$and.push({ labels: { $elemMatch:{ $eq:req.body.labels[i] } } })
     }
   }
-  req.query.titleContains && (filter.title = '.*' + req.query.titleContains + '.*')
+  req.query.titleContains && (filter.title = { $regex:'.*' + req.query.titleContains + '.*' })
   req.query.title && (filter.title = req.query.title)
   req.query.assignee && (filter.assignee = { $elemMatch:{ $eq:req.query.assignee } })
   req.query.createdby && (filter.createdBy = req.query.createdby)
