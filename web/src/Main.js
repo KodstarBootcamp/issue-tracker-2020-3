@@ -1,4 +1,3 @@
-
 import React, { useEffect,useState } from 'react'
 import { IssueCreateForm } from './components/issues'
 import issueService from './services/ApiIssues'
@@ -10,7 +9,6 @@ import { LabelList } from './components/labels'
 import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
-
 export const Main =(props) => {
   const [totalPage,setTotalPage] = useState()
   const [limit] = useState(10)
@@ -22,7 +20,6 @@ export const Main =(props) => {
   const [issuesLength, setIssuesLength] = useState()
   const [sort,setSort] = useState('title')
   const history = useHistory()
-
   const getIssueData = async () => {
     try{
       const issues  = await issueService.getAll({ start:0, count:10,sort })
@@ -45,7 +42,6 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
@@ -59,7 +55,6 @@ export const Main =(props) => {
       }, 5000)
     }
   }
-
   useEffect( async () => {
     await getLabelData()
     await getIssueData()
@@ -67,7 +62,6 @@ export const Main =(props) => {
   [sort])
 
   const addIssue = (issueObject) => {
-
     issueService
       .create(issueObject)
       .then(returnedIssue => {
@@ -105,7 +99,6 @@ export const Main =(props) => {
         }
       })
   }
-
   return (
     <div className="container">
       <Switch>
