@@ -28,7 +28,6 @@ export const Main =(props) => {
       const issues  = await issueService.getAll({ start:0, count:10,sort })
       const issueLength = await issueService.getAllIssueLength()
       const issuesLength = issueLength !==null?issueLength.count:null
-      console.log('İssue length',issuesLength)
       setIssuesLength(issuesLength)
       if(issuesLength !==null||issuesLength !==undefined){
         if(issuesLength%limit===0){
@@ -85,8 +84,6 @@ export const Main =(props) => {
       props.setCheckError(null)
     }, 5000)
   }
-
-
   const addLabel = (labelObject) => {
     labelService
       .create(labelObject)
