@@ -26,7 +26,7 @@ export const IssueDetails = ( props ) => {
           <h5>Labels:</h5>
           <Container className="d-flex-colums justify-content-start" >
             <Row >
-              {props.issue.labels.map((label,index) => (<Col md={'first'} style={{ backgroundColor: label.color,hr:10 } } key={index}>{label.text}</Col>))}
+              {props.issue.labels.map((label,index) => (<Col md={'first'} style={{ color:'white', backgroundColor: label.color,hr:10 } } key={index}>{'-['}{label.text}{']-'}</Col>))}
             </Row>
           </Container>
           <h5>Date:</h5>

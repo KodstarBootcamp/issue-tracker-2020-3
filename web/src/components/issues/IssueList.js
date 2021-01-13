@@ -4,6 +4,8 @@ import { IssueDetails } from './IssueDetails'
 import PaginationIssue from '../../components/PaginationIssue'
 import { Table } from 'react-bootstrap'
 import LoadingSpinner from './LoadingSpinner'
+import Select from 'react-select'
+import '../../App.css'
 
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
@@ -22,11 +24,54 @@ export const IssueList = ( props ) => {
       props.setCheckError(null)
     }, 5000)
   }
+  const options = [
+    { value: 'title', label: 'title' },
+    { value: 'createdAt', label: 'createdAt' },
+    { value: 'updatedAt', label: 'updatedAt' }
+  ]
+  const onChange = (value) => {console.log(props)
+    props.setSort(value.value)
+  }
+  const styles={
+    menu: (provided, state) => ({
+      ...provided,
+      width: state.selectProps.width,
+      borderBottom: '1px dotted pink',
+      color: state.selectProps.menuColor,
+      padding: 10,
+      backgroundColor:'rgba(100,100,50,0.8)'
+    }),
+
+    control: (_, { selectProps: { width } }) => ({
+      width: width
+    }),
+
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1
+      const transition = 'opacity 300ms'
+
+      return { ...provided, opacity, transition }
+    }
+  }
 
   return props.issues.length?(
     <div>
-      <div className='IssueList'>
-        <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
+      <div className=''>
+        <div className="d-flex  ">
+          <div className="p-2 ">
+            <h5 style={ { color:'blue' }}> Sort by</h5>
+          </div>
+          <div style={ { display:'inline', color:'blue' }}className="p2 flex-fill">
+            <Select
+              options={options}
+              onChange={onChange}
+              styles={styles}
+            />
+          </div>
+          <div className='p-2 mr-auto flex-fill'>
+            <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
+          </div>
+        </div>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>

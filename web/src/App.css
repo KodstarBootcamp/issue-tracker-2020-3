@@ -167,3 +167,15 @@ img {
     transform: translateY(0);
   }
 }
+ /* FOR ISSUE DETAILS SORT ARROW COLOR */
+.css-tlfecz-indicatorContainer {
+    color: #dc3545 !important;
+    padding: 0!important;
+}
+.css-zk88xw-singleValue {
+  color: rgb(95, 3, 3) !important;
+  font-size: large;
+}
+.css-1wa3eu0-placeholder {
+  color: rgb(107, 5, 5)!important;
+}
