@@ -24,30 +24,42 @@ const UserSignUp = (props) => {
 
   const addUser = () => {
     if(password!==password2){
-      alert('Ooppps ! Your password doesn`t match')
+      props.setCheckError('Ooppps ! Your password doesn`t match')
+      setTimeout(() => {
+        props.setCheckError(null)
+      }, 2000)
     }else{
+      if (username.length>=3&password.length>=3&email.length>=3){
+        userService.signUp({ username,email,password })
+          .then(restUP => {
+            if(restUP.username){
+              setPop({
+                showPopup: !pop.showPopup,
+                text:'Register SUCCESS now you can Login'
+              })
+              setTimeout(() => {
+                history.push('/userSignIn')
+              }, 2000)
+            }})
+          .catch(error => { console.log('usercatch'+error)
 
-      userService.signUp({ username,email,password })
-        .then(restUP => {
-          if(restUP.username){
             setPop({
               showPopup: !pop.showPopup,
-              text:'Register SUCCESS now you can Login'
-
+              text:'Register Error',
+              ext:'\n'+error
             })
             setTimeout(() => {
-              history.push('/userSignIn')
+              setPop(false)
+              setUserData({ username:'', email: '', password: '',password2:'' })
             }, 2000)
-          }})
-        .catch(error => { console.log('catch'+error)
-
-          props.setCheckError(null)
-          setPop({
-            showPopup: !pop.showPopup,
-            text:'Register Error',
-            ext:'\n'+error
           })
-        })
+      }
+      else{
+        props.setCheckError('You should add at least 3 character for each field')
+        setTimeout(() => {
+          props.setCheckError(null)
+        }, 3000)
+      }
     }
   }
 

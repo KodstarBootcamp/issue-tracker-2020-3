@@ -19,30 +19,28 @@ const getAllUsers = async () => {
   return response.data
 
 }
-const getAssignİssue =async assignObjectID => {//issue/all?assignee=userId sadece my issue aşamasında userID gönderilecek
+const getAssignİssue =async assignObjectID => {
   const config = {
     headers: { Authorization: token },
   }
   console.log('Object Id in apiservice',assignObjectID.id)
-  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config) //Assign aşamasında kullanıcı ve issue ID gönderilcek
+  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config) D gönderilcek
   return response.data
 }
 
-const getAll = async ({ start,count }) => {//start//assign, count
+const getAll = async ({ start,count,sort }) => {
   if(start===undefined||count===undefined){
-    const getbaseUrl=`/issue/all?start=${0}&count=${10}`//
+    const getbaseUrl=`/issue/all?start=${0}&count=${10}&count=${'title'}`
     const response = await axios.get(getbaseUrl)
-
     return response.data
   }
-  const getbaseUrl=`/issue/all?start=${start}&count=${count}`
+  const getbaseUrl=`/issue/all?start=${start}&count=${count}&sort=${sort}`
   const response = await axios.get(getbaseUrl)
-
   return response.data
 }
 
 const getAllIssueLength = async () => {
-  const getbaseUrlLength ='/issue/all'
+  const getbaseUrlLength ='/issue/count'
   const response = await axios.get(getbaseUrlLength)
   return response.data
 }
@@ -60,8 +58,6 @@ const update = async updatedObject => {
   const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject,config)
   return response.data
 }
-
-
 
 const deleteOneIssue =  id  => {
   const config = {

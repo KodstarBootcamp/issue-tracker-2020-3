@@ -11,7 +11,7 @@ const Navigation = (props) => {
   const toggle = () => setIsOpen(!isOpen)
 
   const signOut=() => {
-    if (window.confirm(`${props.user.username}, do you want to Sign OUT ?`)) {
+    if (window.confirm(`${props.user.user.username}, do you want to Sign OUT ?`)) {
       window.localStorage.removeItem('loggedIssueAppUser')
       props.setUser(null)
       signOutService.setToken(null)
@@ -60,7 +60,7 @@ const Navigation = (props) => {
             <NavItem  id="custom_button"className="nav_button px-2">
             </NavItem>
             {props.user?
-              <Button  onClick={signOut} className="btn-md  col-sm-6 col-md-2"  color="danger">{props.user.username}<br/>
+              <Button  onClick={signOut} className="btn-md  col-sm-6 col-md-2"  color="danger">{props.user.user.username}<br/>
               Loged In
               </Button>:''}
           </Nav>

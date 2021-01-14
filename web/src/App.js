@@ -20,7 +20,6 @@ const App = () => {
       loginLabelService.setToken(user.token)
     }
   }, [])
-
   return (
     <div className="container">
       <Navigation user={user} setUser={setUser}/>

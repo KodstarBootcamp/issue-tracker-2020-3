@@ -1,4 +1,3 @@
-
 import React, { useEffect,useState } from 'react'
 import { IssueCreateForm } from './components/issues'
 import issueService from './services/ApiIssues'
@@ -25,10 +24,8 @@ export const Main =(props) => {
   const [userOption,setUserOption] = useState([])
   const history = useHistory()
 
-
   const getAllUsers = async() => {
     try{
-
       const users  =  await issueService.getAllUsers()
       const userList= users.map((item) => ({ label: item.username,value:item.id }))
       console.log('Users in Main',users)
@@ -43,8 +40,7 @@ export const Main =(props) => {
   }
   useEffect(async () => {
     await getAllUsers()
-  },
-  [])
+  },[])
 
   const getIssueData = async () => {
     try{
@@ -68,7 +64,6 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
@@ -82,7 +77,6 @@ export const Main =(props) => {
       }, 5000)
     }
   }
-
   useEffect( async () => {
     await getLabelData()
     await getIssueData()
@@ -90,7 +84,6 @@ export const Main =(props) => {
   [sort])
 
   const addIssue = (issueObject) => {
-
     issueService
       .create(issueObject)
       .then(returnedIssue => {
@@ -128,7 +121,6 @@ export const Main =(props) => {
         }
       })
   }
-
   return (
     <div className="container">
       <Switch>
@@ -138,7 +130,9 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
+
           <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>

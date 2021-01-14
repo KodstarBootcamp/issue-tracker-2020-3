@@ -48,6 +48,10 @@ const UserSignIn = (props) => {
         text:'Login Error',
         ext:'\n'+error
       })
+      setTimeout(() => {
+        setPop(false)
+        setValues({ username: '', password: '' })
+      }, 2000)
     }
   }
 
