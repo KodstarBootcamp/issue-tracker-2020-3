@@ -24,7 +24,7 @@ const getAssignİssue =async assignObjectID => {
     headers: { Authorization: token },
   }
   console.log('Object Id in apiservice',assignObjectID.id)
-  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config) D gönderilcek
+  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config)
   return response.data
 }
 
