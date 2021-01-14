@@ -7,7 +7,6 @@ import LoadingSpinner from './LoadingSpinner'
 
 export const MyIssues = ( props ) => {
   const [myIssues,setMyIssues] = useState([])
-  console.log('current user Object in my issues',props.user.user.id)
   const getMyIssues = async () => {
     try {
       const myIssues = await issueService.getAssignİssue( props.user.user)
@@ -19,9 +18,6 @@ export const MyIssues = ( props ) => {
   useEffect ( async () => {
     await getMyIssues()
   },[])
-
-  console.log('current user in my issues',myIssues)
-
 
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
@@ -43,7 +39,9 @@ export const MyIssues = ( props ) => {
     myIssues.length?(
       <div>
         <div className='IssueList'>
-          <h1>Issue Details, Total:{myIssues.issues !==null?myIssues.issues.length:null}</h1>
+
+
+
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
@@ -54,8 +52,8 @@ export const MyIssues = ( props ) => {
               </tr>
             </thead>
             <tbody>
-              {myIssues.issues.length?
-                myIssues.issues.map((issue) =>
+              {myIssues.length?
+                myIssues.map((issue) =>
                   <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
                     issue={issue} addLabel={props.addLabel}
                     labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
@@ -68,6 +66,7 @@ export const MyIssues = ( props ) => {
         <div className="d-flex flex-row-reverse bd-highlight">
           <PaginationIssue totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
             setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
+
         </div>
       </div>
     ):(<LoadingSpinner/>)

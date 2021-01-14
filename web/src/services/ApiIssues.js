@@ -19,12 +19,12 @@ const getAllUsers = async () => {
   return response.data
 
 }
-const getAssignİssue = async (assignObjectID) => {//issue/all?assignee=userId sadece my issue aşamasında userID gönderilecek
+const getAssignİssue =async assignObjectID => {//issue/all?assignee=userId sadece my issue aşamasında userID gönderilecek
   const config = {
     headers: { Authorization: token },
   }
   console.log('Object Id in apiservice',assignObjectID.id)
-  const response = await axios.post(`${baseUrl}/assign/?assignee=${assignObjectID.id}`,config) //Assign aşamasında kullanıcı ve issue ID gönderilcek
+  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config) //Assign aşamasında kullanıcı ve issue ID gönderilcek
   return response.data
 }
 
