@@ -167,3 +167,18 @@ img {
     transform: translateY(0);
   }
 }
+.createLabelandAssingContiner {
+  color:#0a0909 ;
+  position: fixed;
+  padding: 0!important;
+  border:#dc3545;
+  display:'d-flex'
+}
+.label-asign {
+  color:#d12d2d ;
+  position: right;
+  right: 100%; 
+  padding: 10!important;
+  border:#dc3545;
+  display:'d-flex p-2'
+}

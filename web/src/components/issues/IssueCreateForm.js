@@ -2,16 +2,22 @@ import React, { useState } from 'react'
 import { Form, Button,  Modal } from 'react-bootstrap'//ButtonToolbarButtonGroup
 import { LabelSelect } from '../labels'
 import { LabelCreateForm } from '../labels'
+import '../../App.css'
+import AssignModel from '../modals/AssignModel'
 
 export const IssueCreateForm = ( props ) => {
   const [title,setTitle]=useState([])
   const [description,setDescription]=useState([])
   const [colorlabel,setColorLabel]=useState([])
   const [smShow, setSmShow] = useState(false)
+  const [smAssignShow, setAssignSmShow] = useState(false)
+  const [assignUser,setAssignUser] = useState([])
+  const [assignedUsername,setAssignedUsername] = useState([])
 
+  console.log('AssignUser',assignUser)
   const addIssue= ( event ) => {
     event.preventDefault()
-    props.createIssue ({ title: title, description: description, labels:colorlabel })
+    props.createIssue ({ title: title, description: description, labels:colorlabel,assignees:assignUser })
     setTitle('')
     setDescription('')
   }
@@ -19,6 +25,7 @@ export const IssueCreateForm = ( props ) => {
   function onChangeInput(value){
     if(value){
       setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+
     }
   }
 
@@ -34,13 +41,30 @@ export const IssueCreateForm = ( props ) => {
     props.setLabelSelect(true)
     setSmShow(true)
   }
-
+  //Assign issue to user =====
+  const handleClickAssign =( event ) => {
+    event.preventDefault()
+    setAssignSmShow(true)
+  }
+  const onChangeAssign=(value) => {
+    if(value){
+      setAssignUser(value.map(ıtem => ıtem.value ) )
+      setAssignedUsername(value.map(ıtem => ıtem.label ) )
+    }
+  }
+  const handleClickAssignMySelf=() => {//Assign issue my self
+    if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
+      console.log('Current user',props.user.user.id)
+      setAssignUser(assignUser.concat(props.user.user.id))
+      setAssignedUsername(assignedUsername.concat(props.user.user.username))
+    }
+  }
+  //=========
   return (
     <div className="form">
       <h2>Create a new issue</h2>
-      <div className='d-flex'>
-
-        <div className='p-2 mr-auto flex-fill'>
+      <div className='d-flex border border-dark'>
+        <div className='col--3 mr-auto flex-fill col col--3'>
           <Form onSubmit={addIssue}>
             <Form.Group>
               <Form.Label>title:</Form.Label>
@@ -66,11 +90,23 @@ export const IssueCreateForm = ( props ) => {
             </Form.Group>
           </Form>
         </div >
-        <div className='p-2 mr-auto flex-fill'>
-          <br /><Button variant="primary"  onClick={handleClick}>assign</Button><br />
-          <Form.Label>Labels:</Form.Label>
-          {props.option?<LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>:''}<br />
-          <Button variant="success"  onClick={handleClick}>create label</Button>
+        <div className='mr-auto flex-fill col col--3 border border-primary'>
+          <div className='flex-fill border-bottom border-primary'>
+            <h5>Assign</h5>
+            <AssignModel style={styles.select} isMulti={true} onChangeAssign={onChangeAssign} setAssignSmShow={setAssignSmShow} userOption={props.userOption}
+              setUserOption={props.setUserOption} smAssignShow={smAssignShow}/>
+            <Button variant="#aab0bd"  onClick={handleClickAssignMySelf}>assign myself:</Button><br/>
+            <Button variant="#aab0bd"  onClick={handleClickAssign}>Users:</Button>
+            {assignedUsername?
+              <>
+                {assignedUsername.map(username => username+' ' )}
+              </>:''}
+          </div>
+          <div className=''>
+            <h5>Labels:</h5>
+            {props.option?<LabelSelect style={styles.select} option={props.option} isMulti={true}  onChange={onChangeInput}/>:''}
+            <Button variant="#aab0bd"  onClick={handleClick}>create label</Button>
+          </div>
         </div>
         <Modal
           size="sm"

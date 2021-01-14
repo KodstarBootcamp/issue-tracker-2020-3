@@ -6,9 +6,31 @@ const setToken = newToken  => {
   token = `bearer ${newToken}`
 }
 
-const getAll = async ({ start,count }) => {
+const getAllUsers = async () => {
+  const loggedUserJSON= localStorage.getItem('loggedIssueAppUser')
+  const currentUser = JSON.parse(loggedUserJSON)
+  const userToken = `bearer ${currentUser.token}`
+  const config = {
+    headers: { Authorization: userToken },
+  }
+  const getbaseUrl='/users'
+  const response = await axios.get(getbaseUrl,config)
+
+  return response.data
+
+}
+const getAssignİssue = async (assignObjectID) => {//issue/all?assignee=userId sadece my issue aşamasında userID gönderilecek
+  const config = {
+    headers: { Authorization: token },
+  }
+  console.log('Object Id in apiservice',assignObjectID.id)
+  const response = await axios.post(`${baseUrl}/assign/?assignee=${assignObjectID.id}`,config) //Assign aşamasında kullanıcı ve issue ID gönderilcek
+  return response.data
+}
+
+const getAll = async ({ start,count }) => {//start//assign, count
   if(start===undefined||count===undefined){
-    const getbaseUrl=`/issue/all?start=${0}&count=${10}`
+    const getbaseUrl=`/issue/all?start=${0}&count=${10}`//
     const response = await axios.get(getbaseUrl)
 
     return response.data
@@ -38,10 +60,13 @@ const update = async updatedObject => {
   const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject,config)
   return response.data
 }
+
+
+
 const deleteOneIssue =  id  => {
   const config = {
     headers: { Authorization: token },
   }
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
-export default { getAll, create,update, deleteOneIssue,getAllIssueLength,setToken }
+export default { getAll,getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
