@@ -14,15 +14,18 @@ export const IssueDetails = ( props ) => {
   return (
     <tr>
       <td>
-        {viewIssueEdit&&<IssueEditForm option={props.option} setOptions={props.setOptions} key={props.issue.id} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit} labels={props.labels} issue={props.issue} addLabel={props.addLabel}
-          setIssues={props.setIssues} setInfoMessage={props.setInfoMessage} setIssueSelect={props.setIssueSelect}
-          issueSelect={props.issueSelect}/>}
+        {viewIssueEdit&&<IssueEditForm  user={props.user} userOption={props.userOption} setUserOption={props.setUserOption}
+          option={props.option} setOptions={props.setOptions} key={props.issue.id} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit}
+          labels={props.labels} issue={props.issue} addLabel={props.addLabel} setIssues={props.setIssues} setInfoMessage={props.setInfoMessage}
+          setIssueSelect={props.setIssueSelect} issueSelect={props.issueSelect}/>}
         {!viewIssue&&!viewIssueEdit&&props.issue.title}
         {viewIssue&&<Card.Body className='IssueDetails'>
           <h5>Title:</h5>
           <Card.Text className='title'>{props.issue.title}</Card.Text>
           <h5>Description:</h5>
           <Card.Text className='description'>{props.issue.description}</Card.Text>
+          <h5>Assigned:</h5>
+          <Card.Text className='description'>{props.issue.assignees.map(assign => assign.username+'  ')}</Card.Text>
           <h5>Labels:</h5>
           <Container className="d-flex-colums justify-content-start" >
             <Row >

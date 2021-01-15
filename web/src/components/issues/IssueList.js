@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap'//Form,Col,Button
 import LoadingSpinner from './LoadingSpinner'
 import Select from 'react-select'
 import '../../App.css'
- 
+
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
@@ -82,9 +82,10 @@ export const IssueList = ( props ) => {
           <tbody>
             {props.issues.length?
               props.issues.map((issue) =>
-                <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect}
-                  setIssueSelect={props.setIssueSelect} issue={issue} addLabel={props.addLabel} labels={props.labels} setInfoMessage={props.setInfoMessage}
-                  setIssues={props.setIssues} handleDelete={handleDelete}
+                <IssueDetails userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                  issue={issue} addLabel={props.addLabel}
+                  labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
+
                 />
               )
               :null}
