@@ -28,7 +28,6 @@ export const Main =(props) => {
     try{
       const users  =  await issueService.getAllUsers()
       const userList= users.map((item) => ({ label: item.username,value:item.id }))
-      console.log('Users in Main',users)
       setUserOption(userList)
 
     }catch(err){
