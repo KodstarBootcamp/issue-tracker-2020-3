@@ -5,9 +5,6 @@ import Select from 'react-select'
 
 const AssignModel =(props) => {
 
-  console.log('Users',props.userOption)
-
-  //const [smShow, setSmShow] = useState(false)
   return (
     <Modal
       size="sm"
