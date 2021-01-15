@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap'//Form,Col,Button
 import LoadingSpinner from './LoadingSpinner'
 import Select from 'react-select'
 import '../../App.css'
- 
+
 export const IssueList = ( props ) => {
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
