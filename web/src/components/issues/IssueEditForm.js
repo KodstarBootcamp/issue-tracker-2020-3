@@ -72,17 +72,13 @@ export const IssueEditForm = ( props ) => {
       setAssignedUsername(value.map(ıtem => ıtem.label ) )
     }
   }
-  console.log('username ',assignedUsername)
-  console.log('Assign ',assignUser)
-
+  
   const handleClickAssignMySelf=() => {//Assign issue my self
     if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
-      console.log('Current user',props.user.user.id)
       setAssignUser(assignUser.concat(props.user.user.id))
       setAssignedUsername(assignedUsername.concat(props.user.user.username))
     }
   }
-  //=========
 
   return (
     <Form onSubmit={handleSubmit}>
