@@ -72,7 +72,7 @@ export const IssueEditForm = ( props ) => {
       setAssignedUsername(value.map(ıtem => ıtem.label ) )
     }
   }
-  
+
   const handleClickAssignMySelf=() => {//Assign issue my self
     if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
       setAssignUser(assignUser.concat(props.user.user.id))

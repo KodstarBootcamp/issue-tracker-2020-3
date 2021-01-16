@@ -10,6 +10,7 @@ import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 import { MyIssues } from './components/issues/MyIssues'
+import WorkFlow from './components/WorkFlow'
 
 export const Main =(props) => {
   const [totalPage,setTotalPage] = useState()
@@ -130,8 +131,8 @@ export const Main =(props) => {
         </Route>
         <Route exact path="/issuelist">
 
-          <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
-
+          <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage}
+            issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
@@ -140,6 +141,12 @@ export const Main =(props) => {
         </Route>
         <Route exact path="/myissues">
           <MyIssues user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
+            option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
+            labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
+          />
+        </Route>
+        <Route exact path="/workflow">
+          <WorkFlow user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
             option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
