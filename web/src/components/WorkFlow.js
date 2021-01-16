@@ -1,48 +1,208 @@
 import React from 'react'
 //import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
+//import { Row, Col } from 'react-simple-flex-grid'
+import 'react-simple-flex-grid/lib/main.css'
+//import {DraggableCore} from 'react-draggable'
 //import Board from 'react-trello'
 
 
 const WorkFlow = () => {
 
   const handleStart = event => {
-    event.stopPropogation()
     event.preventDefault()
     console.log('Mouse Over')
     // Turn the endzone red, perhaps?
   }
 
   const handleDragLeave = event => {
-    event.stopPropogation()
     event.preventDefault()
     console.log('Mouse leaving')
     // Bring the endzone back to normal, maybe?
   }
 
   const handleDrop = event => {
-    event.stopPropogation()
     event.preventDefault()
     console.log('Mouse drop')
     // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
     // steal the user's credit card
   }
   return (
-    <Draggable
-      axis="x"
-      handle=".handle"
-      defaultPosition={{ x: 0, y: 0 }}
-      position={null}
-      grid={[25, 25]}
-      scale={1}
-      onStart={handleStart}
-      onDrag={handleDragLeave}
-      onStop={handleDrop}>
-      <div>
-        <div className="handle">Drag from here</div>
-        <div>This readme is really dragging on...</div>
+    <div className='d-flex'>
+      <div className='d-row  p-2'>
+        <h5>backblog</h5>
+        <div className='p-2'>
+          <Draggable axis="y"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div className="handle border border-primary">Bigining first Drag from here</div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
       </div>
-    </Draggable>
+      <div className='d-row p-2'>
+        <h5>Started</h5>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div className="handle border border-primary">Second 1 Drag from here</div>
+            </div>
+          </Draggable>
+        </div >
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Second 2 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary">Second 3 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary">Second 4 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+      </div>
+      <div className='d-row p-2'>
+        <h5>Finished</h5>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div className="handle border border-primary">Bigining first Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+      </div>
+      <div className='d-row p-2'>
+        <h5>In test</h5>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div className="handle border border-primary">Bigining first Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+      </div>
+      <div className='d-row p-2'>
+        <h5>Done</h5>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div className="handle border border-primary">Bigining first Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+        <div className='p-2'>
+          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
+            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+            <div >
+              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
+            </div>
+          </Draggable>
+        </div>
+      </div>
+    </div>
   )
 
 }
