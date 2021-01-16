@@ -46,7 +46,8 @@ router.route('/').post(async (req, res) => {
     description,
     labels:verifiedLabels,
     createdBy:decodedToken.id,
-    assignees:assignees
+    assignees,
+    state:req.body.state
   })
   const savedIssue = await (await newIssue.save()).execPopulate('labels createdBy')
   return res.status(201).json(savedIssue)
@@ -152,7 +153,8 @@ router.route('/:id').put( async (req, res) => {
     title:req.body.title,
     description:req.body.description,
     labels:verifiedLabels,
-    assignees:assignees
+    assignees:assignees,
+    state:req.body.state
   }
   objCleaner(newIssue)
   const check = await Issue.validate(newIssue).catch(() => {
