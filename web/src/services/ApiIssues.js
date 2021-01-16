@@ -6,6 +6,27 @@ const setToken = newToken  => {
   token = `bearer ${newToken}`
 }
 
+const getAllUsers = async () => {
+  const loggedUserJSON= localStorage.getItem('loggedIssueAppUser')
+  const currentUser = JSON.parse(loggedUserJSON)
+  const userToken = `bearer ${currentUser.token}`
+  const config = {
+    headers: { Authorization: userToken },
+  }
+  const getbaseUrl='/users'
+  const response = await axios.get(getbaseUrl,config)
+
+  return response.data
+
+}
+const getAssignİssue =async assignObjectID => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.get(`${baseUrl}/all?assignee=${assignObjectID.id}`,assignObjectID,config)
+  return response.data
+}
+
 const getAll = async ({ start,count,sort }) => {
   if(start===undefined||count===undefined){
     const getbaseUrl=`/issue/all?start=${0}&count=${10}&count=${'title'}`
@@ -42,10 +63,13 @@ const update = async updatedObject => {
   const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject,config)
   return response.data
 }
+
 const deleteOneIssue =  id  => {
   const config = {
     headers: { Authorization: token },
   }
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
-export default { getAll, getSearch, create,update, deleteOneIssue,getAllIssueLength,setToken }
+
+export default { getAll, getSearch, getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
+
