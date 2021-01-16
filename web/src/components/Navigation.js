@@ -47,12 +47,12 @@ const Navigation = (props) => {
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
               <Link to="/myissues">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">My İssues</Button>
+                {props.user? <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">My İssues</Button>:''}
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">
               <Link to="/workflow">
-                <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Work Flow</Button>
+                {props.user? <Button   className="btn-md  col-sm-6 col-md-12" outline color="success">Work Flow</Button>:''}
               </Link>
             </NavItem>
             <NavItem  id="custom_button"className="nav_button px-2">

@@ -27,9 +27,12 @@ export const Main =(props) => {
 
   const getAllUsers = async() => {
     try{
-      const users  =  await issueService.getAllUsers()
-      const userList= users.map((item) => ({ label: item.username,value:item.id }))
-      setUserOption(userList)
+      if(props.user){
+        const users  =  await issueService.getAllUsers()
+        const userList= users.map((item) => ({ label: item.username,value:item.id }))
+        setUserOption(userList)
+      }
+
 
     }catch(err){
       props.setCheckError(err)
