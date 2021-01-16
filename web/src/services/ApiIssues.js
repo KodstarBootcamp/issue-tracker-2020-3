@@ -10,12 +10,16 @@ const getAll = async ({ start,count,sort }) => {
   if(start===undefined||count===undefined){
     const getbaseUrl=`/issue/all?start=${0}&count=${10}&count=${'title'}`
     const response = await axios.get(getbaseUrl)
-
     return response.data
   }
   const getbaseUrl=`/issue/all?start=${start}&count=${count}&sort=${sort}`
   const response = await axios.get(getbaseUrl)
+  return response.data
+}
 
+const getSearch = async ({ searchValue }) => {
+  const baseUrl = '/issue/all?title='
+  const response = await axios.get(baseUrl+searchValue)
   return response.data
 }
 
@@ -44,4 +48,4 @@ const deleteOneIssue =  id  => {
   }
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
-export default { getAll, create,update, deleteOneIssue,getAllIssueLength,setToken }
+export default { getAll, getSearch, create,update, deleteOneIssue,getAllIssueLength,setToken }
