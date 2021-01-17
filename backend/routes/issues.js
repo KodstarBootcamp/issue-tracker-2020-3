@@ -83,6 +83,7 @@ router.route('/all').get( async (req, res) => {
   const filter = createFilter(req)
   if (!req.query.start && !req.query.count) {
     const issues = await Issue.find(filter)
+      .collation({ locale:'en' })
       .sort(req.query.sort)
       .populate('labels createdBy assignees')
     return res.status(200).json(issues).end()
@@ -90,6 +91,7 @@ router.route('/all').get( async (req, res) => {
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
   const issues = await Issue.find(filter, null, { skip, limit })
+    .collation({ locale:'en' })
     .sort(req.query.sort)
     .populate('labels createdBy assignees')
   return res.status(200).json(issues).end()

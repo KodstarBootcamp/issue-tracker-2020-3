@@ -40,11 +40,11 @@ const createFilter = (req) => {
       filter.$and.push({ labels: { $elemMatch:{ $eq:req.body.labels[i] } } })
     }
   }
-  req.query.titleContains && (filter.title = { $regex:'.*' + req.query.titleContains + '.*' })
+  req.query.titleContains && (filter.title = { $regex:'.*' + req.query.titleContains + '.*', $options:'i' })
   req.query.title && (filter.title = req.query.title)
-  req.query.assignee && (filter.assignee = { $elemMatch:{ $eq:req.query.assignee } })
+  req.query.assignee && (filter.assignees = { $elemMatch:{ $eq:req.query.assignee } })
   req.query.createdby && (filter.createdBy = req.query.createdby)
-  // req.query.state && filter.state(req.query.state) → waiting for states
+  req.query.state && filter.state(req.query.state)
   if (req.query.creation) {
     const start = new Date(req.query.creation)
     const end = new Date(req.query.creation)
