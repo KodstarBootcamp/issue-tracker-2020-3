@@ -208,9 +208,15 @@ paths:
             - -cratedAt
             - -updatedAt
             - -title
+      - name: titleContains
+        in: query
+        description: search by issue title with contain match
+        schema:
+          type: string
+          example: issue
       - name: title
         in: query
-        description: search by issue title
+        description: search by issue title with exact match
         schema:
           type: string
           example: Search%20issue%20backend
@@ -513,7 +519,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/State'
-  
+
   /state/{stateId}:
     get:
       tags:
@@ -554,13 +560,6 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/NewState'
-              properties:
-                issues:
-                  type: array
-                  items:
-                    description: Id of issues
-                    type: string
-                    example: 45df...54
       responses:
         200:
           description: successfull operation
@@ -608,7 +607,6 @@ components:
         title:
           maxLength: 250
           type: string
-          uniqueItems: true
           example: An issue title
         description:
           maxLength: 1500
@@ -642,7 +640,6 @@ components:
         title:
           maxLength: 250
           type: string
-          uniqueItems: true
           example: An issue title
         description:
           maxLength: 1500
@@ -754,11 +751,6 @@ components:
           type: integer
           example: 0
           uniqueItems: true
-        issues:
-          type: array
-          items:
-            $ref: '#/components/schemas/Issue'
-          description: issues list field
         id:
           type: string
           example: 5fe481516234264fca
