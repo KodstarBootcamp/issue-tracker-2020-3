@@ -136,16 +136,6 @@ describe(title1('When there is initially some issues saved'), () => {
       expect(errorMessage.body.error).toBe('Validation exception')
       expect(issuesAtEnd.length).toBe(testIssues.length)
     })
-    test('fails when issue already exist, with status code 409, error:Issue already exist', async () => {
-      const issuesAtStart = await issuesInDb()
-      const issueToAdd = issuesAtStart[0]
-      const res = await api
-        .post('/issue')
-        .set('Authorization', `bearer ${global.__tokenForAuth__}`)
-        .send(issueToAdd)
-        .expect(409)
-      expect(res.body.error).toContain('Issue already exist. Dup value:')
-    })
   })
 
   describe(title2(0, 'PUT-/issue/:id', '- updating a issue'), () => {
