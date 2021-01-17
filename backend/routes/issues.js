@@ -13,6 +13,17 @@ router.route('/').post(async (req, res) => {
   const title = req.body.title
   const description = req.body.description
   const assignees = req.body.assignees || []
+  let state = req.body.state
+  if (!req.body.state) {
+    const State = require('../models/state.model')
+    const countState = await State.collection.countDocuments()
+    if (countState === 0) {
+      const defaultState = await new State({ name:'Default', order_no:0 }).save()
+      state = defaultState._id.toString()
+    } else {
+      state = (await State.findOne({ order_no:0 }))._id.toString()
+    }
+  }
   for (let id of assignees) {
     const checkUser = await User.findById(id)
     if (existanceError({ checkUser }, res)) return
@@ -47,9 +58,9 @@ router.route('/').post(async (req, res) => {
     labels:verifiedLabels,
     createdBy:decodedToken.id,
     assignees,
-    state:req.body.state
+    state
   })
-  const savedIssue = await (await newIssue.save()).execPopulate('labels createdBy')
+  const savedIssue = await (await newIssue.save()).execPopulate('labels createdBy assignees state')
   return res.status(201).json(savedIssue)
 })
 
@@ -68,7 +79,7 @@ router.route('/assign/:id').post( async (req, res) => {
     req.params.id,
     issue,
     { new:true }
-  ).populate('labels createdBy assignees')
+  ).populate('labels createdBy assignees state')
   return res.status(200).json(savedIssue)
 })
 
@@ -85,14 +96,14 @@ router.route('/all').get( async (req, res) => {
   if (!req.query.start && !req.query.count) {
     const issues = await Issue.find(filter)
       .sort(req.query.sort)
-      .populate('labels createdBy assignees')
+      .populate('labels createdBy assignees state')
     return res.status(200).json(issues).end()
   }
   const skip = Number.parseInt(req.query.start) || 0
   const limit = Number.parseInt(req.query.count) || 10
   const issues = await Issue.find(filter, null, { skip, limit })
     .sort(req.query.sort)
-    .populate('labels createdBy assignees')
+    .populate('labels createdBy assignees state')
   return res.status(200).json(issues).end()
 })
 
@@ -103,7 +114,7 @@ router.route('/count').get(async (req, res) => {
 
 // ↓↓↓ this route must be end of other get methods, cause of route ('/:id') conflict
 router.route('/:id').get(async (req, res) => {
-  const issue = await Issue.findById(req.params.id).populate('labels createdBy assignees')
+  const issue = await Issue.findById(req.params.id).populate('labels createdBy assignees state')
   if (existanceError({ issue }, res)) return
   return res.status(200).json(issue)
 })
@@ -165,7 +176,7 @@ router.route('/:id').put( async (req, res) => {
       req.params.id,
       newIssue,
       { new:true }
-    ).populate('labels createdBy assignees')
+    ).populate('labels createdBy assignees state')
     return res.status(200).json(savedIssue)
   }
 })

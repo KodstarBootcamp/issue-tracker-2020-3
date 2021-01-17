@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const { findByIdAndUpdate } = require('../models/issue.model')
-const Issue = require('../models/issue.model')
 const State = require('../models/state.model')
 require('express-async-errors')
 const {
@@ -17,9 +15,14 @@ router.route('/').post(async (req, res) => {
   checkToken(req)
   const unverifiedOrder = req.body.order_no
   const lengthOfStates = await State.collection.countDocuments()
-  const issues = req.body.issues || []
+  if (existanceError({ name: req.body.name }, res)) return
   let verifiedOrder
-  if (unverifiedOrder >= lengthOfStates || unverifiedOrder < 0) {
+  if (
+    unverifiedOrder >= lengthOfStates
+    || unverifiedOrder < 0
+    || unverifiedOrder === undefined
+    || unverifiedOrder === null
+  ) {
     verifiedOrder = lengthOfStates
   } else {
     // Assign others order no. Decreasing loop used to keep unique order no.
@@ -30,11 +33,9 @@ router.route('/').post(async (req, res) => {
   }
   const newState = new State({
     name: req.body.name,
-    order_no: verifiedOrder,
-    issues
+    order_no: verifiedOrder
   })
-  const savedState = await (await newState.save())
-    .execPopulate({ path:'issues', populate:{ path:'createdBy labels assignees' } })
+  const savedState = await newState.save()
   return res.status(201).json(savedState)
 })
 
@@ -58,15 +59,13 @@ router.route('/').post(async (req, res) => {
 // })
 
 router.route('/all').get( async (req, res) => {
-  const states = await State.find({})
-    .populate({ path:'issues', populate:{ path:'createdBy labels assignees' } })
+  const states = await State.find({}).sort('order_no')
   return res.status(200).json(states).end()
 })
 
 // ↓↓↓ this route must be end of other get methods, cause of route ('/:id') conflict
 router.route('/:id').get(async (req, res) => {
-  const state = await Issue.findById(req.params.id)
-    .populate({ path:'issues', populate:{ path:'createdBy labels assignees' } })
+  const state = await State.findById(req.params.id)
   if (existanceError({ state }, res)) return
   return res.status(200).json(state)
 })
@@ -75,8 +74,18 @@ router.route('/:id').delete( async (req, res) => {
   checkToken(req)
   const state = await State.findById(req.params.id)
   if (existanceError({ state }, res)) return
-  await State.findByIdAndRemove(req.params.id)
-  return res.status(200).json({ OK:'successfull operation' })
+  const length = await State.collection.countDocuments()
+  if (length > 1) {
+    await State.findByIdAndRemove(req.params.id)
+    if (state.order_no < length - 1) {
+      for (let i = state.order_no + 1; i < length; i++) {
+        await State.findOneAndUpdate({ order_no:i }, { order_no:i - 1 })
+      }
+    }
+    return res.status(200).json({ OK:'successfull operation' })
+  } else {
+    return res.status(400).json({ error:'The last state can\'t delete' })
+  }
 })
 
 router.route('/:id').put( async (req, res) => {
@@ -84,47 +93,38 @@ router.route('/:id').put( async (req, res) => {
   const state = await State.findById(req.params.id)
   if (existanceError({ state }, res)) return
   const oldOrder = state.order_no
-  const unverifiedOrder = req.body.order_no
-  const lengthOfStates = await State.collection.countDocuments()
-  let newState
-  if (oldOrder === unverifiedOrder) {
-    newState = {
-      name:req.body.name,
-      issues:state.issues,
-      order_no:req.body.order_no
+  const unverifiedOrder = req.body.order_no === undefined || req.body.order_no === null ? oldOrder : req.body.order_no
+  const name = req.body.name || state.name
+  if (name !== state.name) {
+    if ((await State.find({ name })).length > 0) {
+      return res.status(409).json({ error:'State already exist. Dup value: name' })
     }
-    objCleaner(newState)
-  } else if (unverifiedOrder < oldOrder) {
-    await findByIdAndUpdate(req.params.id, { order_no:-1 })
+  }
+  if (unverifiedOrder < oldOrder) {
+    await State.findByIdAndUpdate(req.params.id, { order_no:-1 })
     for (let i = oldOrder - 1; i >= unverifiedOrder; i--) {
       await State.findOneAndUpdate({ order_no:i }, { order_no:i + 1 })
     }
-    newState = {
-      name:req.body.name,
-      issues:state.issues,
-      order_no:req.body.order_no
+  } else if (unverifiedOrder > oldOrder) {
+    await State.findByIdAndUpdate(req.params.id, { order_no:-1 })
+    for (let i = oldOrder + 1; i <= unverifiedOrder; i++) {
+      await State.findOneAndUpdate({ order_no:i }, { order_no:i - 1 })
     }
-    objCleaner(newState)
   }
-  let verifiedOrder
-  if (unverifiedOrder >= lengthOfStates ) {
-    verifiedOrder = lengthOfStates
-  } else {
-    // Assign others order no. Decreasing loop used to keep unique order no.
-    for (let i = lengthOfStates - 1; i >= unverifiedOrder; i--) {
-      await State.findOneAndUpdate({ order_no:i }, { order_no:i + 1 })
-    }
-    verifiedOrder = unverifiedOrder
+  const newState = {
+    name,
+    order_no:unverifiedOrder
   }
-  const check = await State.validate(newState).catch(() => {
+  objCleaner(newState)
+  const checkValidation = await State.validate(newState).catch(() => {
     return res.status(400).json({ error:'Validation exception' }).end()
   })
-  if (!check){
-    const savedIssue = await Issue.findByIdAndUpdate(
+  if (!checkValidation){
+    const savedIssue = await State.findByIdAndUpdate(
       req.params.id,
       newState,
       { new:true }
-    ).populate('labels createdBy assignees')
+    )
     return res.status(200).json(savedIssue)
   }
 })
