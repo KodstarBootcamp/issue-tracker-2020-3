@@ -38,6 +38,12 @@ const getAll = async ({ start,count,sort }) => {
   return response.data
 }
 
+const getSearch = async ({ searchValue }) => {
+  const baseUrl = '/issue/all?title='
+  const response = await axios.get(baseUrl+searchValue)
+  return response.data
+}
+
 const getAllIssueLength = async () => {
   const getbaseUrlLength ='/issue/count'
   const response = await axios.get(getbaseUrlLength)
@@ -64,4 +70,6 @@ const deleteOneIssue =  id  => {
   }
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
-export default { getAll,getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
+
+export default { getAll, getSearch, getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
+

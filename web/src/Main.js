@@ -26,9 +26,12 @@ export const Main =(props) => {
 
   const getAllUsers = async() => {
     try{
-      const users  =  await issueService.getAllUsers()
-      const userList= users.map((item) => ({ label: item.username,value:item.id }))
-      setUserOption(userList)
+      if(props.user){
+        const users  =  await issueService.getAllUsers()
+        const userList= users.map((item) => ({ label: item.username,value:item.id }))
+        setUserOption(userList)
+      }
+
 
     }catch(err){
       props.setCheckError(err)
@@ -129,9 +132,8 @@ export const Main =(props) => {
           />
         </Route>
         <Route exact path="/issuelist">
-
-          <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}  option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
-
+          <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}
+            option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
