@@ -9,7 +9,7 @@ const Issue = require('../models/issue.model')
 const Label = require('../models/label.model')
 const bcrypt = require('bcrypt')
 const User = require('../models/user.model')
-const State = require('../models/State.model')
+const State = require('../models/state.model')
 const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
 

@@ -11,11 +11,14 @@ const Label = require('../models/label.model')
 const Issue = require('../models/issue.model')
 const bcrypt = require('bcrypt')
 
-beforeEach(async () => {
+beforeAll(async () => {
   await State.deleteMany({})
   await Label.deleteMany({})
-  await User.deleteMany({})
   await Issue.deleteMany({})
+})
+
+beforeEach(async () => {
+  await User.deleteMany({})
   const passwordHash = await bcrypt.hash(existingUser.password, 10)
   const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'dsa' })
   await user.save()
