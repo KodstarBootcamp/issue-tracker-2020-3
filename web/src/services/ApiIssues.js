@@ -39,8 +39,8 @@ const getAll = async ({ start,count,sort }) => {
 }
 
 const getSearch = async ({ searchValue }) => {
-  const baseUrl = '/issue/all?title='
-  const response = await axios.get(baseUrl+searchValue)
+  const baseUrl = `/issue/all?titleContains=${searchValue}`
+  const response = await axios.get(baseUrl)
   return response.data
 }
 

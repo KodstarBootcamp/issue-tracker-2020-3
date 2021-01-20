@@ -101,29 +101,31 @@ export const IssueList = ( props ) => {
         </div>
         {searchResult.length?
           searchResult.map((s) => (<SearchResult key={s.id} title={s.title} description={s.description}
-            createdBy={s.createdBy.username} createdDate={s.createdDate}/> )):null}
+            createdBy={s.createdBy.username} createdDate={s.createdDate} assign={s.assignees} /> )
+          ):
 
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>
-              <th>Title</th>
-              {props.user&&<th>Edit</th>}
-              {props.user&&<th>Delete</th>}
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.issues.length?
-              props.issues.map((issue) =>
-                <IssueDetails userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
-                  issue={issue} addLabel={props.addLabel}
-                  labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
+          <Table striped bordered hover size="sm" >
+            <thead>
+              <tr bgcolor='#c2b924'>
+                <th>Title</th>
+                {props.user&&<th>Edit</th>}
+                {props.user&&<th>Delete</th>}
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.issues.length?
+                props.issues.map((issue) =>
+                  <IssueDetails userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                    issue={issue} addLabel={props.addLabel}
+                    labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
 
-                />
-              )
-              :null}
-          </tbody>
-        </Table>
+                  />
+                )
+                :null}
+            </tbody>
+          </Table>
+        }
       </div>
       <div className="d-flex flex-row-reverse bd-highlight">
         <PaginationIssue sort={props.sort} setSort={props.setSort} totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
