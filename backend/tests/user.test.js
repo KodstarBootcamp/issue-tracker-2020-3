@@ -6,10 +6,16 @@ const {
 const app = require('../server')
 const api = supertest(app)
 const User = require('../models/user.model')
+const State = require('../models/state.model')
+const Label = require('../models/label.model')
+const Issue = require('../models/issue.model')
 const bcrypt = require('bcrypt')
 
 beforeEach(async () => {
+  await State.deleteMany({})
+  await Label.deleteMany({})
   await User.deleteMany({})
+  await Issue.deleteMany({})
   const passwordHash = await bcrypt.hash(existingUser.password, 10)
   const user = new User({ username: existingUser.username, passwordHash: passwordHash, email:'dsa' })
   await user.save()

@@ -161,6 +161,8 @@ router.route('/:id').put( async (req, res) => {
         }
       }
     }
+  } else {
+    verifiedLabels = []
   }
   const newIssue = {
     title:req.body.title,
