@@ -14,7 +14,7 @@ export const IssueDetails = ( props ) => {
   return (
     <tr>
       <td>
-        {viewIssueEdit&&<IssueEditForm  user={props.user} userOption={props.userOption} setUserOption={props.setUserOption}
+        {viewIssueEdit&&<IssueEditForm setCheckError={props.setCheckError} user={props.user} userOption={props.userOption} setUserOption={props.setUserOption}
           option={props.option} setOptions={props.setOptions} key={props.issue.id} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit}
           labels={props.labels} issue={props.issue} addLabel={props.addLabel} setIssues={props.setIssues} setInfoMessage={props.setInfoMessage}
           setIssueSelect={props.setIssueSelect} issueSelect={props.issueSelect}/>}
