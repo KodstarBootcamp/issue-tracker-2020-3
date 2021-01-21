@@ -26,11 +26,10 @@ export const Main =(props) => {
 
   const getAllUsers = async() => {
     try{
-      if(props.user){
-        const users  =  await issueService.getAllUsers()
-        const userList= users.map((item) => ({ label: item.username,value:item.id }))
-        setUserOption(userList)
-      }
+
+      const users  =  await issueService.getAllUsers()
+      const userList= users.map((item) => ({ label: item.username,value:item.id }))
+      setUserOption(userList)
 
 
     }catch(err){
@@ -42,7 +41,7 @@ export const Main =(props) => {
   }
   useEffect(async () => {
     await getAllUsers()
-  },[])
+  },[props.user])
 
   const getIssueData = async () => {
     try{
@@ -69,6 +68,7 @@ export const Main =(props) => {
   const getLabelData = async () => {
     try{
       const labels  = await labelService.getAll()
+
       const uniques = [...new Set(labels)]
       const allOptions = uniques.map((item) => ({ label: item.text,value:item.color }))
       setOptions(allOptions)
