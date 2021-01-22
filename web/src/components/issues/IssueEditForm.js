@@ -19,7 +19,7 @@ export const IssueEditForm = ( props ) => {
     if(!props.issueSelect){
       const title= event.target.title.value
       const description=event.target.description.value
-      const sendingLabel = (colorlabel.length===0)?props.issue.labels.map(label => ({ text:label.text,color:label.color })):colorlabel
+
       const sendingAssignees = (assignUser.length===0)?props.issue.assignees.map(item => item ):assignUser
       event.target.title.value = ''
       event.target.description.value = ''
@@ -28,7 +28,7 @@ export const IssueEditForm = ( props ) => {
         id: id,
         title: title,
         description: description,
-        labels:sendingLabel,
+        labels:colorlabel,
         assignees:sendingAssignees
       }).then(returnedObj => {
         props.setIssues( old => {
@@ -40,14 +40,21 @@ export const IssueEditForm = ( props ) => {
           return old.concat(returnedObj)
         })
       })
+        .catch(error => {
+          props.setCheckError(`Error: ${error.message}`)
+          setTimeout( () => {
+            props.setCheckError(null)
+          }, 5000)
+        })
     }
   }
 
   const onChangeInput=(value) => {
     if(value){
       setColorLabel(value.map(ıtem => ({ text:ıtem.label,color:ıtem.value })) )
+    } else {
+      setColorLabel([])
     }
-
   }
   const styles={
     select:{

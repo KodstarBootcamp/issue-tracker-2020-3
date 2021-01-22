@@ -31,8 +31,6 @@ export const Main =(props) => {
         const userList= users.map((item) => ({ label: item.username,value:item.id }))
         setUserOption(userList)
       }
-
-
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
