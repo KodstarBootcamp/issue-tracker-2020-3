@@ -101,7 +101,8 @@ export const IssueList = ( props ) => {
         </div>
         {searchResult.length?
           searchResult.map((s) => (<SearchResult key={s.id} title={s.title} description={s.description}
-            createdBy={s.createdBy.username} createdDate={s.createdDate}/> )):null}
+            createdBy={s.createdBy.username} createdDate={s.createdDate} assign={s.assignees} /> )
+          ):
 
         <Table striped bordered hover size="sm">
           <thead>
@@ -119,11 +120,13 @@ export const IssueList = ( props ) => {
                   issue={issue} addLabel={props.addLabel}
                   labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
 
-                />
-              )
-              :null}
-          </tbody>
-        </Table>
+
+                  />
+                )
+                :null}
+            </tbody>
+          </Table>
+        }
       </div>
       <div className="d-flex flex-row-reverse bd-highlight">
         <PaginationIssue sort={props.sort} setSort={props.setSort} totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}

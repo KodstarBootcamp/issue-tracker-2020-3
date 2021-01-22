@@ -6,7 +6,16 @@ const {
 const app = require('../server')
 const api = supertest(app)
 const User = require('../models/user.model')
+const State = require('../models/state.model')
+const Label = require('../models/label.model')
+const Issue = require('../models/issue.model')
 const bcrypt = require('bcrypt')
+
+beforeAll(async () => {
+  await State.deleteMany({})
+  await Label.deleteMany({})
+  await Issue.deleteMany({})
+})
 
 beforeEach(async () => {
   await User.deleteMany({})

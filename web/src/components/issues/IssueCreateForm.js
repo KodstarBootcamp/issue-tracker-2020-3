@@ -14,7 +14,6 @@ export const IssueCreateForm = ( props ) => {
   const [assignUser,setAssignUser] = useState([])
   const [assignedUsername,setAssignedUsername] = useState([])
 
-  console.log('AssignUser',assignUser)
   const addIssue= ( event ) => {
     event.preventDefault()
     props.createIssue ({ title: title, description: description, labels:colorlabel,assignees:assignUser })
