@@ -19,6 +19,11 @@ const issueSchema = new Schema({
   createdBy:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
+  },
+  state:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'State',
+    required: true
   }
 }, { timestamps: true })
 

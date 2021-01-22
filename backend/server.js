@@ -54,6 +54,7 @@ if (process.env.NODE_ENV === 'local') {
 
 const issuesRouter = require('./routes/issues')
 const labelsRouter = require('./routes/labels')
+const statesRouter = require('./routes/states')
 
 if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test') {
   const { mongoStop } = require('./mongodb')
@@ -69,6 +70,7 @@ app.use('/login', loginRouter)
 app.use('/users', userRouter)
 app.use('/issue', issuesRouter)
 app.use('/label', labelsRouter)
+app.use('/state', statesRouter)
 app.use(middlewares.errorHandler)
 app.use(middlewares.unknownEndpoint)
 
