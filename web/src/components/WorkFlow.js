@@ -25,182 +25,58 @@ const WorkFlow = (props) => {
     event.preventDefault()
     console.log('Mouse drop')
     // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
-    // steal the user's credit card
+    // steal the user's credit card filter (obj =>  obj.id !==id )
   }
   return (
     <div className='d-flex'>
       <div className='d-row  p-2'>
         <h5>backblog</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.map(state =>
+          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='backblog').map(state =>
             <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
             </Draggable>
           )}
           </div>
         </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
       </div>
       <div className='d-row p-2'>
         <h5>Started</h5>
         <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div className="handle border border-primary">Second 1 Drag from here</div>
-            </div>
-          </Draggable>
-        </div >
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Second 2 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary">Second 3 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary">Second 4 Drag from here</div>
-            </div>
-          </Draggable>
+          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='started').map(state =>
+            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+            </Draggable>
+          )}
+          </div>
         </div>
       </div>
       <div className='d-row p-2'>
         <h5>Finished</h5>
         <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div className="handle border border-primary">Bigining first Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
-            </div>
-          </Draggable>
+          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='finished').map(state =>
+            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+            </Draggable>
+          )}
+          </div>
         </div>
       </div>
       <div className='d-row p-2'>
         <h5>In test</h5>
         <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div className="handle border border-primary">Bigining first Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
-            </div>
-          </Draggable>
+          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='in test').map(state =>
+            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+            </Draggable>
+          )}
+          </div>
         </div>
       </div>
       <div className='d-row p-2'>
         <h5>Done</h5>
         <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div className="handle border border-primary">Bigining first Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 2 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 3 Drag from here</div>
-            </div>
-          </Draggable>
-        </div>
-        <div className='p-2'>
-          <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div >
-              <div  className="handle border border-secondary"> Bigining first 4 Drag from here</div>
-            </div>
-          </Draggable>
+          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='done').map(state =>
+            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+            </Draggable>
+          )}
+          </div>
         </div>
       </div>
     </div>

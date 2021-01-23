@@ -12,7 +12,7 @@ export const IssueDetails = ( props ) => {
   const createDateFormat = dateFormat(createDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
   const updateDate = new Date( props.issue.updateDate)
   const updateDateFormat = dateFormat(updateDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
- 
+
   return (
     <tr>
       <td>

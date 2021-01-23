@@ -30,11 +30,13 @@ export const Main =(props) => {
   const [stateList,setStateList] = useState([])//It is for state create
   const getAllState= async () => {
     try{
+
       const states  =  await stateService.getAllState()
       const stateList= states.map((item) => item )
       const stateListOption= states.map((item) => ({ label: item.name,value:item.id }))
       setStateOption(stateListOption)
       setStateList(stateList)
+
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
