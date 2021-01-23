@@ -153,6 +153,7 @@ export const Main =(props) => {
       .createState(stateObject)
       .then(returnedState => {
         setStateList(stateList.concat(returnedState))
+        getAllState()
         props.setInfoMessage(`a new state ${stateObject.name} added`)
       })
       .catch(error => {

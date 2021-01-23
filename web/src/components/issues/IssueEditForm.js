@@ -105,15 +105,6 @@ export const IssueEditForm = ( props ) => {
     }
 
   }
-  /*
-  const onChangeState=(value) => {
-    console.log('Value',value)
-    if(value){
-      setStateInputValue(value.map(ıtem => ({ name:ıtem.value,order_no:ıtem.value }) ))
-    }
-
-  }
-*/
   //Assign issue my self =====================================
   const handleClickAssignMySelf=() => {//Assign issue my self
     if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
@@ -175,8 +166,8 @@ export const IssueEditForm = ( props ) => {
         </div>
         <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
           <Form.Label>State:</Form.Label>
-          <LabelSelect issue={props.issue} style={styles.select} option={props.stateOption} onChange={onChangeInputState} defaultValue={defaultStateValue}/>
-          <SelectFormModal setViewIssueEdit={props.setViewIssueEdit} setStateSmShow={setStateSmShow} smStateShow={smStateShow} addState={props.addState} text='Create State' />
+          <LabelSelect  issue={props.issue} style={styles.select} option={props.stateOption} onChange={onChangeInputState} defaultValue={defaultStateValue}/>
+          <SelectFormModal setIssueSelect={props.setIssueSelect} setViewIssueEdit={props.setViewIssueEdit} setStateSmShow={setStateSmShow} smStateShow={smStateShow} addState={props.addState} text='Create State' />
           <Button  variant="success"  onClick={handleClickState}>create state</Button>{'   '}
           <Button  variant="success"  onClick={() => history.push('/statelist')}>state list</Button>
         </Form.Group>

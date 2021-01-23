@@ -5,13 +5,17 @@ export const SelectFormModal =(props) => {
   const [name,setName] = useState()
   const [order_no,setOrder_no] = useState()
 
-  const addState=() => {
+  const addState=(event) => {
+    event.preventDefault()
+    event.persist()
     props.addState({ name,order_no })
     if(props.setSmStateListShow){
       props.setSmStateListShow(false)
     } else if (props.setStateSmShow){
       props.setStateSmShow(false)
       props.setViewIssueEdit(false)
+    }else if(props.issueSelect) {
+      props.setIssueSelect(true)
     }
   }
   return (
@@ -48,9 +52,7 @@ export const SelectFormModal =(props) => {
             < Button id="createButton" type="submit" variant="primary">create new state</Button>
           </Form.Group>
         </Form>
-
       </Modal.Body>
     </Modal>
   )
-
 }
