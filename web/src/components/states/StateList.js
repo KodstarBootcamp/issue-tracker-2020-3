@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Table, Button } from 'react-bootstrap'//
 import stateService from '../../services/ApiState'
 import { SelectFormModal } from '../modals/SelectFormModal'
-//import LoadingSpinner from '../issues/LoadingSpinner'
 import { StateDetails } from './StateDetails'
 
 
