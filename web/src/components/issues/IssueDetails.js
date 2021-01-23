@@ -3,40 +3,16 @@ import { IssueEditForm } from './IssueEditForm'
 import { Card, Container,Row,Col } from 'react-bootstrap'
 import { BsFillCaretDownFill, BsTrash,BsFillCaretUpFill, BsPencil } from 'react-icons/bs'
 import dateFormat from 'dateformat'
-//import issueService from '../../services/ApiIssues'
 
 export const IssueDetails = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
   const [viewIssueEdit,setViewIssueEdit] = useState(false)
 
-
   const createDate = new Date(props.issue.createdDate)
   const createDateFormat = dateFormat(createDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
   const updateDate = new Date( props.issue.updateDate)
   const updateDateFormat = dateFormat(updateDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
-  /*
-const [stateInputValue,setStateInputValue] = useState([])//It is for state create
-  const addState= (value) => {//It is for create state
-    console.log('value state in issue details ', value)
-    setStateInputValue(value)
-    issueService
-      .createState(value)
-      .then(returnedState => {
-        setStateInputValue(stateInputValue.concat(returnedState))
-        props.setInfoMessage(`a new state ${stateInputValue.name} added`)
-      })
-      .catch(error => {
-        props.setCheckError(`Error: ${error.message}`)
-      })
-    setTimeout(() => {
-      props.setInfoMessage(null)
-      props.setCheckError(null)
-    }, 5000)
-    props.setIssueSelect(true)
-    setViewIssueEdit(false)
-  }
-
-*/
+ 
   return (
     <tr>
       <td>
