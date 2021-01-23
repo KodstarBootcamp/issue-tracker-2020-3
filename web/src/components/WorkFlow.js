@@ -7,7 +7,7 @@ import 'react-simple-flex-grid/lib/main.css'
 //import Board from 'react-trello'
 
 
-const WorkFlow = () => {
+const WorkFlow = (props) => {
 
   const handleStart = event => {
     event.preventDefault()
@@ -32,10 +32,11 @@ const WorkFlow = () => {
       <div className='d-row  p-2'>
         <h5>backblog</h5>
         <div className='p-2'>
-          <Draggable axis="y"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
-            scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-            <div className="handle border border-primary">Bigining first Drag from here</div>
-          </Draggable>
+          <div className="handle border border-primary">{props.stateList.map(state =>
+            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+            </Draggable>
+          )}
+          </div>
         </div>
         <div className='p-2'>
           <Draggable axis="x"  handle=".handle"  defaultPosition={{ x: 0, y: 0 }} position={null}  grid={[25, 25]}
