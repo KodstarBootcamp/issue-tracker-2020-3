@@ -103,7 +103,6 @@ export const IssueList = ( props ) => {
           searchResult.map((s) => (<SearchResult key={s.id} title={s.title} description={s.description}
             createdBy={s.createdBy.username} createdDate={s.createdDate} assign={s.assignees} /> )
           ):
-
           <Table striped bordered hover size="sm">
             <thead>
               <tr bgcolor='#c2b924'>

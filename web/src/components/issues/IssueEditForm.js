@@ -32,6 +32,7 @@ export const IssueEditForm = ( props ) => {
       const sendingLabel = (!colorlabelChoose)?props.issue.labels.map(label => ({ text:label.text,color:label.color })):colorlabel
       const sendingAssignees = (!assignedUserChoose)?props.issue.assignees.map(item => item.id ):assignUser
       const sendingStates = (!stateChoose)?props.issue.state.id:stateValue
+
       event.target.title.value = ''
       event.target.description.value = ''
       props.setViewIssueEdit(false)
@@ -42,6 +43,7 @@ export const IssueEditForm = ( props ) => {
         labels:sendingLabel,
         assignees:sendingAssignees,
         state:sendingStates//It should be id name, order_no
+
       }).then(returnedObj => {
         props.setIssues( old => {
           old = old.filter (obj =>  obj.id !==id )
@@ -52,6 +54,12 @@ export const IssueEditForm = ( props ) => {
           return old.concat(returnedObj)
         })
       })
+        .catch(error => {
+          props.setCheckError(`Error: ${error.message}`)
+          setTimeout( () => {
+            props.setCheckError(null)
+          }, 5000)
+        })
     }
   }
 
@@ -63,7 +71,6 @@ export const IssueEditForm = ( props ) => {
       setColorLabelChoose(true)
       setColorLabel([])
     }
-
   }
   const onChangeInputState=(value) => {//It is for state update
     if (value) {
@@ -112,8 +119,6 @@ export const IssueEditForm = ( props ) => {
       setAssignedUsername(assignedUsername.concat(props.user.user.username))
     }
   }
-
-
   const defaultLabelValue=props.issue?props.issue.labels.map((label) => ({
     label:label.text,
     value:label.color

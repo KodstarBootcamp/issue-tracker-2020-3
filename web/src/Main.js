@@ -36,7 +36,6 @@ export const Main =(props) => {
       const stateListOption= states.map((item) => ({ label: item.name,value:item.id }))
       setStateOption(stateListOption)
       setStateList(stateList)
-
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
@@ -50,6 +49,7 @@ export const Main =(props) => {
       const users  =  await issueService.getAllUsers()
       const userList= users.map((item) => ({ label: item.username,value:item.id }))
       setUserOption(userList)
+
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
