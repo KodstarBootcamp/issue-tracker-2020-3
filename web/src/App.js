@@ -5,6 +5,7 @@ import { Main } from './Main'
 import { useEffect,useState } from 'react'
 import loginIsueService from './services/ApiIssues'
 import loginLabelService from './services/ApiLabels'
+import loginStateService from './services/ApiState'
 
 const App = () => {
   const [infoMessage,setInfoMessage]=react.useState(null)
@@ -18,6 +19,7 @@ const App = () => {
       setUser(user)
       loginIsueService.setToken(user.token)
       loginLabelService.setToken(user.token)
+      loginStateService.setToken(user.token)
     }
   }, [])
   return (

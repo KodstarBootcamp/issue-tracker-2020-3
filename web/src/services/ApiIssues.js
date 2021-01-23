@@ -74,5 +74,7 @@ const deleteOneIssue =  id  => {
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
 
+
+
 export default { getAll, getSearch, getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
 

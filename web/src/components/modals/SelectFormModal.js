@@ -7,13 +7,18 @@ export const SelectFormModal =(props) => {
 
   const addState=() => {
     props.addState({ name,order_no })
-    props.setStateSmShow(false)
+    if(props.setSmStateListShow){
+      props.setSmStateListShow(false)
+    } else if (props.setStateSmShow){
+      props.setStateSmShow(false)
+      props.setViewIssueEdit(false)
+    }
   }
   return (
     <Modal
       size="sm"
       show={props.smStateShow}
-      onHide={() => props.setStateSmShow(false)}
+      onHide={props.setStateSmShow?() => props.setStateSmShow(false):''||props.setSmStateListShow?() => props.setSmStateListShow(false):''}
       aria-labelledby="example-modal-sizes-title-sm"
     >
       <Modal.Header closeButton>
@@ -38,7 +43,7 @@ export const SelectFormModal =(props) => {
               id="order_no"
               type="number"
               name="order_no"
-              onChange={({ target }) => setOrder_no(target.value)}
+              onChange={({ target }) => setOrder_no(Number(target.value))}
             />
             < Button id="createButton" type="submit" variant="primary">create new state</Button>
           </Form.Group>
