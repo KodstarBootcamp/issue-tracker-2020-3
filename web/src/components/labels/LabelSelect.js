@@ -6,26 +6,10 @@ export const LabelSelect = (props) => {
   return (
     <Select
       style={props.style}
-      defaultValue={ props.issue?props.issue.labels.map((label) => ({
-        label:label.text,
-        value:label.color
-      })):[]}
+      defaultValue={ props.defaultValue}
       options={ props.option}
       isMulti={props.isMulti}
       onChange={props.onChange}
     />
   )
 }
-/*
-export const SortSelect = () => {
-
-  return (
-    <Select
-
-
-      options={ props.option}
-      isMulti={props.isMulti}
-      onChange='{props.onChange}'
-    />
-  )
-}*/

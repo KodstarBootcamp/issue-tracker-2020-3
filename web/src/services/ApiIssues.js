@@ -9,6 +9,9 @@ const setToken = newToken  => {
 const getAllUsers = async () => {
   const loggedUserJSON= localStorage.getItem('loggedIssueAppUser')
   const currentUser = JSON.parse(loggedUserJSON)
+  if(!currentUser){
+    return []
+  }
   const userToken = `bearer ${currentUser.token}`
   const config = {
     headers: { Authorization: userToken },
@@ -70,6 +73,8 @@ const deleteOneIssue =  id  => {
   }
   return  axios.delete(`${baseUrl}/${id}`,config)
 }
+
+
 
 export default { getAll, getSearch, getAllUsers, create,update, deleteOneIssue,getAllIssueLength,setToken, getAssignİssue }
 

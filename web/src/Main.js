@@ -11,6 +11,8 @@ import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 import { MyIssues } from './components/issues/MyIssues'
 import WorkFlow from './components/WorkFlow'
+import { StateList } from './components/states/StateList'
+import stateService from './services/ApiState'
 
 export const Main =(props) => {
   const [totalPage,setTotalPage] = useState()
@@ -23,15 +25,16 @@ export const Main =(props) => {
   const [issuesLength, setIssuesLength] = useState()
   const [sort,setSort] = useState('title')
   const [userOption,setUserOption] = useState([])
+  const [stateOption, setStateOption] = useState([])
   const history = useHistory()
-
-  const getAllUsers = async() => {
+  const [stateList,setStateList] = useState([])//It is for state create
+  const getAllState= async () => {
     try{
-      if(props.user){
-        const users  =  await issueService.getAllUsers()
-        const userList= users.map((item) => ({ label: item.username,value:item.id }))
-        setUserOption(userList)
-      }
+      const states  =  await stateService.getAllState()
+      const stateList= states.map((item) => item )
+      const stateListOption= states.map((item) => ({ label: item.name,value:item.id }))
+      setStateOption(stateListOption)
+      setStateList(stateList)
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
@@ -39,9 +42,19 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-  useEffect(async () => {
-    await getAllUsers()
-  },[])
+  const getAllUsers = async() => {
+    try{
+      const users  =  await issueService.getAllUsers()
+      const userList= users.map((item) => ({ label: item.username,value:item.id }))
+      setUserOption(userList)
+
+    }catch(err){
+      props.setCheckError(err)
+      setTimeout(() => {
+        props.setCheckError(null)
+      }, 3000)
+    }
+  }
 
   const getIssueData = async () => {
     try{
@@ -83,7 +96,14 @@ export const Main =(props) => {
     await getIssueData()
   },
   [sort])
+  useEffect(async () => {
+    await getAllUsers()
+  },[props.user])
 
+  useEffect( async () => {
+    await getAllState()
+  },[])
+  //Add issue ================================
   const addIssue = (issueObject) => {
     issueService
       .create(issueObject)
@@ -101,6 +121,7 @@ export const Main =(props) => {
       props.setCheckError(null)
     }, 5000)
   }
+  //add label ========================
   const addLabel = (labelObject) => {
     labelService
       .create(labelObject)
@@ -122,22 +143,48 @@ export const Main =(props) => {
         }
       })
   }
+  //add state ========================
+  const addState= (stateObject) => {//It is for create state
+    console.log('statelist value',stateObject)
+    stateService
+      .createState(stateObject)
+      .then(returnedState => {
+        setStateList(stateList.concat(returnedState))
+        getAllState()
+        props.setInfoMessage(`a new state ${stateObject.name} added`)
+      })
+      .catch(error => {
+        props.setCheckError(`Error: ${error.message}`)
+      })
+    setTimeout(() => {
+      props.setInfoMessage(null)
+      props.setCheckError(null)
+    }, 5000)
+    setIssueSelect(true)
+
+  }
+  //===========================================
   return (
     <div className="container">
       <Switch>
         <Route exact path="/addnew">
-          <IssueCreateForm user={props.user} userOption={userOption} setUserOption={setUserOption} setLabelSelect={setLabelSelect} labelSelect={labelSelect} option={option} setOptions={setOptions}
-            setInfoMessage={props.setInfoMessage} createIssue={addIssue} setLabels={setLabels} labels={labels} addLabel={addLabel}
+          <IssueCreateForm user={props.user} userOption={userOption} setUserOption={setUserOption} setLabelSelect={setLabelSelect} labelSelect={labelSelect}
+            option={option} setOptions={setOptions} setInfoMessage={props.setInfoMessage} createIssue={addIssue} setLabels={setLabels} labels={labels} addLabel={addLabel}
           />
         </Route>
         <Route exact path="/issuelist">
-          <IssueList userOption={userOption} setUserOption={setUserOption} sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength}
-            option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
+          <IssueList addState={addState} stateOption={stateOption} setStateOption={setStateOption} stateInputValue={stateList} setStateInputValue={setStateList} userOption={userOption} setUserOption={setUserOption}
+            sort={sort} setSort={setSort} user={props.user} totalPage={totalPage} issueLength={issuesLength} option={option} setOptions={setOptions}
+            issues={issues} setIssues={setIssues} setInfoMessage={props.setInfoMessage} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
         </Route>
         <Route exact path="/labellist">
           <LabelList user={props.user} setInfoMessage={props.setInfoMessage} setLabels={setLabels} labels={labels} addLabel={addLabel} />
+        </Route>
+        <Route exact path="/statelist">
+          <StateList addState={addState} stateList={stateList} setStateList={setStateList}
+            user={props.user} setInfoMessage={props.setInfoMessage} setCheckError={props.setCheckError} />
         </Route>
         <Route exact path="/myissues">
           <MyIssues user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
