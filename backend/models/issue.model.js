@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const issueSchema = new Schema({
-  title: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
   description: { type: String, required: true },
   labels: [
     {
@@ -19,6 +19,11 @@ const issueSchema = new Schema({
   createdBy:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
+  },
+  state:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'State',
+    required: true
   }
 }, { timestamps: true })
 

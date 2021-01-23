@@ -44,7 +44,8 @@ const anIssueInstanceFull = {
   labels:[
     { text:'text', color:'#101010' },
     { text:'text2', color:'#202020' }
-  ]
+  ],
+  state:'60049b306293c20a812133c8'
 }
 
 const issuesInDb = async () => {
@@ -57,7 +58,7 @@ const issuesInDb = async () => {
  * @returns {Promise<String>} valid id not exist
  */
 const nonExistingIssueId = async () => {
-  const issue = new Issue({ title: 'willremovethissoon', description: 'des' })
+  const issue = new Issue({ title: 'willremovethissoon', description: 'des', state:'60049b306293c20a812133c8' })
   await issue.save()
   await issue.remove()
   return issue._id.toString()

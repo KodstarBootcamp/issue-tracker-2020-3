@@ -2,11 +2,17 @@ const supertest = require('supertest')
 const { testUser, title1, title2 } = require('./test_helper')
 const app = require('../server')
 const api = supertest(app)
+const Label = require('../models/label.model')
 const User = require('../models/user.model')
+const State = require('../models/state.model')
+const Issue = require('../models/issue.model')
 const bcrypt = require('bcrypt')
 
-beforeEach(async () => {
+beforeAll(async () => {
+  await State.deleteMany({})
+  await Label.deleteMany({})
   await User.deleteMany({})
+  await Issue.deleteMany({})
   const passwordHash = await bcrypt.hash(testUser.password, 10)
   const user = new User({ username: testUser.username, passwordHash: passwordHash, email:'dsa' })
   await user.save()

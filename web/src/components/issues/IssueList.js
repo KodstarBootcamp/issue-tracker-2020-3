@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import issueService from '../../services/ApiIssues'
 import { IssueDetails } from './IssueDetails'
 import PaginationIssue from '../../components/PaginationIssue'
-import { Table } from 'react-bootstrap'//Form,Col,Button
+import { Table } from 'react-bootstrap'
 import LoadingSpinner from './LoadingSpinner'
 import Select from 'react-select'
+import SearchBar from './SearchBar'
+import SearchResult from './SearchResult'
 import '../../App.css'
 
 export const IssueList = ( props ) => {
+  const [searchResult, setSearchResult] = useState([])
+
   const handleDelete=( id ) => {
     const issueDelete = props.issues.find(b => b.id === id)
     if (window.confirm(`Do you want to delete '${issueDelete.title}'?`)) {
@@ -51,6 +55,27 @@ export const IssueList = ( props ) => {
       return { ...provided, opacity, transition }
     }
   }
+  // ===============SEARCH FIELD AREA
+  const clickSearch = searchValue => {
+    if (searchValue){
+      const searchRes=issueService.getSearch( { searchValue } )
+      searchRes.then(function(result){
+        setSearchResult(result)
+        if (result.length===0){
+          props.setInfoMessage('no result')
+          setTimeout(() => {
+            props.setInfoMessage(null)
+          }, 3000)
+        }
+      })
+    }else{
+
+      props.setInfoMessage('search area is empty')
+      setTimeout(() => {
+        props.setInfoMessage(null)
+      }, 3000)
+    }
+  }
 
   return props.issues.length?(
     <div>
@@ -66,10 +91,19 @@ export const IssueList = ( props ) => {
               styles={styles}
             />
           </div>
-          <div className='p-2 mr-auto flex-fill'>
-            <h1>Issue Details, Total:{props.issues !==null?props.issues.length:null}</h1>
+          <div className='p-2 '>
+            <h1>Issues, total:{props.issues !==null?props.issues.length:null}</h1>
+          </div>
+          <div className="p-2">
+            <SearchBar clickSearch={clickSearch}
+            />
           </div>
         </div>
+        {searchResult.length?
+          searchResult.map((s) => (<SearchResult key={s.id} title={s.title} description={s.description}
+            createdBy={s.createdBy.username} createdDate={s.createdDate} assign={s.assignees} /> )
+          ):
+
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
@@ -82,15 +116,17 @@ export const IssueList = ( props ) => {
           <tbody>
             {props.issues.length?
               props.issues.map((issue) =>
-                <IssueDetails userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                <IssueDetails setCheckError={props.setCheckError} userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
                   issue={issue} addLabel={props.addLabel}
                   labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
 
-                />
-              )
-              :null}
-          </tbody>
-        </Table>
+
+                  />
+                )
+                :null}
+            </tbody>
+          </Table>
+        }
       </div>
       <div className="d-flex flex-row-reverse bd-highlight">
         <PaginationIssue sort={props.sort} setSort={props.setSort} totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}

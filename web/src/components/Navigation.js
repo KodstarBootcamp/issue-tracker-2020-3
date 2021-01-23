@@ -17,14 +17,13 @@ const Navigation = (props) => {
       signOutService.setToken(null)
     }
   }
-
   return (
     <div>
-      <Navbar color="warning" light expand="md">
+      <Navbar color="light" light expand="md">
         <NavbarBrand><img id="navlogo" src={logo} alt="logo" /></NavbarBrand>
         <NavbarToggler onClick={toggle} className="mr-2 mt-1 " />
         <Collapse isOpen={!isOpen} navbar>
-          <Nav className="ml-auto" navbar>
+          <Nav className="ml-navbar navbar-light" navbar>
             <NavItem  id="custom_button" className="nav_button px-2 ">
               <Link to="/">
                 <Button  className="btn-md  col-sm-6 col-md-12" outline color="danger">Home</Button>
@@ -71,7 +70,6 @@ const Navigation = (props) => {
           </Nav>
         </Collapse>
       </Navbar>
-
     </div>
   )
 }

@@ -4,6 +4,7 @@ const router = require('express').Router()
 const Issue = require('./models/issue.model')
 const Label = require('./models/label.model')
 const User = require('./models/user.model')
+const State = require('./models/state.model')
 const fs = require('fs')
 
 const replSet = new MongoMemoryReplSet({
@@ -36,6 +37,7 @@ router.delete('/all', async (req, res) => {
   await Issue.deleteMany({})
   await Label.deleteMany({})
   await User.deleteMany({})
+  await State.deleteMany({})
   res.status(200).send('All data deleted from DB.').end()
 })
 
