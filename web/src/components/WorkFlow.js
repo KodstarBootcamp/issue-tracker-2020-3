@@ -3,8 +3,7 @@ import React from 'react'
 import Draggable from 'react-draggable'
 //import { Row, Col } from 'react-simple-flex-grid'
 import 'react-simple-flex-grid/lib/main.css'
-//import {DraggableCore} from 'react-draggable'
-//import Board from 'react-trello'
+import { Card,Col } from 'react-bootstrap'
 
 
 const WorkFlow = (props) => {
@@ -27,13 +26,22 @@ const WorkFlow = (props) => {
     // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
     // steal the user's credit card filter (obj =>  obj.id !==id )
   }
+  console.log('issues',props.issues)
   return (
     <div className='d-flex'>
       <div className='d-row  p-2'>
         <h5>backblog</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='backblog').map(state =>
-            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='backblog':'').map(issue =>
+            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+              <Card style={{ width: '18rem'  }}>
+                <Card.Header>{issue.title}</Card.Header>
+                <Card.Body>
+                  <Col>Description: {issue.description} </Col>
+                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
+                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
+                </Card.Body>
+              </Card>
             </Draggable>
           )}
           </div>
@@ -42,8 +50,16 @@ const WorkFlow = (props) => {
       <div className='d-row p-2'>
         <h5>Started</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='started').map(state =>
-            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='started':'').map(issue =>
+            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+              <Card style={{ width: '18rem'  }}>
+                <Card.Header>{issue.title}</Card.Header>
+                <Card.Body>
+                  <Col>Description: {issue.description} </Col>
+                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
+                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
+                </Card.Body>
+              </Card>
             </Draggable>
           )}
           </div>
@@ -52,8 +68,16 @@ const WorkFlow = (props) => {
       <div className='d-row p-2'>
         <h5>Finished</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='finished').map(state =>
-            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='finished':'').map(issue =>
+            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+              <Card style={{ width: '18rem'  }}>
+                <Card.Header>{issue.title}</Card.Header>
+                <Card.Body>
+                  <Col>Description: {issue.description} </Col>
+                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
+                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
+                </Card.Body>
+              </Card>
             </Draggable>
           )}
           </div>
@@ -62,8 +86,16 @@ const WorkFlow = (props) => {
       <div className='d-row p-2'>
         <h5>In test</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='in test').map(state =>
-            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='in test':'').map(issue =>
+            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+              <Card style={{ width: '18rem'  }}>
+                <Card.Header>{issue.title}</Card.Header>
+                <Card.Body>
+                  <Col>Description: {issue.description} </Col>
+                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
+                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
+                </Card.Body>
+              </Card>
             </Draggable>
           )}
           </div>
@@ -72,8 +104,16 @@ const WorkFlow = (props) => {
       <div className='d-row p-2'>
         <h5>Done</h5>
         <div className='p-2'>
-          <div className="handle border border-primary">{props.stateList.filter(obj =>  obj.name ==='done').map(state =>
-            <Draggable key={state.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}><div >{state.name} </div>
+          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='done':'').map(issue =>
+            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+              <Card style={{ width: '18rem'  }}>
+                <Card.Header>{issue.title}</Card.Header>
+                <Card.Body>
+                  <Col>Description: {issue.description} </Col>
+                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
+                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
+                </Card.Body>
+              </Card>
             </Draggable>
           )}
           </div>

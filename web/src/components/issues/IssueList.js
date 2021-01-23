@@ -113,9 +113,11 @@ export const IssueList = ( props ) => {
                 setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete} /> )):
               props.issues.length&&
                 props.issues.map((issue) =>
-                  <IssueDetails addState={props.addState} stateOption={props.stateOption} setStateOption={props.setStateOption} stateInputValue={props.stateInputValue} setStateInputValue={props.setStateInputValue} setCheckError={props.setCheckError} userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                  <IssueDetails addState={props.addState} stateOption={props.stateOption} setStateOption={props.setStateOption} stateInputValue={props.stateInputValue}
+                    setStateInputValue={props.setStateInputValue} setCheckError={props.setCheckError} userOption={props.userOption} setUserOption={props.setUserOption} key={issue.id}
+                    user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
                     issue={issue} addLabel={props.addLabel}
-                    labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete} /> )})
+                    labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete} /> )}
           </tbody>
         </Table>
       </div>
