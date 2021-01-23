@@ -1,16 +1,12 @@
 const router = require('express').Router()
 const State = require('../models/state.model')
+const Issue = require('../models/issue.model')
 require('express-async-errors')
 const {
   objCleaner, checkToken,
   existanceError,
 } = require('../utils/utils')
-/*
-  ! It shall be possible to create/delete new states.
-  ! It shall be possible to set state of an issue.
-  ! When a state deleted, state of issues with that state will be set to first state.
-  ! It shall be prevented to delete last state.
-*/
+
 router.route('/').post(async (req, res) => {
   checkToken(req)
   const unverifiedOrder = req.body.order_no
@@ -39,25 +35,6 @@ router.route('/').post(async (req, res) => {
   return res.status(201).json(savedState)
 })
 
-// router.route('/assign/:id').post( async (req, res) => {
-//   checkToken(req)
-//   const issue = await Issue.findById(req.params.id)
-//   const user = await User.findById(req.body.user)
-//   if (existanceError({ user }, res)) return
-//   if (existanceError({ issue }, res)) return
-//   if (issue.assignees.includes(req.body.user)) {
-//     issue.assignees = issue.assignees.filter( id => id.toString() !== req.body.user)
-//   } else {
-//     issue.assignees = issue.assignees.concat(req.body.user)
-//   }
-//   const savedIssue = await Issue.findByIdAndUpdate(
-//     req.params.id,
-//     issue,
-//     { new:true }
-//   ).populate('labels createdBy assignees')
-//   return res.status(200).json(savedIssue)
-// })
-
 router.route('/all').get( async (req, res) => {
   const states = await State.find({}).sort('order_no')
   return res.status(200).json(states).end()
@@ -82,6 +59,8 @@ router.route('/:id').delete( async (req, res) => {
         await State.findOneAndUpdate({ order_no:i }, { order_no:i - 1 })
       }
     }
+    const firstState = await State.findOne({ order_no:0 })
+    await Issue.updateMany({ state:req.params.id }, { state:firstState._id.toString() })
     return res.status(200).json({ OK:'successfull operation' })
   } else {
     return res.status(400).json({ error:'The last state can\'t delete' })
