@@ -26,6 +26,8 @@ export const IssueDetails = ( props ) => {
           <Card.Text className='description'>{props.issue.description}</Card.Text>
           <h5>Assigned:</h5>
           <Card.Text className='description'>{props.issue.assignees.map(assign => assign.username+'  ')}</Card.Text>
+          <h5>State:</h5>
+          <Card.Text className='description'>{props.issue.state.name}</Card.Text>
           <h5>Labels:</h5>
           <Container className="d-flex-colums justify-content-start" >
             <Row >

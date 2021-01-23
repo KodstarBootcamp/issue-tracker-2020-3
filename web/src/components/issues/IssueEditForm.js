@@ -5,10 +5,12 @@ import { LabelSelect, LabelCreateForm } from '../labels'
 import AssignModel from '../modals/AssignModel'
 import { BsPerson } from 'react-icons/bs'
 import stateService from '../../services/ApiState'
+import { SelectFormModal } from '../modals/SelectFormModal'
 
 
 export const IssueEditForm = ( props ) => {
   const [smShow, setSmShow] = useState(false)
+  const [smStateShow, setSmStateSmShow] = useState(false)
   const [colorlabel,setColorLabel]=useState([])
   const [colorlabelChoose,setColorLabelChoose]=useState(false)
   const [stateChoose,setStateChoose]=useState(false)
@@ -18,7 +20,9 @@ export const IssueEditForm = ( props ) => {
   const [smAssignShow, setAssignSmShow] = useState(false)
   const [stateOption, setStateOption] = useState([])
   const [stateValue,setStateValue] = useState([])
+  const [stateInputValue,setStateInputValue] = useState([])
 
+  console.log('StateInputValue',stateInputValue)
 
   const getAllState= async () => {
     try{
@@ -51,7 +55,6 @@ export const IssueEditForm = ( props ) => {
       const sendingAssignees = (!assignedUserChoose)?props.issue.assignees.map(item => item.id ):assignUser
 
       const sendingStates = (!stateChoose)?props.issue.state.id:stateValue
-      console.log('State states',sendingStates)
       event.target.title.value = ''
       event.target.description.value = ''
       props.setViewIssueEdit(false)
@@ -106,10 +109,9 @@ export const IssueEditForm = ( props ) => {
     props.setIssueSelect(true)
     setSmShow(true)
   }
-  const handleClickState= ( event ) => {
+  const handleClickState= ( event ) => {//It is for state modal input
     event.preventDefault()
-    props.setIssueSelect(true)
-    setSmShow(true)
+    setSmStateSmShow(true)
   }
 
   //Assign issue to user =====
@@ -126,12 +128,24 @@ export const IssueEditForm = ( props ) => {
     }
 
   }
+
+  const onChangeState=(value) => {
+    console.log('Value',value)
+    if(value){
+      setStateInputValue(value.map(ıtem => ({ name:ıtem.value,order_no:ıtem.value }) ))
+    }
+
+  }
   const handleClickAssignMySelf=() => {//Assign issue my self
     if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
       setAssignUser(assignUser.concat(props.user.user.id))
       console.log('Current myself id ', props.user.user.id)
       setAssignedUsername(assignedUsername.concat(props.user.user.username))
     }
+  }
+  const addState= (value) => {
+    console.log('State value',value)
+    setStateInputValue(value)
   }
 
   const defaultLabelValue=props.issue?props.issue.labels.map((label) => ({
@@ -184,10 +198,10 @@ export const IssueEditForm = ( props ) => {
             </div>
           </div>
         </div>
-
         <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
           <Form.Label>State:</Form.Label>
           <LabelSelect issue={props.issue} style={styles.select} option={stateOption} onChange={onChangeInputState} defaultValue={defaultStateValue}/>
+          <SelectFormModal  setStateSmShow={setSmStateSmShow} smStateShow={smStateShow} addState={addState} onChangeState={onChangeState} text='Create State' />
           <Button  variant="success"  onClick={handleClickState}>create state</Button>
         </Form.Group>
         <Form.Group as={Col} md="8" controlId="validationCustom03" className="ml-3">
