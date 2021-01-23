@@ -7,14 +7,16 @@ import dateFormat from 'dateformat'
 export const IssueDetails = ( props ) => {
   const [viewIssue,setViewIssue]= useState(false)
   const [viewIssueEdit,setViewIssueEdit] = useState(false)
+
   const createDate = new Date(props.issue.createdDate)
   const createDateFormat = dateFormat(createDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
   const updateDate = new Date( props.issue.updateDate)
   const updateDateFormat = dateFormat(updateDate, 'dddd, mmmm dS, yyyy, h:MM:ss TT')
+ 
   return (
     <tr>
       <td>
-        {viewIssueEdit&&<IssueEditForm  user={props.user} userOption={props.userOption} setUserOption={props.setUserOption}
+        {viewIssueEdit&&<IssueEditForm addState={props.addState} stateOption={props.stateOption} setStateOption={props.setStateOption} stateInputValue={props.stateInputValue} setStateInputValue={props.setStateInputValue} setCheckError={props.setCheckError} user={props.user} userOption={props.userOption} setUserOption={props.setUserOption}
           option={props.option} setOptions={props.setOptions} key={props.issue.id} viewIssueEdit={viewIssueEdit} setViewIssueEdit={setViewIssueEdit}
           labels={props.labels} issue={props.issue} addLabel={props.addLabel} setIssues={props.setIssues} setInfoMessage={props.setInfoMessage}
           setIssueSelect={props.setIssueSelect} issueSelect={props.issueSelect}/>}
@@ -26,6 +28,8 @@ export const IssueDetails = ( props ) => {
           <Card.Text className='description'>{props.issue.description}</Card.Text>
           <h5>Assigned:</h5>
           <Card.Text className='description'>{props.issue.assignees.map(assign => assign.username+'  ')}</Card.Text>
+          <h5>State:</h5>
+          <Card.Text className='description'>{props.issue.state.name}</Card.Text>
           <h5>Labels:</h5>
           <Container className="d-flex-colums justify-content-start" >
             <Row >
