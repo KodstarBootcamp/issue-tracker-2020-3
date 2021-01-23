@@ -66,7 +66,6 @@ export const IssueEditForm = ( props ) => {
 
   }
   const onChangeInputState=(value) => {//It is for state update
-    console.log('state value',value)
     if (value) {
       setStateChoose(true)
       setStateValue(value.value)
@@ -97,7 +96,7 @@ export const IssueEditForm = ( props ) => {
     setAssignSmShow(true)
   }
   const onChangeAssign=(value) => {
-    console.log('Value',value)
+
     if(value){
       setAssignedUserChoose(true)
       setAssignUser(value.map(ıtem => ıtem.value) )
@@ -108,6 +107,7 @@ export const IssueEditForm = ( props ) => {
   //Assign issue my self =====================================
   const handleClickAssignMySelf=() => {//Assign issue my self
     if(!assignUser.includes(props.user.user.id)&&!assignedUsername.includes(props.user.user.username)){
+      setAssignedUserChoose(true)
       setAssignUser(assignUser.concat(props.user.user.id))
       setAssignedUsername(assignedUsername.concat(props.user.user.username))
     }
