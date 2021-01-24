@@ -13,7 +13,6 @@ import { SelectFormModal }   from './modals/SelectFormModal'
 import '../App.css'
 
 const WorkFlow = (props) => {
-  //const [setStateChoose]=useState(false)//stateChoose
   const [stateValue,setStateValue] = useState([])//It is for state update
   const [smStateListShow, setSmStateListShow] = useState(false)
 
@@ -29,10 +28,8 @@ const WorkFlow = (props) => {
     }
   }
 
-
   const handleClick = ( value ) => {
     event.preventDefault()
-
     const id =value.id
     const title= value.title
     const description=value.description
@@ -65,7 +62,6 @@ const WorkFlow = (props) => {
 
   }
 
-
   const styles={
     select:{
       width:'100%',
@@ -79,13 +75,12 @@ const WorkFlow = (props) => {
     setSmStateListShow(true)
   }
   return (
-
     <div className='d-flex'>
       {props.stateList.map(state =>
-        <div className='d-row  p-2' key={state.id}>
+        <div className='d-row  p-3' key={state.id}>
           <div className='p-2 '>
             <h5 color='red'>{state.name}</h5>
-            <Scrollbars style={{ width: 310, height: 600 }} >
+            <Scrollbars style={{ width: 310, height: 600 }} key={state.id} >
               <div className="handle">{props.issues.filter((issue) => issue.state?issue.state.name===state.name:'').map(issue =>
                 <StateCard issue={issue} key={issue.id} handleClick={handleClick} option={props.stateOption} styles={styles} onChange={onChangeInputState}
                   defaultValue={defaultStateValue}/>
@@ -101,7 +96,6 @@ const WorkFlow = (props) => {
       </div>
     </div>
   )
-
 }
 
 const StateCard =(props) => {
