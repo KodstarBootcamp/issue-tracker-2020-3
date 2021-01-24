@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 //import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
-//import { Row, Col } from 'react-simple-flex-grid'
 import 'react-simple-flex-grid/lib/main.css'
 import { Card } from 'react-bootstrap'
 import { Form,  Button,Col } from 'react-bootstrap'
@@ -11,20 +10,17 @@ import { useHistory } from 'react-router-dom'
 import issueService from '../services/ApiIssues'
 import { Scrollbars } from 'rc-scrollbars'
 import { SelectFormModal }   from './modals/SelectFormModal'
-
+import '../App.css'
 
 const WorkFlow = (props) => {
   //const [setStateChoose]=useState(false)//stateChoose
   const [stateValue,setStateValue] = useState([])//It is for state update
   const [smStateListShow, setSmStateListShow] = useState(false)
 
-
-
   const onChangeInputState=(value) => {//It is for state update
   //  event.preventDefault()
 
     if (value) {
-
       //  setStateChoose(true)
       setStateValue(value.value)
     } else {
