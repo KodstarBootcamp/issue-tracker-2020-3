@@ -1,252 +1,149 @@
-import React from 'react'
+import React, { useState } from 'react'
 //import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
 //import { Row, Col } from 'react-simple-flex-grid'
 import 'react-simple-flex-grid/lib/main.css'
-import { Card,Col } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
+import { Form,  Button,Col } from 'react-bootstrap'
+import { BsFillCaretDownFill,BsFillCaretUpFill } from 'react-icons/bs'
+import { LabelSelect } from './labels/LabelSelect'
+import { useHistory } from 'react-router-dom'
+import issueService from '../services/ApiIssues'
 
 
 const WorkFlow = (props) => {
+  //const [setStateChoose]=useState(false)//stateChoose
+  const [stateValue,setStateValue] = useState([])//It is for state update
+  //const [stateVisibilityStarted,setStateVisibilityStarted] = useState(false)
+  //const [stateVisibilityFinished,setStateVisibilityFinished] = useState(false)
+  //const [stateVisibilityInTest,setStateVisibilityInTest] = useState(false)
+  // const [stateVisibilityDone,setStateVisibilityDone] = useState(false)
 
-  const handleStart = event => {
-    event.preventDefault()
-    console.log('Mouse Over')
-    // Turn the endzone red, perhaps?
+
+
+  const onChangeInputState=(value) => {//It is for state update
+  //  event.preventDefault()
+
+    if (value) {
+
+      //  setStateChoose(true)
+      setStateValue(value.value)
+    } else {
+      // setStateChoose(true)
+      setStateValue([])
+    }
   }
 
-  const handleDragLeave = event => {
+
+  const handleClick = ( value ) => {
     event.preventDefault()
-    console.log('Mouse leaving')
-    // Bring the endzone back to normal, maybe?
+
+    const id =value.id
+    const title= value.title
+    const description=value.description
+    const sendingLabel = value.labels.map(label => ({ text:label.text,color:label.color }))
+    const sendingAssignees = value.assignees.map(item => item.id )
+    const sendingStates = stateValue
+    issueService.update( {
+      id: id,
+      title: title,
+      description: description,
+      labels:sendingLabel,
+      assignees:sendingAssignees,
+      state:sendingStates//It should be id name, order_no
+    }).then(returnedObj => {
+      props.setIssues( old => {
+        old = old.filter (obj =>  obj.id !==id )
+        props.setInfoMessage(`${returnedObj.title} updated`)
+        setTimeout( () => {
+          props.setInfoMessage(null)
+        }, 5000)
+        return old.concat(returnedObj)
+      })
+    })
+      .catch(error => {
+        props.setCheckError(`Error: ${error.message}`)
+        setTimeout( () => {
+          props.setCheckError(null)
+        }, 5000)
+      })
+
   }
 
-  const handleDrop = event => {
-    event.preventDefault()
-    console.log('Mouse drop')
-    // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
-    // steal the user's credit card filter (obj =>  obj.id !==id )
+  // const handleStart = event => {
+  //  event.preventDefault()
+  //  console.log('Mouse Over')
+  // Turn the endzone red, perhaps?
+  // }
+
+  //  const handleDragLeave = event => {
+  //  event.preventDefault()
+  //   console.log('Mouse leaving')
+  // Bring the endzone back to normal, maybe?
+  // }
+
+  // const handleDrop = event => {
+  //  event.preventDefault()
+  //  console.log('Mouse drop')
+  // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
+  // steal the user's credit card filter (obj =>  obj.id !==id )
+  // }
+
+  const styles={
+    select:{
+      width:'100%',
+      maxWidth:600
+    }
   }
-  console.log('issues',props.issues)
+
+  const defaultStateValue=props.issue?[{ label:props.issue.state.name,value:props.issue.state.id }]:[]
   return (
     <div className='d-flex'>
-      <div className='d-row  p-2'>
-        <h5>backblog</h5>
-        <div className='p-2'>
-          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='backblog':'').map(issue =>
-            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-              <Card style={{ width: '18rem'  }}>
-                <Card.Header>{issue.title}</Card.Header>
-                <Card.Body>
-                  <Col>Description: {issue.description} </Col>
-                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
-                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
-                </Card.Body>
-              </Card>
-            </Draggable>
-          )}
+      {props.stateList.map(state =>
+        <div className='d-row  p-2' key={state.id}>
+          <h5>{state.name}</h5>
+          <div className='p-2'>
+            <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name===state.name:'').map(issue =>
+              <StateCard issue={issue} key={issue.id} handleClick={handleClick} option={props.stateOption} styles={styles} onChange={onChangeInputState}
+                defaultValue={defaultStateValue}/>// set continue
+            )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className='d-row p-2'>
-        <h5>Started</h5>
-        <div className='p-2'>
-          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='started':'').map(issue =>
-            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-              <Card style={{ width: '18rem'  }}>
-                <Card.Header>{issue.title}</Card.Header>
-                <Card.Body>
-                  <Col>Description: {issue.description} </Col>
-                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
-                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
-                </Card.Body>
-              </Card>
-            </Draggable>
-          )}
-          </div>
-        </div>
-      </div>
-      <div className='d-row p-2'>
-        <h5>Finished</h5>
-        <div className='p-2'>
-          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='finished':'').map(issue =>
-            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-              <Card style={{ width: '18rem'  }}>
-                <Card.Header>{issue.title}</Card.Header>
-                <Card.Body>
-                  <Col>Description: {issue.description} </Col>
-                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
-                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
-                </Card.Body>
-              </Card>
-            </Draggable>
-          )}
-          </div>
-        </div>
-      </div>
-      <div className='d-row p-2'>
-        <h5>In test</h5>
-        <div className='p-2'>
-          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='in test':'').map(issue =>
-            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-              <Card style={{ width: '18rem'  }}>
-                <Card.Header>{issue.title}</Card.Header>
-                <Card.Body>
-                  <Col>Description: {issue.description} </Col>
-                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
-                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
-                </Card.Body>
-              </Card>
-            </Draggable>
-          )}
-          </div>
-        </div>
-      </div>
-      <div className='d-row p-2'>
-        <h5>Done</h5>
-        <div className='p-2'>
-          <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name==='done':'').map(issue =>
-            <Draggable key={issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
-              <Card style={{ width: '18rem'  }}>
-                <Card.Header>{issue.title}</Card.Header>
-                <Card.Body>
-                  <Col>Description: {issue.description} </Col>
-                  <Col>Labels: {issue.labels.map(label => label.text+' ' ) } </Col>
-                  <Col>Assigned: {issue.assignees.map(assign => assign.username)} </Col>
-                </Card.Body>
-              </Card>
-            </Draggable>
-          )}
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   )
 
 }
 
 
-
-
-
-
-/*
-  const data = {
-    lanes: [
-      {
-        id: 'lane1',
-        title: 'Planned Tasks',
-        label: '4/4',
-        cards: [
-          { id: 'Card1', title: 'Snow Kind', description: 'Descriptions', label: '30 mins', draggable: true },
-          { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } },
-          { id: 'Card3', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } },
-          { id: 'Card4', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }
-        ]
-      },
-      {
-        id: 'lane2',
-        title: 'To do',
-        label: '0/0',
-        cards: [ { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: true },
-          { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }]
-      },
-      {
-        id: 'lane3',
-        title: 'progress',
-        label: '0/0',
-        cards: [ { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: true },
-          { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }]
-      },
-      {
-        id: 'lane4',
-        title: 'Done',
-        label: '0/0',
-        cards: [ { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', draggable: true },
-          { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }]
-      }
-    ]
-  }
-
-  const handleDragLeave = event => {
-    event.stopPropogation()
-    event.preventDefault()
-    console.log('Mouse leaving')
-    // Bring the endzone back to normal, maybe?
-  }
-  const onDragStart = event => {
-    event.stopPropogation()
-    event.preventDefault()
-    console.log('Mouse Over')
-    // Turn the endzone red, perhaps?
-  }
-  const handleDragEnter = event => {
-    event.stopPropogation()
-    event.preventDefault()
-    console.log('Mouse Enter')
-    // Play a little sound, possibly?
-  }
-  const handleDrop = event => {
-    event.stopPropogation()
-    event.preventDefault()
-    console.log('Mouse drop')
-    // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
-    // steal the user's credit card
-  }
-  return (
-    <div className={'endzone'} >
-      <p>The Drop Zone</p>
-      <div >
-        <Board data={data} onDragStart={onDragStart}  />
-        <div className="draggablediv" draggable="true" onDragStart={onDragStart} onDragEnd={handleDragLeave}>Maybe Im a ball?</div>
-      </div>
-    </div>
-
-return (
-<div style={{display: 'flex',flexDirection: 'column'}}>
-<div style={{height: 500,padding: 20}}>
-<Unknown id="board1" data={{lanes: [
-      {
-        id: 'PLANNED',
-        title: 'Disallowed adding card',
-        label: '20/70',
-        …
-      },
-      {
-        id: 'WIP',
-        title: 'Work In Progress',
-        label: '10/20',
-        …
-      },
-      {
-        id: 'BLOCKED',
-        title: 'Blocked',
-        label: '0/0',
-        …
-      },
-      …
-    ]}} draggable />
-</div>
-<div style={{height: 500,padding: 20}}>
-<Unknown id="board2" data={{lanes: [{
-        id: 'yesterday',
-        title: 'Yesterday',
-        label: '20/70',
-        …
-      },{
-        id: 'today',
-        title: 'Today',
-        label: '10/20',
-        …
-      },{
-        id: 'tomorrow',
-        title: 'Tomorrow',
-        label: '0/0',
-        …
-      }]}} draggable />
-</div>
-</div>
+const StateCard =(props) => {
+  const [stateVisibility,setStateVisibility] = useState(false)
+  const history = useHistory()
+  return(
+    <Draggable key={props.issue.id} scale={1} onStart={props.handleStart} onDrag={props.handleDragLeave} onStop={props.handleDrop}>
+      <Card style={{ width: '18rem'  }}>
+        <Card.Header>{props.issue.title}</Card.Header>
+        <Card.Body>
+          <Col>Description: {props.issue.description} </Col>
+          <Col>Labels: {props.issue.labels.map(label => label.text+' ' ) } </Col>
+          <Col>Assigned: {props.issue.assignees.map(assign => assign.username)} </Col>
+          <Form.Group as={Col} md="8" controlId="validationCustom03" >
+            <Form.Label>State:</Form.Label>
+            {stateVisibility&&
+                    <>
+                      <LabelSelect  issue={props.issue} style={props.styles.select} option={props.option} onChange={props.onChange} defaultValue={props.defaultValue}/>
+                      <Button  variant="success" direction='right' onClick={() => props.handleClick(props.issue)}>update</Button>
+                      <Button  variant="success" direction='right' onClick={() => history.push('/statelist')}>state list</Button>
+                    </>}
+            {!stateVisibility?<BsFillCaretDownFill data-testid='view' style={{ color: 'green', }} size={28} onClick={() => setStateVisibility(true)}/>
+              :<BsFillCaretUpFill style={{ color: 'green' }} size={32} onClick={() => setStateVisibility(false)}/>}
+          </Form.Group>
+        </Card.Body>
+      </Card>
+    </Draggable>
   )
-*/
+}
 
 
 export default WorkFlow
