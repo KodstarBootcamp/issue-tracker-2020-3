@@ -116,7 +116,6 @@ const WorkFlow = (props) => {
 
 }
 
-
 const StateCard =(props) => {
   const [stateVisibility,setStateVisibility] = useState(false)
   const history = useHistory()
