@@ -9,7 +9,7 @@ import { BsFillCaretDownFill,BsFillCaretUpFill } from 'react-icons/bs'
 import { LabelSelect } from './labels/LabelSelect'
 import { useHistory } from 'react-router-dom'
 import issueService from '../services/ApiIssues'
-
+import '../App.css'
 
 const WorkFlow = (props) => {
   //const [setStateChoose]=useState(false)//stateChoose
