@@ -197,7 +197,7 @@ export const Main =(props) => {
         <Route exact path="/workflow">
           <WorkFlow stateOption={stateOption} stateList={stateList} setStateList={setStateList} user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage}
             issueLength={issuesLength}  issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
-            labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
+            labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addState={addState}
           />
         </Route>
         <Route exact path="/userSignIn">

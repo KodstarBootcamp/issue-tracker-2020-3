@@ -9,15 +9,14 @@ import { BsFillCaretDownFill,BsFillCaretUpFill } from 'react-icons/bs'
 import { LabelSelect } from './labels/LabelSelect'
 import { useHistory } from 'react-router-dom'
 import issueService from '../services/ApiIssues'
+import { Scrollbars } from 'rc-scrollbars'
+import { SelectFormModal }   from './modals/SelectFormModal'
 
 
 const WorkFlow = (props) => {
   //const [setStateChoose]=useState(false)//stateChoose
   const [stateValue,setStateValue] = useState([])//It is for state update
-  //const [stateVisibilityStarted,setStateVisibilityStarted] = useState(false)
-  //const [stateVisibilityFinished,setStateVisibilityFinished] = useState(false)
-  //const [stateVisibilityInTest,setStateVisibilityInTest] = useState(false)
-  // const [stateVisibilityDone,setStateVisibilityDone] = useState(false)
+  const [smStateListShow, setSmStateListShow] = useState(false)
 
 
 
@@ -70,24 +69,6 @@ const WorkFlow = (props) => {
 
   }
 
-  // const handleStart = event => {
-  //  event.preventDefault()
-  //  console.log('Mouse Over')
-  // Turn the endzone red, perhaps?
-  // }
-
-  //  const handleDragLeave = event => {
-  //  event.preventDefault()
-  //   console.log('Mouse leaving')
-  // Bring the endzone back to normal, maybe?
-  // }
-
-  // const handleDrop = event => {
-  //  event.preventDefault()
-  //  console.log('Mouse drop')
-  // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
-  // steal the user's credit card filter (obj =>  obj.id !==id )
-  // }
 
   const styles={
     select:{
@@ -97,20 +78,31 @@ const WorkFlow = (props) => {
   }
 
   const defaultStateValue=props.issue?[{ label:props.issue.state.name,value:props.issue.state.id }]:[]
+  const handleClickState= ( event ) => {//It is for state modal input
+    event.preventDefault()
+    setSmStateListShow(true)
+  }
   return (
+
     <div className='d-flex'>
       {props.stateList.map(state =>
         <div className='d-row  p-2' key={state.id}>
-          <h5>{state.name}</h5>
-          <div className='p-2'>
-            <div className="handle border border-primary">{props.issues.filter((issue) => issue.state?issue.state.name===state.name:'').map(issue =>
-              <StateCard issue={issue} key={issue.id} handleClick={handleClick} option={props.stateOption} styles={styles} onChange={onChangeInputState}
-                defaultValue={defaultStateValue}/>// set continue
-            )}
-            </div>
+          <div className='p-2 '>
+            <h5 color='red'>{state.name}</h5>
+            <Scrollbars style={{ width: 310, height: 600 }} >
+              <div className="handle">{props.issues.filter((issue) => issue.state?issue.state.name===state.name:'').map(issue =>
+                <StateCard issue={issue} key={issue.id} handleClick={handleClick} option={props.stateOption} styles={styles} onChange={onChangeInputState}
+                  defaultValue={defaultStateValue}/>
+              )}
+              </div>
+            </Scrollbars>
           </div>
         </div>
       )}
+      <div className="p-2 mr-auto flex-fill" >
+        {props.user?<Button  variant="success"  onClick={handleClickState}>create state</Button>:''}
+        <SelectFormModal  setSmStateListShow={setSmStateListShow} smStateShow={smStateListShow} addState={props.addState} text='Create State' />
+      </div>
     </div>
   )
 
@@ -119,28 +111,48 @@ const WorkFlow = (props) => {
 const StateCard =(props) => {
   const [stateVisibility,setStateVisibility] = useState(false)
   const history = useHistory()
+
+  const handleStart = event => {
+    event.preventDefault()
+    console.log('Mouse Over')
+  }
+  const handleDragLeave = event => {
+    event.preventDefault()
+    console.log('Mouse leaving')
+  }
+
+  const handleDrop = event => {
+    event.preventDefault()
+    console.log('Mouse drop')
+  // Add a football image to the endzone, initiate a file upload,onDragOver={onDragOver} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDrop={handleDrop}
+  // steal the user's credit card filter (obj =>  obj.id !==id )
+  }
+
   return(
-    <Draggable key={props.issue.id} scale={1} onStart={props.handleStart} onDrag={props.handleDragLeave} onStop={props.handleDrop}>
-      <Card style={{ width: '18rem'  }}>
-        <Card.Header>{props.issue.title}</Card.Header>
-        <Card.Body>
-          <Col>Description: {props.issue.description} </Col>
-          <Col>Labels: {props.issue.labels.map(label => label.text+' ' ) } </Col>
-          <Col>Assigned: {props.issue.assignees.map(assign => assign.username)} </Col>
-          <Form.Group as={Col} md="8" controlId="validationCustom03" >
-            <Form.Label>State:</Form.Label>
-            {stateVisibility&&
+    <div className='p-1'>
+      <Draggable key={props.issue.id} scale={1} onStart={handleStart} onDrag={handleDragLeave} onStop={handleDrop}>
+        <Card style={{ width: '18rem'  }}>
+          <Card.Header>{props.issue.title}</Card.Header>
+          <Card.Body>
+            <Col>Description: {props.issue.description} </Col>
+            <Col>Labels: {props.issue.labels.map(label => label.text+' ' ) } </Col>
+            <Col>Assigned: {props.issue.assignees.map(assign => assign.username)} </Col>
+            <Form.Group as={Col} md="8" controlId="validationCustom03" >
+              <Form.Label>State:</Form.Label>
+              {stateVisibility&&
                     <>
                       <LabelSelect  issue={props.issue} style={props.styles.select} option={props.option} onChange={props.onChange} defaultValue={props.defaultValue}/>
-                      <Button  variant="success" direction='right' onClick={() => props.handleClick(props.issue)}>update</Button>
-                      <Button  variant="success" direction='right' onClick={() => history.push('/statelist')}>state list</Button>
+                      <Button  variant="success" onClick={() => props.handleClick(props.issue)}>update</Button>
+                      <Button  variant="success"onClick={() => history.push('/statelist')}>state list</Button>
                     </>}
-            {!stateVisibility?<BsFillCaretDownFill data-testid='view' style={{ color: 'green', }} size={28} onClick={() => setStateVisibility(true)}/>
-              :<BsFillCaretUpFill style={{ color: 'green' }} size={32} onClick={() => setStateVisibility(false)}/>}
-          </Form.Group>
-        </Card.Body>
-      </Card>
-    </Draggable>
+              {!stateVisibility?<BsFillCaretDownFill data-testid='view' style={{ color: 'green', }} size={28} onClick={() => setStateVisibility(true)}/>
+                :<BsFillCaretUpFill style={{ color: 'green' }} size={32} onClick={() => setStateVisibility(false)}/>}
+            </Form.Group>
+          </Card.Body>
+        </Card>
+      </Draggable>
+    </div>
+
   )
 }
 
