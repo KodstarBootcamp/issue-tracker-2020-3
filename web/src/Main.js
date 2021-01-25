@@ -189,7 +189,7 @@ export const Main =(props) => {
             user={props.user} setInfoMessage={props.setInfoMessage} setCheckError={props.setCheckError} />
         </Route>
         <Route exact path="/myissues">
-          <MyIssues user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
+          <MyIssues userOption={userOption} setUserOption={setUserOption} user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
             option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
           />
