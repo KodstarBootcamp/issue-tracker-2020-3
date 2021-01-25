@@ -18,7 +18,7 @@ router.route('/').post(async (req, res) => {
     const State = require('../models/state.model')
     const countState = await State.collection.countDocuments()
     if (countState === 0) {
-      const defaultState = await new State({ name:'Default', order_no:0 }).save()
+      const defaultState = await new State({ name:'Backlog', order_no:0 }).save()
       state = defaultState._id.toString()
     } else {
       state = (await State.findOne({ order_no:0 }))._id.toString()
