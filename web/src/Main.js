@@ -10,7 +10,7 @@ import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 import { MyIssues } from './components/issues/MyIssues'
-import WorkFlow from './components/WorkFlow'
+import WorkFlow from './components/WorksFlow'
 import { StateList } from './components/states/StateList'
 import stateService from './services/ApiState'
 

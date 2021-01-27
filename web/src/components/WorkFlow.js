@@ -1,3 +1,4 @@
+/*eslint-disable */
 import React, { useState } from 'react'
 //import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
@@ -15,7 +16,7 @@ import '../App.css'
 const WorkFlow = (props) => {
   const [stateValue,setStateValue] = useState([])//It is for state update
   const [smStateListShow, setSmStateListShow] = useState(false)
-
+console.log(props);
   const onChangeInputState=(value) => {//It is for state update
   //  event.preventDefault()
 
