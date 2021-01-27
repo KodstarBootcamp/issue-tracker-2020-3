@@ -4,19 +4,11 @@ import React, { Component } from 'react';
 import '../App.css';
 
 export default class WorksFlow extends Component {
-    state = {
-        tasks: [
-            {name:"Learn Angular",category:"backblog", bgcolor: "yellow"},
-            {name:"React", category:"started", bgcolor:"pink"},
-            {name:"Vue", category:"complete", bgcolor:"skyblue"},
-            {name:"Yuka", category:"started", bgcolor:"pink"}
-          ]
-    }
-
+    
     onDragStart = (ev, id) => {
         // console.log('dragstart:',id);
         ev.dataTransfer.setData("id", id);
-        // setTimeout(() => { ev.target.style.display='none'},0)
+        setTimeout(() => { ev.target.style.display='none'},0)
     }
 
     onDragOver = (ev) => {
@@ -25,43 +17,15 @@ export default class WorksFlow extends Component {
 
     onDrop = (ev, cat) => {
        let id = ev.dataTransfer.getData("id");
-       console.log("cat--"+id+cat);
+       console.log("cat--"+id+" to "+cat);
        let tasks = this.props.issues.filter((task) => {
         //    console.log(id+" drop "+task.title);
            if (task.title === id) {console.log("drop if--"+task.state.name);
                task.state.name = cat;
-
+                console.log(task.state.id);
 
             //    --------------------------------------------
-    // const id =task.id
-    // const title= task.title
-    // const description=task.description
-    // const sendingLabel = task.labels.map(label => ({ text:label.text,color:label.color }))
-    // const sendingAssignees = task.assignees.map(item => item.id )
-    // const sendingStates = stateValue
-    // issueService.update( {
-    //   id: id,
-    //   title: title,
-    //   description: description,
-    //   labels:sendingLabel,
-    //   assignees:sendingAssignees,
-    //   state:sendingStates//It should be id name, order_no
-    // }).then(returnedObj => {
-    //   props.setIssues( old => {
-    //     old = old.filter (obj =>  obj.id !==id )
-    //     props.setInfoMessage(`${returnedObj.title} updated`)
-    //     setTimeout( () => {
-    //       props.setInfoMessage(null)
-    //     }, 5000)
-    //     return old.concat(returnedObj)
-    //   })
-    // })
-    //   .catch(error => {
-    //     props.setCheckError(`Error: ${error.message}`)
-    //     setTimeout( () => {
-    //       props.setCheckError(null)
-    //     }, 5000)
-    //   })
+  
             // ---------------------------------------------------
            }
            return task;
@@ -76,7 +40,6 @@ export default class WorksFlow extends Component {
     render() {
         let tasks = 
         {
-
             complete: [],
             backblog: [],
             started: [],
@@ -85,18 +48,7 @@ export default class WorksFlow extends Component {
             done: []
         }
 
-        // this.props.stateList.forEach ((t) => {console.log("t ",t);
-        //             // let column=[];
-                    
-        //             // t.name=[];
-        //             tasks.push(t.name=[]);
-        // }), console.log(tasks);
-        //     tasks[t.category].push(
-        //         <div key={t.name} 
-        //             onDragStart = {(e) => this.onDragStart(e, t.name)}
-        //             draggable
-        //             className="draggable"
-        //             style = {{backgroundColor: t.bgcolor}}
+     
         console.log(this.props);
         this.props.issues.forEach ((t) => {
             // console.log(t.title);
@@ -133,7 +85,6 @@ export default class WorksFlow extends Component {
                      <span className="task-header">COMPLETED</span>
                      {tasks.complete}
                 </div>
-
 
             </div>
         );
