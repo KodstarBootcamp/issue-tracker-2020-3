@@ -39,9 +39,6 @@ export const MyIssues = ( props ) => {
     myIssues.length?(
       <div>
         <div className='IssueList'>
-
-
-
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
@@ -54,7 +51,7 @@ export const MyIssues = ( props ) => {
             <tbody>
               {myIssues.length?
                 myIssues.map((issue) =>
-                  <IssueDetails key={issue.id} user={props.user} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
+                  <IssueDetails key={issue.id} user={props.user} userOption={props.userOption} setUserOption={props.setUserOption} option={props.option} setOptions={props.setOptions} issueSelect={props.issueSelect} setIssueSelect={props.setIssueSelect}
                     issue={issue} addLabel={props.addLabel}
                     labels={props.labels} setInfoMessage={props.setInfoMessage} setIssues={props.setIssues} handleDelete={handleDelete}
                   />
@@ -66,7 +63,6 @@ export const MyIssues = ( props ) => {
         <div className="d-flex flex-row-reverse bd-highlight">
           <PaginationIssue totalPage={props.totalPage} issueLength={props.issueLength} setStart={props.setStart}
             setCount={props.setCount}  setIssues={props.setIssues} setCheckError={props.setCheckError}/>
-
         </div>
       </div>
     ):(<LoadingSpinner/>)

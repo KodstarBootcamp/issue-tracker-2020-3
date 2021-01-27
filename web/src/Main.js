@@ -10,6 +10,7 @@ import Welcome from './components/Welcome'
 import UserSignIn from './components/userSign/UserSignIn'
 import UserSignUp from './components/userSign/UserSignUp'
 import { MyIssues } from './components/issues/MyIssues'
+import WorkFlow from './components/WorksFlow'
 import { StateList } from './components/states/StateList'
 import stateService from './services/ApiState'
 
@@ -26,16 +27,16 @@ export const Main =(props) => {
   const [userOption,setUserOption] = useState([])
   const [stateOption, setStateOption] = useState([])
   const history = useHistory()
-
   const [stateList,setStateList] = useState([])//It is for state create
-
   const getAllState= async () => {
     try{
+
       const states  =  await stateService.getAllState()
       const stateList= states.map((item) => item )
       const stateListOption= states.map((item) => ({ label: item.name,value:item.id }))
       setStateOption(stateListOption)
       setStateList(stateList)
+
     }catch(err){
       props.setCheckError(err)
       setTimeout(() => {
@@ -43,7 +44,6 @@ export const Main =(props) => {
       }, 3000)
     }
   }
-
   const getAllUsers = async() => {
     try{
       const users  =  await issueService.getAllUsers()
@@ -98,7 +98,6 @@ export const Main =(props) => {
     await getIssueData()
   },
   [sort])
-
   useEffect(async () => {
     await getAllUsers()
   },[props.user])
@@ -190,9 +189,15 @@ export const Main =(props) => {
             user={props.user} setInfoMessage={props.setInfoMessage} setCheckError={props.setCheckError} />
         </Route>
         <Route exact path="/myissues">
-          <MyIssues user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
+          <MyIssues userOption={userOption} setUserOption={setUserOption} user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage} issueLength={issuesLength}
             option={option} setOptions={setOptions} issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
             labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addLabel={addLabel}
+          />
+        </Route>
+        <Route exact path="/workflow">
+          <WorkFlow stateOption={stateOption} stateList={stateList} setStateList={setStateList} user={props.user} setInfoMessage={props.setInfoMessage}  sort={sort} setSort={setSort} totalPage={totalPage}
+            issueLength={issuesLength}  issues={issues} setIssues={setIssues} checkError={props.checkError} setCheckError={props.setCheckError}
+            labels={labels} setLabels={setLabels} setIssueSelect={setIssueSelect} issueSelect={issueSelect} addState={addState}
           />
         </Route>
         <Route exact path="/userSignIn">

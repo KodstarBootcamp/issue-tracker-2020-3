@@ -18,9 +18,7 @@ export const IssueEditForm = ( props ) => {
   const [assignedUsername,setAssignedUsername] = useState([])
   const [smAssignShow, setAssignSmShow] = useState(false)
   const [stateValue,setStateValue] = useState([])//It is for state update
-
   const history = useHistory()
-
   //backlog -> started -> finished -> in test-> done-> accepted
 
   const handleSubmit = ( event ) => {
@@ -43,7 +41,6 @@ export const IssueEditForm = ( props ) => {
         labels:sendingLabel,
         assignees:sendingAssignees,
         state:sendingStates//It should be id name, order_no
-
       }).then(returnedObj => {
         props.setIssues( old => {
           old = old.filter (obj =>  obj.id !==id )
@@ -124,7 +121,6 @@ export const IssueEditForm = ( props ) => {
     value:label.color
   })):[]
   const defaultStateValue=props.issue?[{ label:props.issue.state.name,value:props.issue.state.id }]:[]
-
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Row>
