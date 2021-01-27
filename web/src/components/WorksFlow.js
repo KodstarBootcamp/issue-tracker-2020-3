@@ -2,12 +2,14 @@
  
 import React, { Component } from 'react';
 import '../App.css';
+import issueService from '../services/ApiIssues'
 
 export default class WorksFlow extends Component {
     
     onDragStart = (ev, id) => {
         // console.log('dragstart:',id);
         ev.dataTransfer.setData("id", id);
+        console.log('Drag start state id',id)
         setTimeout(() => { ev.target.style.display='none'},0)
     }
 
@@ -17,15 +19,46 @@ export default class WorksFlow extends Component {
 
     onDrop = (ev, cat) => {
        let id = ev.dataTransfer.getData("id");
+       console.log('Cat',cat)
        console.log("cat--"+id+" to "+cat);
        let tasks = this.props.issues.filter((task) => {
         //    console.log(id+" drop "+task.title);
            if (task.title === id) {console.log("drop if--"+task.state.name);
-               task.state.name = cat;
-                console.log(task.state.id);
+              
 
             //    --------------------------------------------
-  
+            const newState= this.props.stateList.filter((state) => state.name ===cat).map(ıtem => ıtem.id)
+          
+            console.log('NewState',newState)
+            const id =task.id
+            const title= task.title
+            const description=task.description
+            const sendingLabel = task.labels.map(label => ({ text:label.text,color:label.color }))
+            const sendingAssignees = task.assignees.map(item => item.id )
+            const sendingStates = newState
+            issueService.update( {
+              id: id,
+              title: title,
+              description: description,
+              labels:sendingLabel,
+              assignees:sendingAssignees,
+              state:sendingStates//It should be id name, order_no
+            }).then(returnedObj => {
+                this.props.setIssues( old => {
+                old = old.filter (obj =>  obj.id !==id )
+                this.props.setInfoMessage(`${returnedObj.title} updated`)
+                setTimeout( () => {
+                    this.props.setInfoMessage(null)
+                }, 5000)
+                return old.concat(returnedObj)
+              })
+            })
+              .catch(error => {
+                this.props.setCheckError(`Error: ${error.message}`)
+                setTimeout( () => {
+                  this.props.setCheckError(null)
+                }, 5000)
+              })
             // ---------------------------------------------------
            }
            return task;
@@ -41,7 +74,7 @@ export default class WorksFlow extends Component {
         let tasks = 
         {
             complete: [],
-            backblog: [],
+            backlog: [],
             started: [],
             finished: [],
             inTest: [],
